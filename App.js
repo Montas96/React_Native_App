@@ -13,7 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './app/component/home';
 import AboutScreen from './app/component/aboutScreen';
-import {FormScreen} from './app/component/form';
+import FormScreen from './app/component/form';
 import {Provider} from 'react-redux';
 import Store from './app/store/configureStore';
 

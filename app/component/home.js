@@ -56,10 +56,11 @@ class HomeScreen extends React.Component {
             title="About React Native"
             onPress={this._pressButton}
             color={'green'}
-            style={styles.button}
+            style={{padding: 10}}
           />
+          <View style={{padding: 10}} />
            <Button
-            title="Set state"
+            title="Set user"
             onPress={() =>this.props.navigation.navigate('Form')}
             color={'green'}
             style={styles.button}
@@ -111,11 +112,11 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   button: {
+    flexDirection: 'row',
     borderRadius: 42,
     width: Dimensions.get('screen').width * 0.5,
     margin: 10,
     justifyContent: 'center',
-    backgroundColor: 'yellow',
     alignSelf: 'center'
   }
 })

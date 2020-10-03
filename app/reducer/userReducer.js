@@ -7,9 +7,10 @@ const initialState = {user: {}};
 function userReducer(state = initialState, action) {
   let nextState;
   switch (action.type) {
-    case 'GET_USER':
+    case 'SET_USER_NAME':
       nextState = {
-        userName: 'Montassar',
+          ...initialState,
+        user: {userName : action.value},
       };
       return nextState || state;
     default:
