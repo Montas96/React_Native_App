@@ -21,7 +21,7 @@ const data = [
 export class HomeScreen extends React.Component {
 
   _pressButton = () => {
-    return Alert.alert('Button with adjusted color pressed');
+    return this.props.navigation.navigate('About')
   }
 
   render() {
@@ -42,7 +42,7 @@ export class HomeScreen extends React.Component {
         />
         <View style={styles.button}>
           <Button
-            title="Press me"
+            title="About React Native"
             onPress={this._pressButton}
             color={'green'}
             style={styles.button}
