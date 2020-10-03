@@ -10,8 +10,12 @@ export class FormScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: ''
-        }
+            userName: '',
+        };
+    }
+
+    _setUserName = (text) => {
+        this.setState({userName: text});
     }
 
     render() {
@@ -24,10 +28,11 @@ export class FormScreen extends React.Component {
                 onChangeText={text => this.setState({userName: text})}
                 value={this.state.userName}
                 />
-                
                 <Text style={styles.text}> {this.state.userName} </Text>
-
-                <UselessTextInput />
+                <UselessTextInput 
+                userName={this.state.userName}
+                setUserName={this._setUserName}
+                />
             </View>
         );
     }
