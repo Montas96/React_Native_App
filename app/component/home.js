@@ -25,7 +25,6 @@ export class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.route.params.message)
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}>Home screen </Text>
@@ -54,6 +53,12 @@ export class HomeScreen extends React.Component {
           <Button
             title="About React Native"
             onPress={this._pressButton}
+            color={'green'}
+            style={styles.button}
+          />
+           <Button
+            title="Set state"
+            onPress={() =>this.props.navigation.navigate('Form')}
             color={'green'}
             style={styles.button}
           />
