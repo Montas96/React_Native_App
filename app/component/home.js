@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, Text, Image, FlatList, Button, Alert, StyleSheet, Dimensions } from 'react-native';
 import Images from '../assets/images';
+import {connect} from 'react-redux';
 
 const data = [
   {
@@ -18,7 +19,7 @@ const data = [
     value: 'Use of FlatList',
   },
 ];
-export class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
 
   _pressButton = () => {
     return this.props.navigation.navigate('About', { name: 'use navigation' });
@@ -28,6 +29,7 @@ export class HomeScreen extends React.Component {
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}>Home screen </Text>
+        <Text style={styles.text}>user: {this.props.user.userName} </Text>
         <Text style={styles.text}>Welcome to React app </Text>
         <Image
           source={Images.react_logo}
@@ -67,6 +69,13 @@ export class HomeScreen extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+}
+
+export default connect(mapStateToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   constainer: {
