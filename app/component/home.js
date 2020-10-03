@@ -21,10 +21,11 @@ const data = [
 export class HomeScreen extends React.Component {
 
   _pressButton = () => {
-    return this.props.navigation.navigate('About')
+    return this.props.navigation.navigate('About', { name: 'use navigation' });
   }
 
   render() {
+    console.log(this.props.route.params.message)
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}>Home screen </Text>
@@ -35,11 +36,20 @@ export class HomeScreen extends React.Component {
           style={styles.image}
         />
         <FlatList
-        style={styles.list}
+          style={styles.list}
           data={data}
           key={(item) => item.id}
           renderItem={(item) => <Text style={styles.listItem}>{item.item.value}</Text>}
         />
+        {
+          this.props.route.params ?
+            <View >
+              <Text style={[styles.text, {fontSize: 15,marginBottom:5}]}>
+                This is a data from about screen: </Text>
+              <Text style={[styles.text,{fontSize: 15, marginTop: 0}]}>
+                {this.props.route.params.message} </Text>
+            </View> : null
+        }
         <View style={styles.button}>
           <Button
             title="About React Native"
@@ -86,7 +96,7 @@ const styles = StyleSheet.create({
     color: 'gray',
     textAlign: 'left',
   },
-  button :{
+  button: {
     borderRadius: 42,
     width: Dimensions.get('screen').width * 0.5,
     margin: 10,

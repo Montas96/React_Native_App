@@ -3,11 +3,24 @@
 import React from 'react';
 import { View, Text, Button, Dimensions, StyleSheet } from 'react-native';
 
-const AboutScreen = ({ navigation }) => {
+const AboutScreen = ({route, navigation }) => {
+
+  const {name} = route.params;
+  
   return (
     <View
       style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
       <Text style={{ fontSize: 20, fontWeight: '500', margin: 10 }}>About React Native </Text>
+      <Text >Params : { name }</Text>
+      <View style={{margin: 20}}>
+      <Button
+        title="Pass data to home Screen"
+        onPress={() => navigation.navigate('Home',{
+          message: 'data from about Screen'
+        })}
+        color={'green'}
+        style={styles.button}
+      />
       <Button
         title="Navigate to Home screen"
         onPress={() => navigation.navigate('Home')}
@@ -26,6 +39,8 @@ const AboutScreen = ({ navigation }) => {
         color={'blue'}
         style={styles.button}
       />
+      </View>
+      
     </View>
   );
 };
