@@ -16,6 +16,7 @@ import AboutScreen from './app/component/aboutScreen';
 import FormScreen from './app/component/form';
 import {Provider} from 'react-redux';
 import Store from './app/store/configureStore';
+import searchFoodScreen from './app/component/searchFoodScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +26,8 @@ const App: () => React$Node = () => {
       <Provider store={Store}>
         <NavigationContainer>
           <StatusBar barStyle="dark-content" />
-          <Stack.Navigator>
+           <Stack.Navigator initialRouteName="Food">
+            <Stack.Screen name="Food" component={searchFoodScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="About" component={AboutScreen} />
             <Stack.Screen name="Form" component={FormScreen} />
