@@ -1,34 +1,36 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text } from 'react-native';
+import { ScrollView, TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 import { getRecip } from '../service/foodService';
 
 class SearchFoodScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: '',
+            text: 'chicken',
             data: {},
         };
     }
-    
+    componentDidMount() {
+        this._search()
+    }
     _search = () => {
 
         getRecip(this.state.text).then(data => this.setState({ data }));
     }
 
     renderItem = ({ item }) => {
-        console.log(item.recipe.image);
         return (
-            <View style={styles.item}>
+            <TouchableOpacity style={styles.item}
+                onPress={() => this.props.navigation.navigate('FoodDetail', { item })} >
                 <Image style={[styles.image]} source={{ uri: item.recipe.image }} resizeMode={'contain'} />
                 <View>
                     <Text style={styles.text} >{item.recipe.label}</Text>
                     <Text style={styles.label} >calories : {Math.round(item.recipe.calories)}</Text>
                 </View>
 
-            </View>
+            </TouchableOpacity>
         );
     }
 
