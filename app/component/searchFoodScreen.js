@@ -16,18 +16,31 @@ class SearchFoodScreen extends React.Component {
         this._search()
     }
     _search = () => {
-
         getRecip(this.state.text).then(data => this.setState({ data }));
+    }
+    _addToFavorite=(element)=> {
+        const action = { type: 'ADD_To_FAVORITE', value: element };// create action type 'SET_USER_NAME'
+        this.props.dispatch(action);
     }
 
     renderItem = ({ item }) => {
+        const index = this.props.foods.findIndex(element => {
+            return element.label === item.recipe.label;
+        })
+        const color = index !== -1  ? 'red' : 'black';
         return (
-            <TouchableOpacity style={styles.item}
+            <TouchableOpacity style={[styles.item, {borderColor: color}]}
                 onPress={() => this.props.navigation.navigate('FoodDetail', { item })} >
                 <Image style={[styles.image]} source={{ uri: item.recipe.image }} resizeMode={'contain'} />
                 <View>
                     <Text style={styles.text} >{item.recipe.label}</Text>
                     <Text style={styles.label} >calories : {Math.round(item.recipe.calories)}</Text>
+                    <Button
+                        title="Add to favorite"
+                        onPress={() => this._addToFavorite(item.recipe)}
+                        color={'green'}
+                        style={styles.button}
+                    />
                 </View>
 
             </TouchableOpacity>
@@ -64,7 +77,7 @@ class SearchFoodScreen extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        user: state.user,
+        foods: state.food.foods,
     };
 };
 const mapDispatchToProps = (dispatch) => {
