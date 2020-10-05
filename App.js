@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable no-undef */
 /**
  * Sample React Native App
@@ -20,9 +21,20 @@ import searchFoodScreen from './app/component/searchFoodScreen';
 import FoodDetailScreen from './app/component/foodDetailScreen';
 import FavotireFoodScreen from './app/component/favoriteFood';
 import {PersistGate} from 'redux-persist/integration/react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const HomeStack = () => {
+  const Stack = createStackNavigator();
 
+  return (
+    <Stack.Navigator initialRouteName="Food">
+      <Stack.Screen name="Food" component={searchFoodScreen} />
+      <Stack.Screen name="FoodDetail" component={FoodDetailScreen} />
+    </Stack.Navigator>
+  );
+};
 const App: () => React$Node = () => {
   let persistor = Store.persistor;
   return (
@@ -31,14 +43,25 @@ const App: () => React$Node = () => {
         <PersistGate persistor={persistor}>
           <NavigationContainer>
             <StatusBar barStyle="dark-content" />
-            <Stack.Navigator initialRouteName="Home">
-              <Stack.Screen name="Food" component={searchFoodScreen} />
-              <Stack.Screen name="FoodDetail" component={FoodDetailScreen} />
-              <Stack.Screen name="Favorite" component={FavotireFoodScreen} />
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="About" component={AboutScreen} />
-              <Stack.Screen name="Form" component={FormScreen} />
-            </Stack.Navigator>
+            <Tab.Navigator
+              screenOptions={({route}) => ({
+                tabBarIcon: ({focused, color, size}) => {
+                  let iconName;
+                  if (route.name === 'Home') {
+                    iconName = focused ? 'search-circle' : 'search-circle-outline';
+                  } else if (route.name === 'Favorite') {
+                    iconName = focused ? 'list' : 'list';
+                  }
+                  return <Ionicons name={iconName} size={size} color={color} />;
+                },
+              })}
+              tabBarOptions={{
+                activeTintColor: 'tomato',
+                inactiveTintColor: 'gray',
+              }}>
+              <Tab.Screen name="Home" component={HomeStack} />
+              <Tab.Screen name="Favorite" component={FavotireFoodScreen} />
+            </Tab.Navigator>
           </NavigationContainer>
         </PersistGate>
       </Provider>
@@ -47,3 +70,13 @@ const App: () => React$Node = () => {
 };
 
 export default App;
+{
+  /* <Stack.Navigator initialRouteName="Home">
+              <Stack.Screen name="Food" component={searchFoodScreen} />
+              <Stack.Screen name="FoodDetail" component={FoodDetailScreen} />
+              <Stack.Screen name="Favorite" component={FavotireFoodScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="About" component={AboutScreen} />
+              <Stack.Screen name="Form" component={FormScreen} />
+            </Stack.Navigator> */
+}
