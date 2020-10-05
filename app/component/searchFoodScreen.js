@@ -1,8 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 import { getRecip } from '../service/foodService';
+import Images from '../assets/images';
 
 class SearchFoodScreen extends React.Component {
     constructor(props) {
@@ -13,12 +15,12 @@ class SearchFoodScreen extends React.Component {
         };
     }
     componentDidMount() {
-        this._search()
+        this._search();
     }
     _search = () => {
         getRecip(this.state.text).then(data => this.setState({ data }));
     }
-    _addToFavorite=(element)=> {
+    _addToFavorite = (element) => {
         const action = { type: 'ADD_To_FAVORITE', value: element };// create action type 'SET_USER_NAME'
         this.props.dispatch(action);
     }
@@ -26,21 +28,23 @@ class SearchFoodScreen extends React.Component {
     renderItem = ({ item }) => {
         const index = this.props.foods.findIndex(element => {
             return element.label === item.recipe.label;
-        })
-        const color = index !== -1  ? 'red' : 'black';
+        });
+        const color = index !== -1 ? 'red' : 'black';
         return (
-            <TouchableOpacity style={[styles.item, {borderColor: color}]}
-                onPress={() => this.props.navigation.navigate('FoodDetail', { item })} >
+            <TouchableOpacity style={[styles.item, { borderColor: color }]}
+                onPress={() => this.props.navigation.navigate('FoodDetail', { item, isFavorite: color === 'red' ? true : false,
+                 add: this._addToFavorite  })} >
                 <Image style={[styles.image]} source={{ uri: item.recipe.image }} resizeMode={'contain'} />
-                <View>
-                    <Text style={styles.text} >{item.recipe.label}</Text>
+                <View style={{ flex: 1}}>
+                    <View style={{flexDirection: 'row', flex: 1 }} >
+                        <Text style={styles.text} >{item.recipe.label}</Text>
+                        <TouchableOpacity
+                        style={{justifyContent: 'center', margin: 10, position: 'absolute', right: 0 }}
+                            onPress={() => this._addToFavorite(item.recipe)}>
+                            <Image style={[styles.icon, { tintColor: color }]} source={color === 'red' ? Images.heart_full : Images.heart_blanc} resizeMode={'contain'} />
+                        </TouchableOpacity>
+                    </View>
                     <Text style={styles.label} >calories : {Math.round(item.recipe.calories)}</Text>
-                    <Button
-                        title="Add to favorite"
-                        onPress={() => this._addToFavorite(item.recipe)}
-                        color={'green'}
-                        style={styles.button}
-                    />
                 </View>
 
             </TouchableOpacity>
@@ -139,6 +143,10 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: 10,
     },
+    icon: {
+        width: 32,
+        height: 32,
+    }
 
 
 });

@@ -1,8 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import Images from '../assets/images';
 
 
 const FoodDetailScreen = (props) => {
@@ -11,13 +12,21 @@ const FoodDetailScreen = (props) => {
     function _renderIngredientLine(element) {
         return (
             <Text style={[styles.ingredientLines, { textAlign: 'left' }]}> *  {element.item} </Text>
-        )
+        );
     }
-
+    const color = props.route.params.isFavorite ? 'red' : 'black';
     return (
         <View style={styles.constainer}>
             <Text style={styles.title}> {item.recipe.label} </Text>
             <Image style={[styles.image]} source={{ uri: item.recipe.image }} resizeMode={'contain'} />
+            <TouchableOpacity
+                style={{ justifyContent: 'center', margin: 10, alignSelf: 'center' }}
+                onPress={() => {
+                    props.route.params.add(item.recipe);
+                    props.navigation.navigate('FoodDetail', { isFavorite: !props.route.params.isFavorite });
+                }}>
+                <Image style={[styles.icon, { tintColor: color }]} source={color === 'red' ? Images.heart_full : Images.heart_blanc} resizeMode={'contain'} />
+            </TouchableOpacity>
             <View style={styles.data} >
                 <Text style={[styles.text, { textAlign: 'left' }]}> Ingredient : </Text>
                 <FlatList
@@ -64,5 +73,9 @@ const styles = StyleSheet.create({
         fontWeight: '200',
         textAlign: 'center',
         marginLeft: 20,
+    },
+    icon: {
+        width: 32,
+        height: 32,
     }
 });
