@@ -32,14 +32,16 @@ class SearchFoodScreen extends React.Component {
         const color = index !== -1 ? 'red' : 'black';
         return (
             <TouchableOpacity style={[styles.item, { borderColor: color }]}
-                onPress={() => this.props.navigation.navigate('FoodDetail', { item, isFavorite: color === 'red' ? true : false,
-                 add: this._addToFavorite  })} >
+                onPress={() => this.props.navigation.navigate('FoodDetail', {
+                    item, isFavorite: color === 'red' ? true : false,
+                    add: this._addToFavorite
+                })} >
                 <Image style={[styles.image]} source={{ uri: item.recipe.image }} resizeMode={'contain'} />
-                <View style={{ flex: 1}}>
-                    <View style={{flexDirection: 'row', flex: 1 }} >
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', flex: 1 }} >
                         <Text style={styles.text} >{item.recipe.label}</Text>
                         <TouchableOpacity
-                        style={{justifyContent: 'center', margin: 10, position: 'absolute', right: 0 }}
+                            style={{ justifyContent: 'center', margin: 10, position: 'absolute', right: 0 }}
                             onPress={() => this._addToFavorite(item.recipe)}>
                             <Image style={[styles.icon, { tintColor: color }]} source={color === 'red' ? Images.heart_full : Images.heart_blanc} resizeMode={'contain'} />
                         </TouchableOpacity>
@@ -55,6 +57,10 @@ class SearchFoodScreen extends React.Component {
         return (
             <View style={styles.constainer}>
                 <View style={{ flexDirection: 'row' }}>
+                    <Button title="Menu"
+                        style={styles.button}
+                        onPress={() => this.props.navigation.toggleDrawer()} />
+
                     <TextInput
                         placeholder={'checken'}
                         style={styles.input}
