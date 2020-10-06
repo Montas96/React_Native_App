@@ -37,6 +37,7 @@ const HomeStack = () => {
 };
 const App: () => React$Node = () => {
   let persistor = Store.persistor;
+  const badge = Store.store.getState().food.foods.length;
   return (
     <>
       <Provider store={Store.store}>
@@ -48,7 +49,9 @@ const App: () => React$Node = () => {
                 tabBarIcon: ({focused, color, size}) => {
                   let iconName;
                   if (route.name === 'Home') {
-                    iconName = focused ? 'search-circle' : 'search-circle-outline';
+                    iconName = focused
+                      ? 'search-circle'
+                      : 'search-circle-outline';
                   } else if (route.name === 'Favorite') {
                     iconName = focused ? 'list' : 'list';
                   }
@@ -60,7 +63,11 @@ const App: () => React$Node = () => {
                 inactiveTintColor: 'gray',
               }}>
               <Tab.Screen name="Home" component={HomeStack} />
-              <Tab.Screen name="Favorite" component={FavotireFoodScreen} />
+              <Tab.Screen
+                name="Favorite"
+                component={FavotireFoodScreen}
+                options={{tabBarBadge: badge}}
+              />
             </Tab.Navigator>
           </NavigationContainer>
         </PersistGate>
