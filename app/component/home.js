@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, Image, FlatList, Button, Alert, StyleSheet, Dimensions } from 'react-native';
-import Images from '../assets/images';
-import { connect } from 'react-redux';
+import { View, Text,  Button,  StyleSheet, Dimensions } from 'react-native';
 
 
 class HomeScreen extends React.Component {
@@ -43,31 +41,31 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     textAlign: 'center',
-    margin: 10
+    margin: 10,
   },
   text: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     textAlign: 'center',
-    margin: 10
+    margin: 10,
   },
   image: {
     width: 200,
     height: 200,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   list: {
     alignSelf: 'center',
     borderWidth: 2,
     padding: 20,
     margin: 20,
-    borderColor: '#30aa'
+    borderColor: '#30aa',
   },
   listItem: {
     fontSize: 15,
-    fontWeight: "800",
+    fontWeight: '800',
     color: 'gray',
     textAlign: 'left',
   },
@@ -76,6 +74,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width * 0.5,
     margin: 10,
     justifyContent: 'center',
-    alignSelf: 'center'
-  }
-})
+    alignSelf: 'center',
+  },
+});

@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity } from 'react-native';
-import { getRecip } from '../service/foodService';
+import {  TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 import Images from '../assets/images';
+import Spinner from '../shared/spinner';
 
 class SearchFoodScreen extends React.Component {
     constructor(props) {
@@ -17,8 +19,15 @@ class SearchFoodScreen extends React.Component {
     componentDidMount() {
         this._search();
     }
+    componentDidUpdate(prevProps){
+        if (prevProps.searching && !this.props.searching  ){
+            this.setState({ data: this.props.foods });
+        }
+    }
     _search = () => {
-        getRecip(this.state.text).then(data => this.setState({ data }));
+        // getRecip(this.state.text).then(data => this.setState({ data }));
+        const action = { type: 'SEARCH_FOOD_REQUEST', value: this.state.text };// create action type 'SET_USER_NAME'
+        this.props.dispatch(action);
     }
     _addToFavorite = (element) => {
         const action = { type: 'ADD_To_FAVORITE', value: element };// create action type 'SET_USER_NAME'
@@ -26,7 +35,7 @@ class SearchFoodScreen extends React.Component {
     }
 
     renderItem = ({ item }) => {
-        const index = this.props.foods.findIndex(element => {
+        const index = this.props.favorite.findIndex(element => {
             return element.label === item.recipe.label;
         });
         const color = index !== -1 ? 'red' : 'black';
@@ -34,7 +43,7 @@ class SearchFoodScreen extends React.Component {
             <TouchableOpacity style={[styles.item, { borderColor: color }]}
                 onPress={() => this.props.navigation.navigate('FoodDetail', {
                     item, isFavorite: color === 'red' ? true : false,
-                    add: this._addToFavorite
+                    add: this._addToFavorite,
                 })} >
                 <Image style={[styles.image]} source={{ uri: item.recipe.image }} resizeMode={'contain'} />
                 <View style={{ flex: 1 }}>
@@ -48,7 +57,6 @@ class SearchFoodScreen extends React.Component {
                     </View>
                     <Text style={styles.label} >calories : {Math.round(item.recipe.calories)}</Text>
                 </View>
-
             </TouchableOpacity>
         );
     }
@@ -74,6 +82,9 @@ class SearchFoodScreen extends React.Component {
                         style={styles.button}
                     />
                 </View>
+                {   // show spinner while searching for data
+                    this.props.searching ? <Spinner /> : null
+                }
                 <View style={styles.dataContainer} >
                     <FlatList
                         data={this.state.data?.hits}
@@ -88,6 +99,9 @@ class SearchFoodScreen extends React.Component {
 const mapStateToProps = (state) => {
     return {
         foods: state.food.foods,
+        searching: state.food.searching,
+        error: state.food.error,
+        favorite: state.food.favorite,
     };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -124,12 +138,13 @@ const styles = StyleSheet.create({
         flex: 1,
         borderWidth: 1,
         padding: 5,
+        margin: 5,
+        borderRadius: 10,
     },
     image: {
         width: 100,
         height: 100,
-        backgroundColor: 'gray',
-
+        borderRadius: 10,
     },
     title: {
         fontSize: 25,
@@ -140,7 +155,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontWeight: 'bold',
-        textAlign: 'center',
+        textAlign: 'left',
         margin: 10,
     },
     label: {
@@ -150,9 +165,9 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     icon: {
-        width: 32,
-        height: 32,
-    }
+        width: 25,
+        height: 25,
+    },
 
 
 });

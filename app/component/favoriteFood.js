@@ -72,7 +72,7 @@ class FavotireFoodScreen extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    foods: state.food.foods,
+    foods: state.food.favorite,
 };
 };
 const mapDispatchToProps = (dispatch) => {

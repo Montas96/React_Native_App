@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-lone-blocks */
 /* eslint-disable no-undef */
 /**
@@ -18,8 +19,6 @@ import searchFoodScreen from './app/component/searchFoodScreen';
 import FoodDetailScreen from './app/component/foodDetailScreen';
 import FavotireFoodScreen from './app/component/favoriteFood';
 import { PersistGate } from 'redux-persist/integration/react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -27,7 +26,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 
-const Tab = createBottomTabNavigator();
+
 const Drawer = createDrawerNavigator();
 
 const HomeStack = () => {
@@ -67,7 +66,7 @@ const App: () => React$Node = () => {
             <StatusBar barStyle="dark-content" />
             <Drawer.Navigator
               initialRouteName="Home"
-              drawerStyle={{ marginTop: 50 }}
+              drawerStyle={{marginTop: 50}}
               drawerContent={(props) => <CustomDrawerContent {...props} />}>
               <Drawer.Screen name="Home" component={HomeStack} />
               <Drawer.Screen name="Favorite" component={FavotireFoodScreen} />
