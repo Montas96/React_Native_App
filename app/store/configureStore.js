@@ -8,7 +8,7 @@ import createSagaMiddeleware from 'redux-saga';
 import rootSaga from '../saga/rootSaga';
 
 const storage = createAsyncStorage();
-const sagaMiddeleware = createSagaMiddeleware();
+const sagaMiddeleware = createSagaMiddeleware();// Create instance of saga middleware
 
 const rootPersistConfig = {
   key: 'root',
@@ -19,7 +19,7 @@ const reducer = persistCombineReducers(rootPersistConfig, {
   food: foodReducer,
 });
 const configureStore = () => {
-  const store = createStore(reducer, applyMiddleware(sagaMiddeleware));
+  const store = createStore(reducer, applyMiddleware(sagaMiddeleware));// Apply the saga middleware to redux
   const persistor = persistStore(store);
   sagaMiddeleware.run(rootSaga);
 

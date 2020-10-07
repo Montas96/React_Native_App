@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {Api} from './api';
 import {put, takeLatest} from 'redux-saga/effects';
 
