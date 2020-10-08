@@ -4,9 +4,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
-import {  TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity, Animated } from 'react-native';
+import {  TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity } from 'react-native';
 import Images from '../assets/images';
 import Spinner from '../shared/spinner';
+import FadeIn from '../assets/animations/FadeIn';
+import Animated from 'react-native-reanimated';
 
 class SearchFoodScreen extends React.Component {
     constructor(props) {
@@ -14,7 +16,7 @@ class SearchFoodScreen extends React.Component {
         this.state = {
             text: 'chicken',
             data: {},
-            positionLeft: new Animated.Value(Dimensions.get('window').width)
+            positionLeft: new Animated.Value(Dimensions.get('window').width),
         };
     }
     componentDidMount() {
@@ -22,13 +24,7 @@ class SearchFoodScreen extends React.Component {
     }
     componentDidUpdate(prevProps){
         if (prevProps.searching && !this.props.searching  ){
-            this.setState({ data: this.props.foods },
-                () =>  Animated.spring(
-                    this.state.positionLeft,
-                    {
-                      toValue: 0,
-                    }
-                  ).start());
+            this.setState({ data: this.props.foods });
         }
     }
     _search = () => {
@@ -47,7 +43,7 @@ class SearchFoodScreen extends React.Component {
         });
         const color = index !== -1 ? 'red' : 'black';
         return (
-            <Animated.View
+            <FadeIn
             style={{ left: this.state.positionLeft }}>
             <TouchableOpacity style={[styles.item, { borderColor: color }]}
                 onPress={() => this.props.navigation.navigate('FoodDetail', {
@@ -67,7 +63,7 @@ class SearchFoodScreen extends React.Component {
                     <Text style={styles.label} >calories : {Math.round(item.recipe.calories)}</Text>
                 </View>
             </TouchableOpacity>
-            </Animated.View>
+            </FadeIn>
         );
     }
 

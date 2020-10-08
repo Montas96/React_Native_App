@@ -4,6 +4,7 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Images from '../assets/images';
+import EnlargeShrink from '../assets/animations/EnlargeShrink';
 
 
 const FoodDetailScreen = (props) => {
@@ -25,7 +26,10 @@ const FoodDetailScreen = (props) => {
                     props.route.params.add(item.recipe);
                     props.navigation.navigate('FoodDetail', { isFavorite: !props.route.params.isFavorite });
                 }}>
-                <Image style={[styles.icon, { tintColor: color }]} source={color === 'red' ? Images.heart_full : Images.heart_blanc} resizeMode={'contain'} />
+                <EnlargeShrink
+                    shouldEnlarge={props.route.params.isFavorite}>
+                    <Image style={[styles.icon, { tintColor: color }]} source={color === 'red' ? Images.heart_full : Images.heart_blanc} resizeMode={'contain'} />
+                </EnlargeShrink>
             </TouchableOpacity>
             <View style={styles.data} >
                 <Text style={[styles.text, { textAlign: 'left' }]}> Ingredient : </Text>
