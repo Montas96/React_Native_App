@@ -38,7 +38,9 @@ class AnimationScreen extends React.Component {
     render() {
         return (
             <View style={styles.main_container}>
-                <Animated.View style={[styles.animation_view, { top: this.state.topPosition, left: this.state.leftPosition }]} />
+                <Animated.View style={[styles.animation_view,
+                     { top: this.state.topPosition,
+                      left: this.state.leftPosition }]} />
             </View>
         );
     }
