@@ -14,12 +14,12 @@ class AnimationScreen extends React.Component {
   }
 
   componentDidMount() {
-    Animated.timing(
+    Animated.spring(
       this.state.topPosition,
       {
         toValue: 100,
-        duration: 3000, // Le temps est en milliseconds ici (3000ms = 3sec)
-        easing: Easing.bounce,
+        speed: 4,
+        bounciness: 30
       }
     ).start() // N'oubliez pas de lancer votre animation avec la fonction start()
 }
