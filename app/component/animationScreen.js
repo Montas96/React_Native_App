@@ -14,14 +14,13 @@ class AnimationScreen extends React.Component {
   }
 
   componentDidMount() {
-    Animated.spring(
-      this.state.topPosition,
-      {
-        toValue: 100,
-        speed: 4,
-        bounciness: 30
-      }
-    ).start() // N'oubliez pas de lancer votre animation avec la fonction start()
+    Animated.decay(
+        this.state.topPosition,
+        {
+          velocity: 0.8,
+          deceleration: 0.997,
+        }
+      ).start();
 }
 
   render() {
