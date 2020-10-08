@@ -14,13 +14,24 @@ class AnimationScreen extends React.Component {
   }
 
   componentDidMount() {
-    Animated.decay(
+    Animated.sequence([
+      Animated.spring(
         this.state.topPosition,
         {
-          velocity: 0.8,
-          deceleration: 0.997,
+          toValue: 100,
+          tension: 8,
+          friction: 3,
         }
-      ).start();
+      ),
+      Animated.timing(
+        this.state.topPosition,
+        {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.elastic(2),
+        }
+      ),
+    ]).start();
 }
 
   render() {
