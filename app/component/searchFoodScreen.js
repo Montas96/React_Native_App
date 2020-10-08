@@ -4,7 +4,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { connect } from 'react-redux';
-import {  TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity } from 'react-native';
+import {  TextInput, Dimensions, StyleSheet, View, Button, FlatList, Image, Text, TouchableOpacity, Animated } from 'react-native';
 import Images from '../assets/images';
 import Spinner from '../shared/spinner';
 
@@ -14,6 +14,7 @@ class SearchFoodScreen extends React.Component {
         this.state = {
             text: 'chicken',
             data: {},
+            positionLeft: new Animated.Value(Dimensions.get('window').width)
         };
     }
     componentDidMount() {
@@ -21,7 +22,13 @@ class SearchFoodScreen extends React.Component {
     }
     componentDidUpdate(prevProps){
         if (prevProps.searching && !this.props.searching  ){
-            this.setState({ data: this.props.foods });
+            this.setState({ data: this.props.foods },
+                () =>  Animated.spring(
+                    this.state.positionLeft,
+                    {
+                      toValue: 0,
+                    }
+                  ).start());
         }
     }
     _search = () => {
@@ -40,6 +47,8 @@ class SearchFoodScreen extends React.Component {
         });
         const color = index !== -1 ? 'red' : 'black';
         return (
+            <Animated.View
+            style={{ left: this.state.positionLeft }}>
             <TouchableOpacity style={[styles.item, { borderColor: color }]}
                 onPress={() => this.props.navigation.navigate('FoodDetail', {
                     item, isFavorite: color === 'red' ? true : false,
@@ -58,6 +67,7 @@ class SearchFoodScreen extends React.Component {
                     <Text style={styles.label} >calories : {Math.round(item.recipe.calories)}</Text>
                 </View>
             </TouchableOpacity>
+            </Animated.View>
         );
     }
 

@@ -34,8 +34,7 @@ const HomeStack = () => {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="Animation">
-      <Stack.Screen name="Animation" component={AnimationScreen} />
+    <Stack.Navigator initialRouteName="Food">
       <Stack.Screen name="Food" component={searchFoodScreen} />
       <Stack.Screen name="FoodDetail" component={FoodDetailScreen} />
     </Stack.Navigator>
@@ -67,10 +66,11 @@ const App: () => React$Node = () => {
           <NavigationContainer>
             <StatusBar barStyle="dark-content" />
             <Drawer.Navigator
-              initialRouteName="Home"
+              initialRouteName="Animation"
               drawerStyle={{marginTop: 50}}
               drawerContent={(props) => <CustomDrawerContent {...props} />}>
-              <Drawer.Screen name="Home" component={HomeStack} />
+              <Drawer.Screen name="Animation" component={AnimationScreen} />
+              <Drawer.Screen name="Food" component={HomeStack} />
               <Drawer.Screen name="Favorite" component={FavotireFoodScreen} />
             </Drawer.Navigator>
           </NavigationContainer>
