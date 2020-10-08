@@ -19,6 +19,7 @@ import searchFoodScreen from './app/component/searchFoodScreen';
 import FoodDetailScreen from './app/component/foodDetailScreen';
 import FavotireFoodScreen from './app/component/favoriteFood';
 import { PersistGate } from 'redux-persist/integration/react';
+import AnimationScreen from './app/component/animationScreen';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -33,7 +34,8 @@ const HomeStack = () => {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="Food">
+    <Stack.Navigator initialRouteName="Animation">
+      <Stack.Screen name="Animation" component={AnimationScreen} />
       <Stack.Screen name="Food" component={searchFoodScreen} />
       <Stack.Screen name="FoodDetail" component={FoodDetailScreen} />
     </Stack.Navigator>
