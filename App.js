@@ -10,23 +10,30 @@
  */
 
 import React from 'react';
-import { StatusBar, View, Text, Button, Dimensions } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Provider } from 'react-redux';
+import {
+  StatusBar,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Provider} from 'react-redux';
 import Store from './app/store/configureStore';
 import searchFoodScreen from './app/component/searchFoodScreen';
 import FoodDetailScreen from './app/component/foodDetailScreen';
 import FavotireFoodScreen from './app/component/favoriteFood';
-import { PersistGate } from 'redux-persist/integration/react';
-import AnimationScreen from './app/component/animationScreen';
+import {PersistGate} from 'redux-persist/integration/react';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-
+import Images from './app/assets/images';
+import Avatar from './app/component/avatar';
 
 const Drawer = createDrawerNavigator();
 
@@ -43,8 +50,8 @@ const HomeStack = () => {
 
 function CustomDrawerContent(props) {
   return (
-    <DrawerContentScrollView
-      {...props} >
+    <DrawerContentScrollView {...props}>
+      <Avatar />
       <DrawerItemList {...props} />
       <DrawerItem
         label="Close drawer"
@@ -66,10 +73,9 @@ const App: () => React$Node = () => {
           <NavigationContainer>
             <StatusBar barStyle="dark-content" />
             <Drawer.Navigator
-              initialRouteName="Animation"
+              initialRouteName="Food"
               drawerStyle={{marginTop: 50}}
               drawerContent={(props) => <CustomDrawerContent {...props} />}>
-              <Drawer.Screen name="Animation" component={AnimationScreen} />
               <Drawer.Screen name="Food" component={HomeStack} />
               <Drawer.Screen name="Favorite" component={FavotireFoodScreen} />
             </Drawer.Navigator>
