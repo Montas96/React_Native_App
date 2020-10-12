@@ -15,7 +15,7 @@ class Avatar extends React.Component {
     };
   }
   _setUserImageAction = () => {
-    const action = { type: 'SET_USER_IMAGE', image: this.state.avatar };// create action type 'SET_USER_NAME'
+    const action = { type: 'SET_USER_IMAGE', image: this.state.avatar };// create action type 'SET_USER_IMAGE'
     this.props.dispatch(action);
   }
 
