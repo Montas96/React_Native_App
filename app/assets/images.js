@@ -4,5 +4,6 @@ const Images = {
   heart_blanc: require('./images/heart_blanc.png'),
   heart_full: require('./images/heart_full.png'),
   user_icon: require('./images/user.png'),
+  launcherScreen: require('./images/launcherScreen.png'),
 };
 export default Images;
