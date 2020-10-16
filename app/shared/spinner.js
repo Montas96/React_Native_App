@@ -4,9 +4,10 @@ import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
 
 export default function Spinner() {
+  console.log('spinner')
   return (
-    <View>
-      <ActivityIndicator size={'large'} color={'blue'} />
+    <View style={{position: 'absolute'}}>
+      <ActivityIndicator size={'large'} color={'white'} />
     </View>
   );
 }

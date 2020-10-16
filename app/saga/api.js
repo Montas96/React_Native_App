@@ -3,7 +3,14 @@
 const app_id = '4f9c8aac';
 const app_key = '233a08758152d09c1ccf8ab2320b2eb2';
 import apisauce from 'apisauce';
-
+const baseUrl = 'https://5b5e0130ebbe.ngrok.io/api/';
+const api =   apisauce.create({
+    baseURL: baseUrl,
+    headers: {
+        'Cach-Controle': 'no-cache',
+    },
+    timeout: 10000,
+  });
 
 function* searchFoodApi(text) {
     const url = `https://api.edamam.com/search?q=${text}&app_id=${app_id}&app_key=${app_key}`;
@@ -21,7 +28,11 @@ function* searchFoodApi(text) {
         : [];
     return foods;
 }
-
+function* login(loginVM) {
+    const response = yield api.post( 'authenticate',loginVM );
+    return response.ok ? response.data : [];
+}
 export const Api = {
     searchFoodApi,
+    login,
 };

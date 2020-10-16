@@ -5,15 +5,19 @@ import { View, StyleSheet, ImageBackground } from 'react-native';
 import Images from '../assets/images';
 import Metrics from '../assets/Metrics';
 import CustomButton from '../shared/component/customButton';
+import { connect } from 'react-redux';
 
 
 
 
 class LauncherScreen extends React.Component {
-
+    constructor(props){
+        super(props);
+        props.isAuthenticated ? props.navigation.replace('Home') : null;
+    }
 
     _signIn = () => {
-        console.log('sign in');
+        this.props.navigation.navigate('Login');
     }
     _signUp = () => {
         console.log('sign up');
@@ -43,8 +47,18 @@ class LauncherScreen extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.login.isAuthenticated,
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        dispatch: (action) => { dispatch(action); },
+    };
+};
 
-export default (LauncherScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LauncherScreen);
 
 const styles = StyleSheet.create({
     constainer: {
