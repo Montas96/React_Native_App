@@ -15,7 +15,7 @@ class LauncherScreen extends React.Component {
         this.props.navigation.navigate('Login');
     }
     _signUp = () => {
-        console.log('sign up');
+        this.props.navigation.navigate('SignUp');
     }
 
     render() {

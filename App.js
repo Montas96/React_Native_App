@@ -22,6 +22,7 @@ import loginScreen from './app/component/loginScreen/loginScreen';
 import HomeScreen from './app/component/home';
 import Spinner from './app/shared/spinner';
 import Card from './app/shared/component/card';
+import signupScreen from './app/component/signup/signupScreen';
 
 const HomeStack = () => {
   const Stack = createStackNavigator();
@@ -49,6 +50,11 @@ const LauncherStack = () => {
       <Stack.Screen
         name="Login"
         component={loginScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={signupScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

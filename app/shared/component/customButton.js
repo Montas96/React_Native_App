@@ -3,12 +3,15 @@ import React from 'react';
 import Metrics from '../../assets/Metrics';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 
-const CustomButton = ({onPress, title, style, textStyle}) => {
+const CustomButton = ({onPress, title, style, textStyle, disabled}) => {
     const styleButton = style ? style : {};
     const labelStyle = textStyle ? textStyle : {};
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.button,styleButton]}>
-      <Text style={[styles.textStyle,labelStyle]}> {title} </Text>
+    <TouchableOpacity
+    onPress={onPress}
+    disabled={disabled}
+    style={[styles.button,styleButton]}>
+      <Text style={[styles.textStyle,labelStyle]}> { title } </Text>
     </TouchableOpacity>
   );
 };
