@@ -3,7 +3,7 @@
 const app_id = '4f9c8aac';
 const app_key = '233a08758152d09c1ccf8ab2320b2eb2';
 import apisauce from 'apisauce';
-const baseUrl = 'https://5b5e0130ebbe.ngrok.io/api/';
+const baseUrl = 'http://192.168.137.1:8080/api/';
 const api =   apisauce.create({
     baseURL: baseUrl,
     headers: {

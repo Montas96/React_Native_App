@@ -1,11 +1,20 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text,  Button,  StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, Dimensions, BackHandler } from 'react-native';
 
 
 class HomeScreen extends React.Component {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+  }
+  _onBackPress = () => {
+    BackHandler.exitApp();
+  }
 
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress');
+  }
   render() {
     return (
       <View style={styles.constainer}>

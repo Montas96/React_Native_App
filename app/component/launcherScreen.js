@@ -3,7 +3,6 @@
 import React from 'react';
 import { View, StyleSheet, ImageBackground } from 'react-native';
 import Images from '../assets/images';
-import Metrics from '../assets/Metrics';
 import CustomButton from '../shared/component/customButton';
 import { connect } from 'react-redux';
 
@@ -11,10 +10,6 @@ import { connect } from 'react-redux';
 
 
 class LauncherScreen extends React.Component {
-    constructor(props){
-        super(props);
-        props.isAuthenticated ? props.navigation.replace('Home') : null;
-    }
 
     _signIn = () => {
         this.props.navigation.navigate('Login');

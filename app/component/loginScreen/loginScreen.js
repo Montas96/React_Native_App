@@ -1,14 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { StyleSheet, View, TextInput, Dimensions, Text, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, Dimensions, ImageBackground, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import CustomButton from '../../shared/component/customButton';
 import LoginActions from '../../actions/loginAction';
 import Metrics from '../../assets/Metrics';
 import Images from '../../assets/images';
-import { color } from 'react-native-reanimated';
-import Spinner from '../../shared/spinner';
 import Card from '../../shared/component/card';
 
 class LoginScreen extends React.Component {

@@ -9,7 +9,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {StatusBar} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -20,7 +20,8 @@ import LauncherScreen from './app/component/launcherScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import loginScreen from './app/component/loginScreen/loginScreen';
 import HomeScreen from './app/component/home';
-
+import Spinner from './app/shared/spinner';
+import Card from './app/shared/component/card';
 
 const HomeStack = () => {
   const Stack = createStackNavigator();
@@ -38,7 +39,6 @@ const HomeStack = () => {
 
 const LauncherStack = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator initialRouteName="Launcher">
       <Stack.Screen
@@ -62,13 +62,23 @@ const LauncherStack = () => {
 const App = () => {
   let persistor = Store.persistor;
   const state = Store.store.getState();
+  const [isLoaded, setIsLoaded] = useState(false);
+  persistor.subscribe(() => setIsLoaded(true));
   return (
     <>
       <Provider store={Store.store}>
-        <PersistGate persistor={persistor}>
+        <PersistGate persistor={persistor} loading={<Card />}>
           <NavigationContainer>
             <StatusBar barStyle="dark-content" />
-            {state.login.isAuthenticated ? HomeStack() : LauncherStack()}
+            {isLoaded ? (
+              state.login.isAuthenticated ? (
+                HomeStack()
+              ) : (
+                LauncherStack(state.login.isAuthenticated)
+              )
+            ) : (
+              <Card />
+            )}
           </NavigationContainer>
         </PersistGate>
       </Provider>
