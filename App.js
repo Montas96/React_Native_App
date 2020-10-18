@@ -20,7 +20,7 @@ import LauncherScreen from './app/component/launcherScreen';
 import {createStackNavigator} from '@react-navigation/stack';
 import loginScreen from './app/component/loginScreen/loginScreen';
 import HomeScreen from './app/component/home';
-import Spinner from './app/shared/spinner';
+import signupSuccessScreen from './app/component/signup/signupSuccessScreen';
 import Card from './app/shared/component/card';
 import signupScreen from './app/component/signup/signupScreen';
 
@@ -55,6 +55,11 @@ const LauncherStack = () => {
       <Stack.Screen
         name="SignUp"
         component={signupScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SignUpSuccess"
+        component={signupSuccessScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

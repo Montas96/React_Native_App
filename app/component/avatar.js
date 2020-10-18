@@ -22,9 +22,7 @@ class Avatar extends React.Component {
   _setImage = () => {
     ImagePicker.showImagePicker({}, (response) => {
       if (response.didCancel) {
-        console.log("L'utilisateur a annulé");
       } else if (response.error) {
-        console.log('Erreur : ', response.error);
       } else {
         let requireSource = {uri: response.uri};
         this.setState({

@@ -25,7 +25,7 @@ class LoginScreen extends React.Component {
     }
 
     _login = () => {
-        this.props.attemptLogin(this.state.username, this.state.password);
+        this.props.attemptLogin(this.state.username, this.state.password); // authenticate user
     }
 
 
@@ -80,8 +80,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         attemptLogin: (username, password) => dispatch({ type: LoginActions.loginRequest, value: { username, password } }),
-        // logout: () => dispatch(LoginTypes.logoutRequest()),
-
     };
 };
 

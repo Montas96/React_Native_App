@@ -2,11 +2,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, Button, StyleSheet, Dimensions, BackHandler } from 'react-native';
+import { connect } from 'react-redux';
 
 
 class HomeScreen extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+  }
+  componentDidUpdate() {
   }
   _onBackPress = () => {
     BackHandler.exitApp();
@@ -42,8 +45,17 @@ class HomeScreen extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+      account: state.account.account,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+  };
+};
 
-export default (HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   constainer: {

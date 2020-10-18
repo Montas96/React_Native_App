@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 
 import Metrics from '../../assets/Metrics';
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+import ResponsiveFontSize from '../../shared/responsiveFrontSize';
 
 export const styles = StyleSheet.create({
   container: {
@@ -63,4 +64,5 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+
 });

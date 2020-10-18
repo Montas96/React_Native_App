@@ -5,7 +5,6 @@ import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 import Metrics from '../../assets/Metrics';
 
 export default function Card({text}) {
-    console.log('spinner')
     return (
         <View style={styles.constainer}>
             <ActivityIndicator size={'large'} color={'white'} />

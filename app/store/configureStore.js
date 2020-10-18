@@ -7,6 +7,7 @@ import createAsyncStorage from 'redux-persist-react-native-async-storage';
 import createSagaMiddeleware from 'redux-saga';
 import rootSaga from '../saga/rootSaga';
 import loginReducer from '../reducer/loginReducer';
+import accountReducer from '../reducer/accountReducer';
 
 const storage = createAsyncStorage();
 const sagaMiddeleware = createSagaMiddeleware();// Create instance of saga middleware
@@ -19,6 +20,7 @@ const reducer = persistCombineReducers(rootPersistConfig, {
   user: userReducer,
   food: foodReducer,
   login: loginReducer,
+  account: accountReducer,
 });
 const configureStore = () => {
   const store = createStore(reducer, applyMiddleware(sagaMiddeleware));// Apply the saga middleware to redux
