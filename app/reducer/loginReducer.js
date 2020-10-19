@@ -42,6 +42,8 @@ function loginReducer(state = initialState, action) {
         isAuthenticated: false,
       };
       return nextState || state;
+      case LoginActions.logoutRequest:
+        return initialState;
     default:
       return state;
   }

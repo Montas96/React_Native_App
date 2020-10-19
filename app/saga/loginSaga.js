@@ -16,3 +16,10 @@ export function* login(api, { value }) {
     yield put({ type: LoginActions.loginFailure, error: 'error' });
   }
 }
+
+
+export function* logout(api) {
+    yield call(api.removeAuthToken); // remove token from header
+    yield put({ type: AccountActions.accountReset }); // reset account
+
+}

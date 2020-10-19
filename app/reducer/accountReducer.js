@@ -67,6 +67,9 @@ function accountReducer(state = initialState, action) {
         fetchingAccount: false,
       };
       return nextState || state;
+
+    case AccountActions.accountReset:
+      return initialState;
     default:
       return state;
   }

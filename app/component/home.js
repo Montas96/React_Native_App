@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Dimensions, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
+import LoginActions from '../actions/loginAction';
 
 
 class HomeScreen extends React.Component {
@@ -14,6 +15,10 @@ class HomeScreen extends React.Component {
   _onBackPress = () => {
     BackHandler.exitApp();
   }
+  _logout = () => {
+    this.props.logout();
+    this.props.navigation.replace('Launcher');
+  }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress');
@@ -24,21 +29,11 @@ class HomeScreen extends React.Component {
         <Text style={styles.title}> Food </Text>
         <View style={styles.button}>
           <Button
-            title="Search Food"
-            onPress={() => this.props.navigation.navigate('Food')}
+            title="Logout"
+            onPress={this._logout}
             color={'green'}
             style={styles.button}
           />
-          <View style={{ padding: 10 }} />
-          <View style={styles.button} >
-            <Button
-              title="My Favorite"
-              onPress={() => this.props.navigation.navigate('Favorite')}
-              color={'green'}
-              style={styles.button}
-            />
-          </View>
-
         </View>
       </View>
     );
@@ -52,6 +47,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    logout: ()=> dispatch({type: LoginActions.logoutRequest}),
   };
 };
 

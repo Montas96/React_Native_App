@@ -7,5 +7,7 @@ const AccountActions = {
     getAccountRequest: 'GET_ACCOUNT_REQUEST',
     getAccountSuccess: 'GET_ACCOUNT_SUCCESS',
     getAccountFailure: 'GET_ACCOUNT_FAILURE',
+
+    accountReset: 'ACCOUNT_RESET',
   };
   export default AccountActions;
