@@ -17,7 +17,7 @@ function accountReducer(state = initialState, action) {
   switch (action.type) {
     case AccountActions.signupRequest:
       nextState = {
-        ...initialState,
+        ...state,
         registerSuccess: false,
         fetching: true,
         error: null,
@@ -26,7 +26,7 @@ function accountReducer(state = initialState, action) {
 
     case AccountActions.signupSuccess:
       nextState = {
-        ...initialState,
+        ...state,
         registerSuccess: true,
         fetching: false,
         error: null,
@@ -35,7 +35,7 @@ function accountReducer(state = initialState, action) {
 
     case AccountActions.signupFailure:
       nextState = {
-        ...initialState,
+        ...state,
         registerSuccess: false,
         fetching: false,
         error: action.error,
@@ -44,8 +44,9 @@ function accountReducer(state = initialState, action) {
 
 
     case AccountActions.getAccountRequest:
+      // console.log('5-get Account');
       nextState = {
-        ...initialState,
+        ...state,
         errorAccount: null,
         fetchingAccount: true,
       };
@@ -53,7 +54,7 @@ function accountReducer(state = initialState, action) {
 
     case AccountActions.getAccountSuccess:
       nextState = {
-        ...initialState,
+        ...state,
         errorAccount: null,
         fetchingAccount: false,
         account: action.account,
@@ -62,12 +63,11 @@ function accountReducer(state = initialState, action) {
 
     case AccountActions.getAccountFailure:
       nextState = {
-        ...initialState,
+        ...state,
         errorAccount: action.error,
         fetchingAccount: false,
       };
       return nextState || state;
-
     case AccountActions.accountReset:
       return initialState;
     default:

@@ -8,7 +8,7 @@ const initialState = {
   authToken: null,
   error: null,
   fetching: false,
-  loading: true,
+  loading: false,
   isAuthenticated: false,
 };
 
@@ -17,7 +17,7 @@ function loginReducer(state = initialState, action) {
   switch (action.type) {
     case LoginActions.loginRequest:
       nextState = {
-        ...initialState,
+        ...state,
         fetching: true,
         error: null,
       };
@@ -25,7 +25,7 @@ function loginReducer(state = initialState, action) {
 
     case LoginActions.loginSuccess:
       nextState = {
-        ...initialState,
+        ...state,
         authToken: action.id_token,
         fetching: false,
         error: null,
@@ -35,15 +35,29 @@ function loginReducer(state = initialState, action) {
 
     case LoginActions.loginFailure:
       nextState = {
-        ...initialState,
+        ...state,
         authToken: null,
         fetching: false,
         error: action.error,
         isAuthenticated: false,
       };
       return nextState || state;
-      case LoginActions.logoutRequest:
-        return initialState;
+    case LoginActions.logoutRequest:
+      return initialState;
+
+    case LoginActions.loginLoad:
+      nextState = {
+        ...state,
+        loading: true,
+      };
+      return nextState || state;
+    case LoginActions.loginLoadSuccess:
+      console.log('5-loading token finish');
+      nextState = {
+        ...state,
+        loading: false,
+      };
+      return nextState || state;
     default:
       return state;
   }

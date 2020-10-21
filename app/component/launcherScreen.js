@@ -44,7 +44,8 @@ class LauncherScreen extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.login.isAuthenticated,
+        account: state,
+        token: state.login.authToken,
     };
 };
 const mapDispatchToProps = (dispatch) => {

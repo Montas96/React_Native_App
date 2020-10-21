@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 import apisauce from 'apisauce';
-const baseUrl = 'https://821d49d9b7ca.ngrok.io/';
+const baseUrl = 'http://192.168.1.171:8080/';
 const create = () => {
     const api =   apisauce.create({
         baseURL: undefined,

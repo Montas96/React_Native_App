@@ -4,10 +4,12 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Dimensions, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import LoginActions from '../actions/loginAction';
+import AccountActions from '../actions/accountActions';
 
 
 class HomeScreen extends React.Component {
   componentDidMount() {
+    this.props.loading();
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
   }
   componentDidUpdate() {
@@ -43,11 +45,14 @@ class HomeScreen extends React.Component {
 const mapStateToProps = (state) => {
   return {
       account: state.account.account,
+      login: state.login,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: ()=> dispatch({type: LoginActions.logoutRequest}),
+    getAccount: ()=> dispatch({type: AccountActions.getAccountRequest}),
+    loading: () =>  dispatch({type: LoginActions.loginLoad }),
   };
 };
 

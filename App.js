@@ -70,11 +70,15 @@ const LauncherStack = () => {
     </Stack.Navigator>
   );
 };
+
 const App = () => {
   let persistor = Store.persistor;
   const state = Store.store.getState();
-  const [isLoaded, setIsLoaded] = useState(false);
-  persistor.subscribe(() => setIsLoaded(true));
+  const [isLoaded, setIsLoaded] = useState(true);
+  // persistor.subscribe(() => {
+  //   setIsLoaded(true);
+  // });
+
   return (
     <>
       <Provider store={Store.store}>
@@ -82,7 +86,7 @@ const App = () => {
           <NavigationContainer>
             <StatusBar barStyle="dark-content" />
             {isLoaded ? (
-              state.login.isAuthenticated ? (
+              state.login.authToken ? (
                 HomeStack()
               ) : (
                 LauncherStack(state.login.isAuthenticated)
