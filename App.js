@@ -23,10 +23,42 @@ import HomeScreen from './app/component/home';
 import signupSuccessScreen from './app/component/signup/signupSuccessScreen';
 import Card from './app/shared/component/card';
 import signupScreen from './app/component/signup/signupScreen';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Close drawer"
+        onPress={() => props.navigation.closeDrawer()}
+      />
+      <DrawerItem
+        label="Toggle drawer"
+        onPress={() => props.navigation.toggleDrawer()}
+      />
+    </DrawerContentScrollView>
+  );
+}
+
+const DrawerStack = () => {
+  const Drawer = createDrawerNavigator();
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      <Drawer.Screen name="Home" options={{}} component={HomeStack} />
+    </Drawer.Navigator>
+  );
+};
 
 const HomeStack = () => {
   const Stack = createStackNavigator();
-
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -64,7 +96,7 @@ const LauncherStack = () => {
       />
       <Stack.Screen
         name="Home"
-        component={HomeStack}
+        component={DrawerStack}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -75,9 +107,10 @@ const App = () => {
   let persistor = Store.persistor;
   const state = Store.store.getState();
   const [isLoaded, setIsLoaded] = useState(true);
-  // persistor.subscribe(() => {
-  //   setIsLoaded(true);
-  // });
+  persistor.subscribe(() => {
+    console.log(state.login.authToken)
+    setIsLoaded(true);
+  });
 
   return (
     <>
@@ -87,7 +120,7 @@ const App = () => {
             <StatusBar barStyle="dark-content" />
             {isLoaded ? (
               state.login.authToken ? (
-                HomeStack()
+                DrawerStack()
               ) : (
                 LauncherStack(state.login.isAuthenticated)
               )

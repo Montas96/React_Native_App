@@ -11,6 +11,10 @@ import { connect } from 'react-redux';
 
 class LauncherScreen extends React.Component {
 
+    constructor(props) {
+        super(props);
+        props.token !== null ? props.navigation.replace('Home') : null;
+    }
     _signIn = () => {
         this.props.navigation.navigate('Login');
     }
@@ -44,7 +48,6 @@ class LauncherScreen extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        account: state,
         token: state.login.authToken,
     };
 };
