@@ -19,7 +19,7 @@ class LoginScreen extends React.Component {
         };
     }
     componentDidUpdate() {
-        if (this.props.isAuthenticated) {
+        if (this.props.token) {
             this.props.navigation.replace('Home');
         }
     }
@@ -74,7 +74,7 @@ const mapStateToProps = (state) => {
     return {
         fetching: state.login.fetching,
         error: state.login.error,
-        isAuthenticated: state.login.isAuthenticated,
+        token: state.login.authToken,
     };
 };
 const mapDispatchToProps = (dispatch) => {

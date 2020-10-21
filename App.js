@@ -10,10 +10,10 @@
  */
 
 import React, {useState} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, Button, View} from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider} from 'react-redux';
+import {NavigationContainer, DrawerActions} from '@react-navigation/native';
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import Store from './app/store/configureStore';
 import {PersistGate} from 'redux-persist/integration/react';
 import LauncherScreen from './app/component/launcherScreen';
@@ -29,8 +29,10 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import LoginActions from './app/actions/loginAction';
 
 function CustomDrawerContent(props) {
+  const dispatch = useDispatch();
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
@@ -42,6 +44,13 @@ function CustomDrawerContent(props) {
         label="Toggle drawer"
         onPress={() => props.navigation.toggleDrawer()}
       />
+      <Button
+        title={'Logout'}
+        onPress={() => {
+          dispatch({type: LoginActions.logoutRequest});
+          props.navigation.navigate('Launcher');
+        }}
+      />
     </DrawerContentScrollView>
   );
 }
@@ -52,7 +61,7 @@ const DrawerStack = () => {
     <Drawer.Navigator
       initialRouteName="Home"
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="Home" options={{}} component={HomeStack} />
+      <Drawer.Screen name="Home" component={HomeStack} />
     </Drawer.Navigator>
   );
 };
@@ -60,9 +69,9 @@ const DrawerStack = () => {
 const HomeStack = () => {
   const Stack = createStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="HomeStack">
       <Stack.Screen
-        name="Home"
+        name="HomeStack"
         component={HomeScreen}
         options={{headerShown: false}}
       />
@@ -108,7 +117,6 @@ const App = () => {
   const state = Store.store.getState();
   const [isLoaded, setIsLoaded] = useState(true);
   persistor.subscribe(() => {
-    console.log(state.login.authToken)
     setIsLoaded(true);
   });
 
@@ -122,7 +130,7 @@ const App = () => {
               state.login.authToken ? (
                 DrawerStack()
               ) : (
-                LauncherStack(state.login.isAuthenticated)
+                LauncherStack()
               )
             ) : (
               <Card />
