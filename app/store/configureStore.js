@@ -12,6 +12,8 @@ import AppStateReducer from '../reducer/app-state.reducer';
 import hardSet from 'redux-persist/es/stateReconciler/hardSet';
 import AsyncStorage from '@react-native-community/async-storage';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import CategoryReducer from '../reducer/category.reducer';
+import CuisineReducer from '../reducer/cuisine.reducer';
 
 // const storage = createAsyncStorage();
 
@@ -55,6 +57,8 @@ const reducer = combineReducers({
   account: accountReducer,
   appState: AppStateReducer,
   startup: StartupReducer,
+  category: CategoryReducer,
+  cuisine: CuisineReducer,
 });
 const configureStore = () => {
   console.log('1-configure store');

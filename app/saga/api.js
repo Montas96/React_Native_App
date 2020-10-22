@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 import apisauce from 'apisauce';
-const baseUrl = 'https://1a29c90e22b0.ngrok.io/';
+const baseUrl = 'https://40621d2de049.ngrok.io/';
 const create = () => {
     const api =   apisauce.create({
         baseURL: undefined,
@@ -15,12 +15,17 @@ const create = () => {
     const register = (user) => api.post(baseUrl + 'api/account/B2C', user);
     const login = (loginVM) => api.post(baseUrl + 'api/authenticate', loginVM);
     const getAccount = () => api.get(baseUrl + 'api/account');
+    const getCategories = (options) => api.get(baseUrl + 'api/categories', options);
+    const getCuisines = (options) => api.get(baseUrl + 'api/cuisines', options);
+
     return {
         setAuthToken,
         removeAuthToken,
         register,
         login,
         getAccount,
+        getCategories,
+        getCuisines,
     };
 };
 export default {

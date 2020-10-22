@@ -33,5 +33,4 @@ export function* loginLoad(api) {
 export function* logout(api) {
     yield call(api.removeAuthToken); // remove token from header
     yield put({ type: AccountActions.accountReset }); // reset account
-
 }

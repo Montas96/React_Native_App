@@ -5,15 +5,44 @@ import { View, Text, Button, StyleSheet, Dimensions, BackHandler } from 'react-n
 import { connect } from 'react-redux';
 import LoginActions from '../actions/loginAction';
 import AccountActions from '../actions/accountActions';
+import CategoryActions from '../actions/category.action';
+import CuisineAction from '../actions/cuisine.action';
+import CustomList from './customList.component';
 
 
 class HomeScreen extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      pageCategory: 0,
+      pageCuisine: 0,
+      size: 5,
+    };
+  }
   componentDidMount() {
-    this.props.loading();
+    this.props.resetCategories();
+    this.props.resetCuisines();
+    this._fetchCategories();
+    this._fetchCuisines();
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
   }
   componentDidUpdate() {
   }
+
+  _fetchCategories = () => {
+    this.props.getCategories({
+      page: this.state.pageCategory,
+      size: this.state.size,
+    });
+  }
+  _fetchCuisines = () => {
+    this.props.getCuisines({
+      page: this.state.pageCuisine,
+      size: this.state.size,
+    });
+  }
+
   _onBackPress = () => {
     BackHandler.exitApp();
   }
@@ -29,14 +58,11 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}> Food </Text>
-        <View style={styles.button}>
-          <Button
-            title="Logout"
-            onPress={this._logout}
-            color={'green'}
-            style={styles.button}
-          />
-        </View>
+        <CustomList navigation={this.props.navigation} list={this.props.categories}
+        fetching={this.props.fetchingCategories} />
+        <CustomList navigation={this.props.navigation} list={this.props.cuisines}
+        fetching={this.props.fetchingCuisines} />
+
       </View>
     );
   }
@@ -46,6 +72,10 @@ const mapStateToProps = (state) => {
   return {
       account: state.account.account,
       login: state.login,
+      categories: state.category.categories,
+      fetchingCategories: state.category.fetchingAll,
+      cuisines: state.cuisine.cuisines,
+      fetchingCuisines: state.category.fetchingAll,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -53,6 +83,10 @@ const mapDispatchToProps = (dispatch) => {
     logout: ()=> dispatch({type: LoginActions.logoutRequest}),
     getAccount: ()=> dispatch({type: AccountActions.getAccountRequest}),
     loading: () =>  dispatch({type: LoginActions.loginLoad }),
+    getCategories: (options) => dispatch({type: CategoryActions.getAllCategoriesRequest, options}),
+    getCuisines: (options) => dispatch({type: CuisineAction.getAllCuisinesRequest, options}),
+    resetCategories: () => dispatch({type: CategoryActions.categoryReset}),
+    resetCuisines: () => dispatch({type: CuisineAction.cuisineReset}),
   };
 };
 

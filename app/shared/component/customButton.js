@@ -2,6 +2,7 @@
 import React from 'react';
 import Metrics from '../../assets/Metrics';
 import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import { Colors } from '../../assets/colors';
 
 const CustomButton = ({onPress, title, style, textStyle, disabled}) => {
     const styleButton = style ? style : {};
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    backgroundColor: '#FDAD00',
+    backgroundColor: Colors.yellow,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
