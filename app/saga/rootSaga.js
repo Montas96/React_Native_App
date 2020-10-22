@@ -10,6 +10,8 @@ import CategoryActions from '../actions/category.action';
 import { getAllCategories } from './category.saga';
 import CuisineAction from '../actions/cuisine.action';
 import { getAllCuisines } from './cuisine.saga';
+import FoodAction from '../actions/food.action';
+import { getAllFood } from './food.saga';
 
 const api = API.create();
 export default function* rootSaga() {
@@ -21,6 +23,7 @@ export default function* rootSaga() {
     takeLatest(AccountActions.getAccountRequest, getAccount, api),
     takeLatest(CategoryActions.getAllCategoriesRequest, getAllCategories, api),
     takeLatest(CuisineAction.getAllCuisinesRequest, getAllCuisines, api),
+    takeLatest(FoodAction.getAllFoodRequest, getAllFood, api),
 
   ]);
 }

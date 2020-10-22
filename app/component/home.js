@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, Button, StyleSheet, Dimensions, BackHandler } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, BackHandler, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import LoginActions from '../actions/loginAction';
 import AccountActions from '../actions/accountActions';
 import CategoryActions from '../actions/category.action';
 import CuisineAction from '../actions/cuisine.action';
 import CustomList from './customList.component';
+import FoodAction from '../actions/food.action';
+import FoodScreen from './foodScreen/foodComonent';
+import Spinner from '../shared/spinner';
+import { Colors } from '../assets/colors';
 
 
 class HomeScreen extends React.Component {
@@ -17,14 +21,17 @@ class HomeScreen extends React.Component {
     this.state = {
       pageCategory: 0,
       pageCuisine: 0,
+      pageFood: 0,
       size: 5,
     };
   }
   componentDidMount() {
     this.props.resetCategories();
     this.props.resetCuisines();
+    this.props.resetFoods();
     this._fetchCategories();
     this._fetchCuisines();
+    this._fetchFoods();
     BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
   }
   componentDidUpdate() {
@@ -42,13 +49,26 @@ class HomeScreen extends React.Component {
       size: this.state.size,
     });
   }
-
+  _fetchFoods = () => {
+    this.props.getFoods({
+      page: this.state.pageFood,
+      size: this.state.size,
+    });
+  }
   _onBackPress = () => {
     BackHandler.exitApp();
   }
   _logout = () => {
     this.props.logout();
     this.props.navigation.replace('Launcher');
+  }
+
+  _renderEmpty = () => {
+    return (
+      <View style={{flex: 1, justifyContent: 'center',alignItems: 'center',backgroundColor: 'red'}} >
+        {this.props.fetchingFoods ? <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
+      </View>
+    );
   }
 
   componentWillUnmount() {
@@ -62,6 +82,12 @@ class HomeScreen extends React.Component {
         fetching={this.props.fetchingCategories} />
         <CustomList navigation={this.props.navigation} list={this.props.cuisines}
         fetching={this.props.fetchingCuisines} />
+        <FlatList
+        key={item => item.id}
+        data={this.props.foods}
+        renderItem={({item}) => <FoodScreen food={item} />}
+        ListEmptyComponent={this._renderEmpty}
+        />
 
       </View>
     );
@@ -76,6 +102,8 @@ const mapStateToProps = (state) => {
       fetchingCategories: state.category.fetchingAll,
       cuisines: state.cuisine.cuisines,
       fetchingCuisines: state.category.fetchingAll,
+      foods: state.food.foods,
+      fetchingFoods: state.food.fetchingAll,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -87,6 +115,8 @@ const mapDispatchToProps = (dispatch) => {
     getCuisines: (options) => dispatch({type: CuisineAction.getAllCuisinesRequest, options}),
     resetCategories: () => dispatch({type: CategoryActions.categoryReset}),
     resetCuisines: () => dispatch({type: CuisineAction.cuisineReset}),
+    getFoods: (options) => dispatch({type: FoodAction.getAllFoodRequest , options}),
+    resetFoods: () => dispatch({type: FoodAction.FoodReset}),
   };
 };
 
@@ -94,6 +124,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   constainer: {
+    flex: 1,
   },
   title: {
     fontSize: 25,

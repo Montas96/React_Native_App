@@ -4,7 +4,7 @@
 
 const initialState = { foods: [], searching: false, error: null, favorite: [] };
 
-function foodReducer(state = initialState, action) {
+function FoodReducer(state = initialState, action) {
     let nextState;
 
     switch (action.type) {
@@ -52,4 +52,4 @@ function foodReducer(state = initialState, action) {
             return state;
     }
 }
-export default foodReducer;
+export default FoodReducer;

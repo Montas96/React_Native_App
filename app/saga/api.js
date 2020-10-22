@@ -17,6 +17,7 @@ const create = () => {
     const getAccount = () => api.get(baseUrl + 'api/account');
     const getCategories = (options) => api.get(baseUrl + 'api/categories', options);
     const getCuisines = (options) => api.get(baseUrl + 'api/cuisines', options);
+    const getFoods = (options) => api.get(baseUrl + 'api/foods', options);
 
     return {
         setAuthToken,
@@ -26,6 +27,7 @@ const create = () => {
         getAccount,
         getCategories,
         getCuisines,
+        getFoods,
     };
 };
 export default {
