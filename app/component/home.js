@@ -89,7 +89,8 @@ class HomeScreen extends React.Component {
         <FlatList
         key={item => item.id}
         data={this.props.foods}
-        renderItem={({item}) => <FoodScreen food={item} />}
+        renderItem={({item}) => <FoodScreen food={item} navigation={this.props.navigation} />}
+         // add navigation props because foodScreen is not in the navigationStack
         ListEmptyComponent={this._renderEmpty}
         style={{flex: 1}}
         />

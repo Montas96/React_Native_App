@@ -11,5 +11,7 @@ const Images = {
   mail_icon: require('./images/mail_icon.png'),
   phone_icon: require('./images/phone-icon.png'),
   password_icon: require('./images/password_icon.png'),
+  shopping_cart: require('./images/shopping-cart.png'),
+
 };
 export default Images;

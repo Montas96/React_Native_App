@@ -13,7 +13,7 @@ import React, {useState} from 'react';
 import {StatusBar, Button, View} from 'react-native';
 
 import {NavigationContainer, DrawerActions} from '@react-navigation/native';
-import {Provider, useDispatch, useSelector} from 'react-redux';
+import {Provider, useDispatch} from 'react-redux';
 import Store from './app/store/configureStore';
 import {PersistGate} from 'redux-persist/integration/react';
 import LauncherScreen from './app/component/launcherScreen';
@@ -30,6 +30,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import LoginActions from './app/actions/loginAction';
+import FoodDetailScreen from './app/component/foodDetailScreen/foodDetailScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -74,6 +75,11 @@ const HomeStack = () => {
         name="HomeStack"
         component={HomeScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="FoodDetail"
+        component={FoodDetailScreen}
+        options={{headerShown: true}}
       />
     </Stack.Navigator>
   );

@@ -1,10 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import Images from '../../assets/images';
 import { Styles } from '../../assets/styles';
+import { styles } from './foodComponentStyle';
 class FoodScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,7 @@ class FoodScreen extends React.Component {
   }
 
   _onPress = () => {
-    console.log('foodId: ',this.props.food.id);
+    this.props.navigation.navigate('FoodDetail', {food: this.props.food});
   }
 
   render() {
@@ -50,35 +51,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FoodScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    borderRadius: 1,
-    margin: 5,
-  },
-  image: {
-      width: 150,
-      height: 150,
-      margin : 5,
-  },
-  body: {
-      flex: 1,
-      justifyContent: 'flex-start',
-      margin: 5,
-  },
-  title: {
-    flex: 1,
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'left',
-    marginTop: 5,
-  },
-  text: {
-    flex: 1,
-    fontSize: 15,
-    textAlign: 'left',
-    marginTop: 10,
-  },
-});
