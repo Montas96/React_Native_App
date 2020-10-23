@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import Images from '../../assets/images';
 import { Styles } from '../../assets/styles';
@@ -13,12 +13,17 @@ class FoodScreen extends React.Component {
     // console.log(props)
   }
 
+  _onPress = () => {
+    console.log('foodId: ',this.props.food.id);
+  }
+
   render() {
       const {food} = this.props;
       const source = food.media[0] ? {uri: food.media[0]} : Images.fastfood;
       const price = food.foodTypesDTO.length && food.foodTypesDTO[0]?.price?.price ? food.foodTypesDTO[0]?.price?.price : null;
     return (
-      <View style={[styles.container, Styles.shadow]}>
+      <TouchableOpacity style={[styles.container, Styles.shadow]}
+      onPress={this._onPress} >
           <View>
           <Image
           source={source}
@@ -32,7 +37,7 @@ class FoodScreen extends React.Component {
           </View>
 
         <Text />
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    borderRadius: 5,
+    borderRadius: 1,
     margin: 5,
   },
   image: {

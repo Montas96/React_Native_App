@@ -1,12 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, Text } from 'react-native';
 import CustomButton from '../shared/component/customButton';
 import Spinner from '../shared/spinner';
 import { Colors } from '../assets/colors';
+import Metrics from '../assets/Metrics';
 
-export default function CustomList({ list, navigation, fetching }) {
+export default function CustomList({ list, navigation, fetching, listTitle }) {
     const _onPress = (item) => {
         console.log(item);
     };
@@ -17,14 +18,15 @@ export default function CustomList({ list, navigation, fetching }) {
                 <CustomButton
                     title={item.name}
                     onPress={() => _onPress(item.name)}
-                    style={{padding: 10, width: 'auto'}}
+                    style={{ padding: 10, width: 'auto' }}
                 />
             </View>
         );
     };
     return (
         <View style={styles.container} >
-            {fetching ?  <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
+            <Text style={styles.listTitle} > {listTitle} </Text>
+            {fetching ? <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
             <FlatList
                 data={list}
                 key={(item) => item.id}
@@ -36,8 +38,11 @@ export default function CustomList({ list, navigation, fetching }) {
 }
 const styles = StyleSheet.create({
     container: {
-        height: 70,
+        // flex: 1,
+        height: Metrics.width_20,
         borderBottomWidth: 1,
+        borderColor: '#f1f6f9',
+        backgroundColor: Colors.white_gray,
     },
     item: {
         flex: 1,
@@ -46,5 +51,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         height: 70,
+    },
+    listTitle: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        margin: 5,
     },
 });

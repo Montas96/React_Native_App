@@ -78,15 +78,20 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}> Food </Text>
+        <View style={styles.listContainer} >
         <CustomList navigation={this.props.navigation} list={this.props.categories}
-        fetching={this.props.fetchingCategories} />
+        fetching={this.props.fetchingCategories}
+        listTitle={'Categories'} />
         <CustomList navigation={this.props.navigation} list={this.props.cuisines}
-        fetching={this.props.fetchingCuisines} />
+        fetching={this.props.fetchingCuisines}
+        listTitle={'Cuisines'} />
+        </View>
         <FlatList
         key={item => item.id}
         data={this.props.foods}
         renderItem={({item}) => <FoodScreen food={item} />}
         ListEmptyComponent={this._renderEmpty}
+        style={{flex: 1}}
         />
 
       </View>
@@ -163,4 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
+  listContainer: {
+    // flex: 1,
+  }
 });

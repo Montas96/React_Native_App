@@ -3,11 +3,11 @@ export const Styles = {
   shadow: {
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 1,
+        width: 1,
+        height: 0,
     },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
     elevation: 2,
   },
   title: {

@@ -1,18 +1,18 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import Metrics from '../../assets/Metrics';
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Colors } from '../../assets/colors';
 
-const CustomButton = ({onPress, title, style, textStyle, disabled}) => {
-    const styleButton = style ? style : {};
-    const labelStyle = textStyle ? textStyle : {};
+const CustomButton = ({ onPress, title, style, textStyle, disabled }) => {
+  const styleButton = style ? style : {};
+  const labelStyle = textStyle ? textStyle : {};
   return (
     <TouchableOpacity
-    onPress={onPress}
-    disabled={disabled}
-    style={[styles.button,styleButton]}>
-      <Text style={[styles.textStyle,labelStyle]}> { title } </Text>
+      onPress={onPress}
+      disabled={disabled}
+      style={[styles.button, styleButton]}>
+      <Text style={[styles.textStyle, labelStyle]}> {title} </Text>
     </TouchableOpacity>
   );
 };
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Metrics.width_half_screen,
     height: 50,
-    borderRadius: 15,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
@@ -34,8 +34,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
-    elevation: 10,
+    elevation: 2,
   },
   textStyle: {
     fontSize: 20,
