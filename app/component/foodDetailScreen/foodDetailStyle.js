@@ -57,4 +57,10 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     marginTop: 10,
   },
+  itemName: {
+    fontSize: 15,
+    textAlign: 'left',
+    fontWeight: '700',
+    marginTop: 10,
+  }
 });

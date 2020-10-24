@@ -12,6 +12,8 @@ const Images = {
   phone_icon: require('./images/phone-icon.png'),
   password_icon: require('./images/password_icon.png'),
   shopping_cart: require('./images/shopping-cart.png'),
-
+  add_to_cart: require('./images/add-to-cart.png'),
+  remove_from_cart: require('./images/remove-from-cart.png'),
+  checklist: require('./images/checklist.png'),
 };
 export default Images;
