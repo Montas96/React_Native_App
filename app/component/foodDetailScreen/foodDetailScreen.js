@@ -8,6 +8,7 @@ import { Styles } from '../../assets/styles';
 import { styles } from './foodDetailStyle';
 import CustomButton from '../../shared/component/customButton';
 import IconButton from '../../shared/component/iconButton';
+import FoodAction from '../../actions/food.action';
 
 class FoodDetailScreen extends React.Component {
     constructor(props) {
@@ -19,20 +20,27 @@ class FoodDetailScreen extends React.Component {
     }
 
     _onPress = () => {
-        console.log('foodId: ', this.props.food.id);
+        console.log('foodId: ', this.props.route.params.food.id);
+        this.props.addToFavorite(this.props.route.params.food);
     }
 
     render() {
         const { food } = this.props.route.params;
         const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
         const { foodTypesDTO, ingredients, supplements } = food;
+        const isFavorite = this.props.favorites.findIndex(item => {
+            console.log(item.id , food.id);
+            return item.id === food.id;
+        }) !== -1;
         return (
             <ScrollView style={[styles.container]}  >
                 <View style={styles.header} >
                     <Text style={[styles.title]} > {food.name} </Text>
                     <IconButton
                         style={styles.icon}
-                        iconStyle={{width: 30, height: 30}}
+                        iconStyle={{ width: 30, height: 30 }}
+                        onPress={this._onPress}
+                        icon={isFavorite ? Images.heart_full: null}
                     />
                 </View>
                 <View style={styles.imageContainer} >
@@ -57,7 +65,7 @@ class FoodDetailScreen extends React.Component {
                     )}
                 </View>
                 <View style={styles.priceList}  >
-                <Text style={styles.itemName}>Prices: </Text>
+                    <Text style={styles.itemName}>Prices: </Text>
                     {foodTypesDTO.map((item) =>
                         <View style={styles.foodType} >
                             <CustomButton
@@ -76,10 +84,14 @@ class FoodDetailScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        favorites: state.food.favorites,
+    };
 };
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        addToFavorite: (food) => dispatch({type: FoodAction.addToFavoriteRequest, food}),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FoodDetailScreen);

@@ -5,10 +5,10 @@ import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Colors } from '../../assets/colors';
 import Images from '../../assets/images';
 
-const IconButton = ({ onPress, source, style, iconStyle, disabled }) => {
+const IconButton = ({ onPress, source, icon, style, iconStyle, disabled }) => {
   const styleButton = style ? style : {};
   const imageStyle = iconStyle ? iconStyle : {};
-  const sourceImage = source ? {uri: source} : Images.heart_blanc;
+  const sourceImage = icon ? icon : source ? {uri: source} : Images.heart_blanc;
   return (
     <TouchableOpacity
       onPress={onPress}
