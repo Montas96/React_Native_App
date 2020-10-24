@@ -23,13 +23,16 @@ class FoodDetailScreen extends React.Component {
         console.log('foodId: ', this.props.route.params.food.id);
         this.props.addToFavorite(this.props.route.params.food);
     }
+    _addToCard = (item) => {
+        console.log(item.id);
+    }
 
     render() {
         const { food } = this.props.route.params;
         const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
         const { foodTypesDTO, ingredients, supplements } = food;
         const isFavorite = this.props.favorites.findIndex(item => {
-            console.log(item.id , food.id);
+            console.log(item.id, food.id);
             return item.id === food.id;
         }) !== -1;
         return (
@@ -41,6 +44,7 @@ class FoodDetailScreen extends React.Component {
                         iconStyle={{ width: 30, height: 30 }}
                         onPress={this._onPress}
                         icon={isFavorite ? Images.heart_full : null}
+                        shadowActive={false}
                     />
                 </View>
                 <View style={styles.imageContainer} >
@@ -48,6 +52,12 @@ class FoodDetailScreen extends React.Component {
                         source={source}
                         style={styles.image}
                         resizeMode={'contain'} />
+                    <IconButton
+                        style={styles.iconCard}
+                        iconStyle={{ width: 50, height: 70 }}
+                        onPress={this._addToCard}
+                        icon={Images.add_to_cart}
+                        shadowActive={true} />
                 </View>
                 <View style={styles.body} >
                     <Text style={[styles.text]} > {food.description} </Text>
@@ -90,7 +100,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToFavorite: (food) => dispatch({type: FoodAction.addToFavoriteRequest, food}),
+        addToFavorite: (food) => dispatch({ type: FoodAction.addToFavoriteRequest, food }),
     };
 };
 

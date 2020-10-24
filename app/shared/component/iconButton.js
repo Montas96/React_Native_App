@@ -4,7 +4,7 @@ import Metrics from '../../assets/Metrics';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Images from '../../assets/images';
 
-const IconButton = ({ onPress, source, icon, style, iconStyle, disabled }) => {
+const IconButton = ({ onPress, source, icon, style, iconStyle, disabled, shadowActive = true }) => {
   const styleButton = style ? style : {};
   const imageStyle = iconStyle ? iconStyle : {};
   const sourceImage = icon ? icon : source ? {uri: source} : Images.heart_blanc;
@@ -12,7 +12,7 @@ const IconButton = ({ onPress, source, icon, style, iconStyle, disabled }) => {
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={[styles.button, styleButton]}>
+      style={[styles.button, styleButton,shadowActive ? styles.shadow: {}]}>
           <Image
           source={sourceImage}
           style={[styles.image,imageStyle]}
@@ -29,6 +29,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
+
+  },
+  image: {
+    width: 35,
+    height: 35,
+  },
+  shadow: {
     shadowOffset: {
       width: 0,
       height: 2,
@@ -36,9 +43,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 2,
-  },
-  image: {
-    width: 35,
-    height: 35,
-  },
+  }
 });

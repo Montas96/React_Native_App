@@ -32,7 +32,7 @@ class FavoriteFoodScreen extends React.Component {
   _renderEmpty = () => {
     return (
       <View style={{flex: 1, justifyContent: 'center',alignItems: 'center'}} >
-        {!this.props.fetching ? <Text>No foods added to you favorite list</Text> : null}
+        {!this.props.fetching ? <Text>No foods added to</Text> : null}
       </View>
     );
   }

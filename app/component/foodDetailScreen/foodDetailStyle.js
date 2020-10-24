@@ -62,5 +62,15 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
     fontWeight: '700',
     marginTop: 10,
-  }
+  },
+  iconCard: {
+    width: Metrics.width_20,
+    borderRadius: 30,
+    // borderWidth: 1,
+    alignSelf:'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: Metrics.width_5,
+    backgroundColor: Colors.yellow,
+  },
 });

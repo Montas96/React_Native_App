@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Images from '../../assets/images';
 import { styles } from './foodComponentStyle';
 import { Colors } from '../../assets/colors';
+import IconButton from '../../shared/component/iconButton';
 class FoodScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -17,11 +18,14 @@ class FoodScreen extends React.Component {
   _onPress = () => {
     this.props.navigation.navigate('FoodDetail', { food: this.props.food });
   }
+  _addToCard = (item) => {
+    console.log(item.id);
+  }
 
   render() {
     const { food, isFavorite } = this.props;
     const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
-    const price = food.foodTypesDTO.length && food.foodTypesDTO[0]?.price?.price ? food.foodTypesDTO[0]?.price?.price : null;
+    const price = food.foodTypesDTO.length && food.foodTypesDTO[0]?.price ? food.foodTypesDTO[0]?.price : null;
     const borderColor = isFavorite ? 'red' : Colors.yellow;
     return (
       <TouchableOpacity style={[styles.container,
@@ -31,11 +35,17 @@ class FoodScreen extends React.Component {
 
       }]}
         onPress={this._onPress} >
-        <View>
+        <View >
           <Image
             source={source}
             style={styles.image}
             resizeMode={'contain'} />
+          <IconButton
+            style={styles.icon}
+            iconStyle={{ width: 30, height: 30 }}
+            onPress={this._addToCard}
+            icon={Images.add_to_cart}
+            shadowActive={true} />
         </View>
         <View style={styles.body} >
           <Text style={[styles.title]} > {food.name} </Text>

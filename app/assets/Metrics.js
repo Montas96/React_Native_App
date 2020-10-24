@@ -8,6 +8,7 @@ const Metrics = {
     width_7: Dimensions.get('screen').width * 0.07,
     width_5: Dimensions.get('screen').width * 0.05,
     width_third: Dimensions.get('screen').width / 3,
+    width_15: Dimensions.get('screen').width * 0.15,
     width_20: Dimensions.get('screen').width * 0.2,
     width_22: Dimensions.get('screen').width * 0.22,
     width_30: Dimensions.get('screen').width * 0.3,
