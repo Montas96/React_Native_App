@@ -26,15 +26,20 @@ class FavoriteFoodScreen extends React.Component {
   }
 
   _fetchFavorite = () => {
-    this.props.getFoods();
+    this.props.getFavoriteFood();
   }
 
   _renderEmpty = () => {
     return (
-      <View style={{flex: 1, justifyContent: 'center',alignItems: 'center',backgroundColor: 'red'}} >
-        {this.props.fetchingFoods ? <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
+      <View style={{flex: 1, justifyContent: 'center',alignItems: 'center'}} >
+        {!this.props.fetching ? <Text>No foods added to you favorite list</Text> : null}
       </View>
     );
+  }
+
+  _refresh =() => {
+    this.props.resetFavorite();
+    this._fetchFavorite();
   }
 
   componentWillUnmount() {
@@ -44,6 +49,7 @@ class FavoriteFoodScreen extends React.Component {
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}> Favorite Food </Text>
+        {/* <Spinner style={{flex: 1}} color={'red'} /> */}
         <FlatList
         key={item => item.id}
         data={this.props.favorites}
@@ -51,6 +57,9 @@ class FavoriteFoodScreen extends React.Component {
          // add navigation props because foodScreen is not in the navigationStack
         ListEmptyComponent={this._renderEmpty}
         style={{flex: 1}}
+        refreshing={this.props.fetching}
+        extraData={this.props.favorites}
+        onRefresh={this._refresh}
         />
 
       </View>
@@ -61,6 +70,7 @@ class FavoriteFoodScreen extends React.Component {
 const mapStateToProps = (state) => {
   return {
       favorites: state.food.favorites,
+      fetching: state.food.fetchingAllFavorites,
   };
 };
 const mapDispatchToProps = (dispatch) => {

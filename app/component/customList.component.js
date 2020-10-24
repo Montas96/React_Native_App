@@ -23,6 +23,15 @@ export default function CustomList({ list, navigation, fetching, listTitle }) {
             </View>
         );
     };
+
+    const _renderEmpty = () => {
+        return (
+          <View style={{flex: 1, justifyContent: 'center',alignItems: 'center'}} >
+              {fetching ? <Spinner style={[styles.spinner]} color={Colors.yellow} /> : null}
+          </View>
+        );
+      };
+
     return (
         <View style={styles.container} >
             <Text style={styles.listTitle} > {listTitle} </Text>
@@ -30,6 +39,7 @@ export default function CustomList({ list, navigation, fetching, listTitle }) {
             <FlatList
                 data={list}
                 key={(item) => item.id}
+                ListEmptyComponent={_renderEmpty}
                 renderItem={(item) => _renderItem(item)}
                 horizontal={true}
             />
@@ -50,7 +60,7 @@ const styles = StyleSheet.create({
     spinner: {
         justifyContent: 'center',
         alignContent: 'center',
-        height: 70,
+        height: 40,
     },
     listTitle: {
         fontSize: 15,

@@ -65,8 +65,8 @@ class HomeScreen extends React.Component {
 
   _renderEmpty = () => {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }} >
-        {this.props.fetchingFoods ? <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',}} >
+        {!this.props.fetchingFoods ? <Text>No foods please refresh</Text> : null}
       </View>
     );
   }
@@ -80,6 +80,14 @@ class HomeScreen extends React.Component {
       return item.id === food.id;
   }) !== -1;
   }
+
+  _refresh =() => {
+    this.props.resetFoods();
+    this.setState({
+      pageFood: 0,
+    },this._fetchFoods());
+  }
+
   render() {
 
     return (
@@ -100,6 +108,9 @@ class HomeScreen extends React.Component {
           // add navigation props because foodScreen is not in the navigationStack
           ListEmptyComponent={this._renderEmpty}
           style={{ flex: 1 }}
+          refreshing={this.props.fetchingFoods}
+          extraData={this.props.foods}
+          onRefresh={this._refresh}
         />
 
       </View>
