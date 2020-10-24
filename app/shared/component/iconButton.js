@@ -2,7 +2,6 @@
 import React from 'react';
 import Metrics from '../../assets/Metrics';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Colors } from '../../assets/colors';
 import Images from '../../assets/images';
 
 const IconButton = ({ onPress, source, icon, style, iconStyle, disabled }) => {

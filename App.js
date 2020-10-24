@@ -31,6 +31,7 @@ import {
 } from '@react-navigation/drawer';
 import LoginActions from './app/actions/loginAction';
 import FoodDetailScreen from './app/component/foodDetailScreen/foodDetailScreen';
+import FavoriteFoodScreen from './app/component/favoriteFoodScreen/favoriteFoodScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -44,6 +45,10 @@ function CustomDrawerContent(props) {
       <DrawerItem
         label="Toggle drawer"
         onPress={() => props.navigation.toggleDrawer()}
+      />
+      <DrawerItem
+        label="Favorite"
+        onPress={() => props.navigation.navigate('Favorite')}
       />
       <Button
         title={'Logout'}
@@ -81,6 +86,7 @@ const HomeStack = () => {
         component={FoodDetailScreen}
         options={{headerShown: true}}
       />
+      <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
     </Stack.Navigator>
   );
 };

@@ -13,5 +13,7 @@ const FoodAction = {
     getAllFavoriteFoodFailure: 'GET_ALL_FAVORITE_FOOD_FAILURE',
 
     FoodReset: 'GET_ALL_FOOD_RESET',
+    FavoriteFoodReset: 'FAVORITE_FOOD_RESET',
+
   };
   export default FoodAction;

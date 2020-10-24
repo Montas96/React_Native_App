@@ -40,7 +40,7 @@ class FoodDetailScreen extends React.Component {
                         style={styles.icon}
                         iconStyle={{ width: 30, height: 30 }}
                         onPress={this._onPress}
-                        icon={isFavorite ? Images.heart_full: null}
+                        icon={isFavorite ? Images.heart_full : null}
                     />
                 </View>
                 <View style={styles.imageContainer} >

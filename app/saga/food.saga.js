@@ -36,8 +36,8 @@ export function* addToFavorite(api, { food }) {
 };
 export function* getAllFavoriteFood(api) {
 
-    const response = yield call(api.addToFavorite);
-
+    const response = yield call(api.getAllFavoriteFoods);
+    console.log('getAllFavoriteFood');
     if (response.ok) {
         yield put({
             type: FoodAction.getAllFavoriteFoodSuccess,

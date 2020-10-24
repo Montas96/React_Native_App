@@ -91,6 +91,14 @@ function FoodReducer(state = initialState, action) {
                 allVavoriteFoodError: action.error,
             };
             return nextState || state;
+        case FoodAction.FavoriteFoodReset:
+            nextState = {
+                ...state,
+                fetchingAllFavorites: false,
+                allVavoriteFoodError: null,
+                favorites: [],
+            };
+            return nextState;
         case FoodAction.FoodReset:
             return initialState;
         default:

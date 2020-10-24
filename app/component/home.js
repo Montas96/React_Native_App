@@ -16,7 +16,7 @@ import { Colors } from '../assets/colors';
 
 class HomeScreen extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       pageCategory: 0,
@@ -65,7 +65,7 @@ class HomeScreen extends React.Component {
 
   _renderEmpty = () => {
     return (
-      <View style={{flex: 1, justifyContent: 'center',alignItems: 'center',backgroundColor: 'red'}} >
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }} >
         {this.props.fetchingFoods ? <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
       </View>
     );
@@ -74,25 +74,32 @@ class HomeScreen extends React.Component {
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress');
   }
+
+  _getIsFavorite =(food) => {
+    return this.props.favorites.findIndex(item => {
+      return item.id === food.id;
+  }) !== -1;
+  }
   render() {
+
     return (
       <View style={styles.constainer}>
         <Text style={styles.title}> Food </Text>
         <View style={styles.listContainer} >
-        <CustomList navigation={this.props.navigation} list={this.props.categories}
-        fetching={this.props.fetchingCategories}
-        listTitle={'Categories'} />
-        <CustomList navigation={this.props.navigation} list={this.props.cuisines}
-        fetching={this.props.fetchingCuisines}
-        listTitle={'Cuisines'} />
+          <CustomList navigation={this.props.navigation} list={this.props.categories}
+            fetching={this.props.fetchingCategories}
+            listTitle={'Categories'} />
+          <CustomList navigation={this.props.navigation} list={this.props.cuisines}
+            fetching={this.props.fetchingCuisines}
+            listTitle={'Cuisines'} />
         </View>
         <FlatList
-        key={item => item.id}
-        data={this.props.foods}
-        renderItem={({item}) => <FoodScreen food={item} navigation={this.props.navigation} />}
-         // add navigation props because foodScreen is not in the navigationStack
-        ListEmptyComponent={this._renderEmpty}
-        style={{flex: 1}}
+          key={item => item.id}
+          data={this.props.foods}
+          renderItem={({ item }) => <FoodScreen food={item} navigation={this.props.navigation} isFavorite={this._getIsFavorite(item)} />}
+          // add navigation props because foodScreen is not in the navigationStack
+          ListEmptyComponent={this._renderEmpty}
+          style={{ flex: 1 }}
         />
 
       </View>
@@ -102,27 +109,29 @@ class HomeScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-      account: state.account.account,
-      login: state.login,
-      categories: state.category.categories,
-      fetchingCategories: state.category.fetchingAll,
-      cuisines: state.cuisine.cuisines,
-      fetchingCuisines: state.category.fetchingAll,
-      foods: state.food.foods,
-      fetchingFoods: state.food.fetchingAll,
+    account: state.account.account,
+    login: state.login,
+    categories: state.category.categories,
+    fetchingCategories: state.category.fetchingAll,
+    cuisines: state.cuisine.cuisines,
+    fetchingCuisines: state.category.fetchingAll,
+    foods: state.food.foods,
+    fetchingFoods: state.food.fetchingAll,
+    favorites: state.food.favorites,
+
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: ()=> dispatch({type: LoginActions.logoutRequest}),
-    getAccount: ()=> dispatch({type: AccountActions.getAccountRequest}),
-    loading: () =>  dispatch({type: LoginActions.loginLoad }),
-    getCategories: (options) => dispatch({type: CategoryActions.getAllCategoriesRequest, options}),
-    getCuisines: (options) => dispatch({type: CuisineAction.getAllCuisinesRequest, options}),
-    resetCategories: () => dispatch({type: CategoryActions.categoryReset}),
-    resetCuisines: () => dispatch({type: CuisineAction.cuisineReset}),
-    getFoods: (options) => dispatch({type: FoodAction.getAllFoodRequest , options}),
-    resetFoods: () => dispatch({type: FoodAction.FoodReset}),
+    logout: () => dispatch({ type: LoginActions.logoutRequest }),
+    getAccount: () => dispatch({ type: AccountActions.getAccountRequest }),
+    loading: () => dispatch({ type: LoginActions.loginLoad }),
+    getCategories: (options) => dispatch({ type: CategoryActions.getAllCategoriesRequest, options }),
+    getCuisines: (options) => dispatch({ type: CuisineAction.getAllCuisinesRequest, options }),
+    resetCategories: () => dispatch({ type: CategoryActions.categoryReset }),
+    resetCuisines: () => dispatch({ type: CuisineAction.cuisineReset }),
+    getFoods: (options) => dispatch({ type: FoodAction.getAllFoodRequest, options }),
+    resetFoods: () => dispatch({ type: FoodAction.FoodReset }),
   };
 };
 
