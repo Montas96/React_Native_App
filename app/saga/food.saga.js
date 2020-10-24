@@ -34,3 +34,19 @@ export function* addToFavorite(api, { food }) {
         });
     }
 };
+export function* getAllFavoriteFood(api) {
+
+    const response = yield call(api.addToFavorite);
+
+    if (response.ok) {
+        yield put({
+            type: FoodAction.getAllFavoriteFoodSuccess,
+            favorites: response.data,
+        });
+    } else {
+        yield put({
+            type: FoodAction.getAllFavoriteFoodFailure,
+            error: 'Failed to get all a favorite Foods.',
+        });
+    }
+};

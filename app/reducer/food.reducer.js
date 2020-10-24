@@ -9,6 +9,8 @@ const initialState = {
     foods: [],
     addingToFavorite: false,
     addToFavoriteError: null,
+    fetchingAllFavorites: false,
+    allVavoriteFoodError: null,
     favorites: [],
 };
 
@@ -39,7 +41,7 @@ function FoodReducer(state = initialState, action) {
                 error: action.error,
             };
             return nextState || state;
-
+        /*** Add to Favorite */
         case FoodAction.addToFavoriteRequest:
             nextState = {
                 ...state,
@@ -64,7 +66,31 @@ function FoodReducer(state = initialState, action) {
                 addToFavoriteError: action.error,
             };
             return nextState || state;
+        /** get All Favorite */
+        case FoodAction.getAllFavoriteFoodRequest:
+            nextState = {
+                ...state,
+                fetchingAllFavorites: true,
+                allVavoriteFoodError: null,
+            };
+            return nextState || state;
 
+        case FoodAction.getAllFavoriteFoodSuccess:
+            nextState = {
+                ...state,
+                favorites: action.favorites,
+                fetchingAllFavorites: false,
+                allVavoriteFoodError: null,
+            };
+            return nextState || state;
+
+        case FoodAction.getAllFavoriteFoodFailure:
+            nextState = {
+                ...state,
+                fetchingAllFavorites: false,
+                allVavoriteFoodError: action.error,
+            };
+            return nextState || state;
         case FoodAction.FoodReset:
             return initialState;
         default:

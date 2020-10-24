@@ -11,7 +11,7 @@ import { getAllCategories } from './category.saga';
 import CuisineAction from '../actions/cuisine.action';
 import { getAllCuisines } from './cuisine.saga';
 import FoodAction from '../actions/food.action';
-import { getAllFood, addToFavorite } from './food.saga';
+import { getAllFood, addToFavorite, getAllFavoriteFood } from './food.saga';
 
 const api = API.create();
 export default function* rootSaga() {
@@ -25,6 +25,7 @@ export default function* rootSaga() {
     takeLatest(CuisineAction.getAllCuisinesRequest, getAllCuisines, api),
     takeLatest(FoodAction.getAllFoodRequest, getAllFood, api),
     takeLatest(FoodAction.addToFavoriteRequest, addToFavorite, api),
+    takeLatest(FoodAction.getAllFavoriteFoodRequest, getAllFavoriteFood, api),
 
   ]);
 }

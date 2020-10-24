@@ -19,6 +19,7 @@ const create = () => {
     const getCuisines = (options) => api.get(baseUrl + 'api/cuisines', options);
     const getFoods = (options) => api.get(baseUrl + 'api/foods', options);
     const addToFavorite = (food) => api.put(baseUrl + 'api/foods/favorites', food);
+    const getAllFavoriteFoods = () => api.get(baseUrl + 'api/foods/favorites');
 
     return {
         setAuthToken,
@@ -30,6 +31,7 @@ const create = () => {
         getCuisines,
         getFoods,
         addToFavorite,
+        getAllFavoriteFoods,
     };
 };
 export default {
