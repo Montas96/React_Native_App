@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CategoryReducer from '../reducer/category.reducer';
 import CuisineReducer from '../reducer/cuisine.reducer';
 import FoodReducer from '../reducer/food.reducer';
+import OrderReducer from '../reducer/order.reducer';
 // const storage = createAsyncStorage();
 
 
@@ -37,6 +38,7 @@ const reducer = combineReducers({
   category: CategoryReducer,
   cuisine: CuisineReducer,
   food: FoodReducer,
+  order: OrderReducer,
 });
 const configureStore = () => {
   console.log('1-configure store');

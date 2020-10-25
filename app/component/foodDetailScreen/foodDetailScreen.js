@@ -9,6 +9,7 @@ import { styles } from './foodDetailStyle';
 import CustomButton from '../../shared/component/customButton';
 import IconButton from '../../shared/component/iconButton';
 import FoodAction from '../../actions/food.action';
+import { OrderAction } from '../../actions/order.action';
 
 class FoodDetailScreen extends React.Component {
     constructor(props) {
@@ -16,25 +17,33 @@ class FoodDetailScreen extends React.Component {
         this.state = {};
         // change header title
         props.navigation.setOptions({ title: props.route.params.food.name });
-        //console.log(props.route.params.food)
     }
 
     _onPress = () => {
         console.log('foodId: ', this.props.route.params.food.id);
         this.props.addToFavorite(this.props.route.params.food);
     }
-    _addToCard = (item) => {
-        console.log(item.id);
-    }
+    _addOrderLine = () => {
+        const item = this.props.route.params.food;
+        const orderLine = {
+          quantity: 1,
+          foodId: item.id,
+          foodType: item.foodTypesDTO[0] };
+          this.props.addOrderLine(orderLine);
+      }
 
     render() {
         const { food } = this.props.route.params;
+        const order = this.props.order;
         const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
         const { foodTypesDTO, ingredients, supplements } = food;
         const isFavorite = this.props.favorites.findIndex(item => {
             console.log(item.id, food.id);
             return item.id === food.id;
         }) !== -1;
+        const inOrderLines = order ? order.orderLines ? order.orderLines.findIndex(item => {
+            return item.foodId === food.id;
+        }) === -1 : false : false;
         return (
             <ScrollView style={[styles.container]}  >
                 <View style={styles.header} >
@@ -55,8 +64,8 @@ class FoodDetailScreen extends React.Component {
                     <IconButton
                         style={styles.iconCard}
                         iconStyle={{ width: 50, height: 70 }}
-                        onPress={this._addToCard}
-                        icon={Images.add_to_cart}
+                        onPress={this._addOrderLine}
+                        icon={inOrderLines ? Images.add_to_cart : Images.remove_from_cart}
                         shadowActive={true} />
                 </View>
                 <View style={styles.body} >
@@ -96,11 +105,14 @@ class FoodDetailScreen extends React.Component {
 const mapStateToProps = (state) => {
     return {
         favorites: state.food.favorites,
+        order: state.order.order,
     };
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         addToFavorite: (food) => dispatch({ type: FoodAction.addToFavoriteRequest, food }),
+        addOrderLine: (orderLine) => dispatch({type: OrderAction.addOrderLineRequest, orderLine}),
+
     };
 };
 

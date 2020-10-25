@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 import apisauce from 'apisauce';
-const baseUrl = 'https://ab77cc7d630a.ngrok.io/';
+const baseUrl = 'https://e991f9eb6f2f.ngrok.io/';
 const create = () => {
     const api =   apisauce.create({
         baseURL: undefined,
@@ -20,6 +20,7 @@ const create = () => {
     const getFoods = (options) => api.get(baseUrl + 'api/foods', options);
     const addToFavorite = (food) => api.put(baseUrl + 'api/foods/favorites', food);
     const getAllFavoriteFoods = () => api.get(baseUrl + 'api/foods/favorites');
+    const addToOrderList = (order) => api.post(baseUrl + 'api/orders',order);
 
     return {
         setAuthToken,
@@ -32,6 +33,7 @@ const create = () => {
         getFoods,
         addToFavorite,
         getAllFavoriteFoods,
+        addToOrderList,
     };
 };
 export default {

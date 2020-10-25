@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
@@ -7,6 +8,7 @@ import Images from '../../assets/images';
 import { styles } from './foodComponentStyle';
 import { Colors } from '../../assets/colors';
 import IconButton from '../../shared/component/iconButton';
+import { OrderAction } from '../../actions/order.action';
 class FoodScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -18,15 +20,23 @@ class FoodScreen extends React.Component {
   _onPress = () => {
     this.props.navigation.navigate('FoodDetail', { food: this.props.food });
   }
-  _addToCard = (item) => {
-    console.log(item.id);
+  _addOrderLine = () => {
+    const item = this.props.food;
+    const orderLine = {
+      quantity: 1,
+      foodId: item.id,
+      foodType: item.foodTypesDTO[0] };
+      this.props.addOrderLine(orderLine);
   }
 
   render() {
-    const { food, isFavorite } = this.props;
+    const { food, isFavorite, order } = this.props;
     const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
     const price = food.foodTypesDTO.length && food.foodTypesDTO[0]?.price ? food.foodTypesDTO[0]?.price : null;
     const borderColor = isFavorite ? 'red' : Colors.yellow;
+    const inOrderLines = order ? order.orderLines ? order.orderLines.findIndex(item => {
+      return item.foodId === food.id;
+  }) === -1 : false : false;
     return (
       <TouchableOpacity style={[styles.container,
       {
@@ -43,8 +53,8 @@ class FoodScreen extends React.Component {
           <IconButton
             style={styles.icon}
             iconStyle={{ width: 30, height: 30 }}
-            onPress={this._addToCard}
-            icon={Images.add_to_cart}
+            onPress={this._addOrderLine}
+            icon={inOrderLines ? Images.add_to_cart : Images.remove_from_cart}
             shadowActive={true} />
         </View>
         <View style={styles.body} >
@@ -60,10 +70,14 @@ class FoodScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    order: state.order.order,
+  };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    addOrderLine: (orderLine) => dispatch({type: OrderAction.addOrderLineRequest, orderLine}),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FoodScreen);
