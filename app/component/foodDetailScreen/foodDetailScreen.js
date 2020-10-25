@@ -27,6 +27,7 @@ class FoodDetailScreen extends React.Component {
         const item = this.props.route.params.food;
         const orderLine = {
           quantity: 1,
+          food: item,
           foodId: item.id,
           foodType: item.foodTypesDTO[0] };
           this.props.addOrderLine(orderLine);

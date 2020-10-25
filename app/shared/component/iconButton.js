@@ -1,23 +1,24 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import Metrics from '../../assets/Metrics';
-import { StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import Images from '../../assets/images';
 
-const IconButton = ({ onPress, source, icon, style, iconStyle, disabled, shadowActive = true }) => {
+const IconButton = ({ onPress, source, icon, style, iconStyle, disabled, shadowActive = true, text = null, textStyle = {} }) => {
   const styleButton = style ? style : {};
   const imageStyle = iconStyle ? iconStyle : {};
-  const sourceImage = icon ? icon : source ? {uri: source} : Images.heart_blanc;
+  const sourceImage = icon ? icon : source ? { uri: source } : Images.heart_blanc;
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={[styles.button, styleButton,shadowActive ? styles.shadow: {}]}>
-          <Image
-          source={sourceImage}
-          style={[styles.image,imageStyle]}
-          resizeMode={'contain'}
-          />
+      style={[styles.button, styleButton, shadowActive ? styles.shadow : {}]}>
+      {text ? <Text style={[styles.text, textStyle]}> {text} </Text> : null}
+      <Image
+        source={sourceImage}
+        style={[styles.image, imageStyle]}
+        resizeMode={'contain'}
+      />
     </TouchableOpacity>
   );
 };
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
+    flexDirection: 'row',
 
   },
   image: {
@@ -43,5 +45,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 2,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'left',
+    marginHorizontal: 10
   }
 });

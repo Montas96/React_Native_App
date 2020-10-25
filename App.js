@@ -10,9 +10,9 @@
  */
 
 import React, {useState} from 'react';
-import {StatusBar, Button, View} from 'react-native';
+import {StatusBar, Button} from 'react-native';
 
-import {NavigationContainer, DrawerActions} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {Provider, useDispatch} from 'react-redux';
 import Store from './app/store/configureStore';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -32,6 +32,7 @@ import {
 import LoginActions from './app/actions/loginAction';
 import FoodDetailScreen from './app/component/foodDetailScreen/foodDetailScreen';
 import FavoriteFoodScreen from './app/component/favoriteFoodScreen/favoriteFoodScreen';
+import orderScreen from './app/component/orderScreen/orderScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -49,6 +50,10 @@ function CustomDrawerContent(props) {
       <DrawerItem
         label="Favorite"
         onPress={() => props.navigation.navigate('Favorite')}
+      />
+      <DrawerItem
+        label="Order"
+        onPress={() => props.navigation.navigate('Order')}
       />
       <Button
         title={'Logout'}
@@ -87,6 +92,7 @@ const HomeStack = () => {
         options={{headerShown: true}}
       />
       <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
+      <Stack.Screen name="Order" component={orderScreen} />
     </Stack.Navigator>
   );
 };
