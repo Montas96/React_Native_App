@@ -1,10 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Images from '../../assets/images';
-import { Styles } from '../../assets/styles';
 import { styles } from './foodDetailStyle';
 import CustomButton from '../../shared/component/customButton';
 import IconButton from '../../shared/component/iconButton';
@@ -20,7 +19,6 @@ class FoodDetailScreen extends React.Component {
     }
 
     _onPress = () => {
-        console.log('foodId: ', this.props.route.params.food.id);
         this.props.addToFavorite(this.props.route.params.food);
     }
     _addOrderLine = () => {
@@ -28,7 +26,6 @@ class FoodDetailScreen extends React.Component {
         const orderLine = {
           quantity: 1,
           food: item,
-          foodId: item.id,
           foodType: item.foodTypesDTO[0] };
           this.props.addOrderLine(orderLine);
       }
@@ -39,11 +36,10 @@ class FoodDetailScreen extends React.Component {
         const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
         const { foodTypesDTO, ingredients, supplements } = food;
         const isFavorite = this.props.favorites.findIndex(item => {
-            console.log(item.id, food.id);
             return item.id === food.id;
         }) !== -1;
         const inOrderLines = order ? order.orderLines ? order.orderLines.findIndex(item => {
-            return item.foodId === food.id;
+            return item.food.id === food.id;
         }) === -1 : false : false;
         return (
             <ScrollView style={[styles.container]}  >

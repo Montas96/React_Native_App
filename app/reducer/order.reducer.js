@@ -3,8 +3,12 @@ import { OrderAction } from '../actions/order.action';
 
 const initialState = {
     order: null,
+    orders: [],
     addingOrder: false,
     addOrderError: null,
+    status: null,
+    fetchOrders: false,
+    fetchOrderError: null,
 };
 
 function OrderReducer(state = initialState, action) {
@@ -47,7 +51,7 @@ function OrderReducer(state = initialState, action) {
                 order.orderLines = [action.orderLine];
             } else {
                 const index = order.orderLines.findIndex(item => {
-                    return item.foodId === action.orderLine.foodId;
+                    return item.food.id === action.orderLine.food?.id;
                 });
                 index !== -1 ? order.orderLines.splice(index, 1) :
                     order.orderLines = [...order.orderLines, action.orderLine];
@@ -55,6 +59,42 @@ function OrderReducer(state = initialState, action) {
             nextState = {
                 ...state,
                 order: order,
+            };
+            return nextState;
+        /** get order by status */
+        case OrderAction.getOrdersByStatusRequest:
+            nextState = {
+                ...state,
+                status: action.statusId,
+                fetchOrders: true,
+                fetchOrderError: null,
+            };
+            return nextState;
+        case OrderAction.getOrdersByStatusSuccess:
+            if (state.status === 'CREATED') {
+                nextState = {
+                    ...state,
+                    order: action.orders[0],
+                    status: null,
+                    fetchOrders: false,
+                    fetchOrderError: null,
+                };
+            } else {
+                nextState = {
+                    ...state,
+                    orders: action.orders,
+                    status: null,
+                    fetchOrders: false,
+                    fetchOrderError: null,
+                };
+            }
+            return nextState;
+        case OrderAction.getOrdersByStatusFailure:
+            nextState = {
+                ...state,
+                status: null,
+                fetchOrders: false,
+                fetchOrderError: action.error,
             };
             return nextState;
         default:

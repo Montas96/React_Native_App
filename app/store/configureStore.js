@@ -25,7 +25,7 @@ const rootPersistConfig = {
     return Promise.resolve(state);
   },
   whitelist: [
-    'login','account',
+    'login','account','order',
   ],
 };
 // combine redicers

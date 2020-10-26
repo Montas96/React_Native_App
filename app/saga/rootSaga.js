@@ -13,7 +13,7 @@ import { getAllCuisines } from './cuisine.saga';
 import FoodAction from '../actions/food.action';
 import { getAllFood, addToFavorite, getAllFavoriteFood } from './food.saga';
 import { OrderAction } from '../actions/order.action';
-import { addOrder } from './order.saga';
+import { addOrder, getOrder } from './order.saga';
 
 const api = API.create();
 export default function* rootSaga() {
@@ -29,6 +29,7 @@ export default function* rootSaga() {
     takeLatest(FoodAction.addToFavoriteRequest, addToFavorite, api),
     takeLatest(FoodAction.getAllFavoriteFoodRequest, getAllFavoriteFood, api),
     takeLatest(OrderAction.addOrderRequest, addOrder, api),
+    takeLatest(OrderAction.getOrdersByStatusRequest, getOrder, api),
 
   ]);
 }

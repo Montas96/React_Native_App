@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {ScrollView, Text, StyleSheet, FlatList, View} from 'react-native';
+import {Text, StyleSheet, FlatList, View} from 'react-native';
 import {connect} from 'react-redux';
 import {Styles} from '../../assets/styles';
 import OrderLine from './orderLine';
@@ -8,14 +9,23 @@ import IconButton from '../../shared/component/iconButton';
 import Images from '../../assets/images';
 import Metrics from '../../assets/Metrics';
 import { Colors } from '../../assets/colors';
+import { OrderAction } from '../../actions/order.action';
 
 class OrderScreen extends React.Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.props.getOrder('CREATED');
+  }
+  componentDidUpdate() {
+    const {order, fetchOrder,fetchOrderError} = this.props;
+  }
 
   _passOrder = () => {
-      console.log('pass Order')
+    let order = {...this.props.order};
+    order.orderStatusId = 'VALIDATED';
+      this.props.addOrder(order);
   }
   _renderEmpty = () => {
     return (
@@ -28,12 +38,14 @@ class OrderScreen extends React.Component {
       let total = 0;
       orderLines.forEach(item => {
           total += item.quantity * item.foodType.price;
+          total += total *19/100;
       });
       if (!orderLines.length){
         return null;
       }
     return (
       <View style={styles.footer}>
+        <Text style={styles.title1}> {'TVA: 19%'} </Text>
         <Text style={styles.title1}> {'Total: ' + total} </Text>
         <IconButton
             style={styles.icon}
@@ -67,10 +79,17 @@ class OrderScreen extends React.Component {
 const mapStateToProps = (state) => {
   return {
     order: state.order.order,
+    addingOrder: state.order.addingOrder,
+    addOrderError: state.order.addOrderError,
+    fetchOrder: state.order.fetchOrders,
+    fetchOrderError: state.order.fetchOrderError,
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    addOrder: (order) => dispatch({type: OrderAction.addOrderRequest, order}),
+    getOrder: (statusId) => dispatch({type: OrderAction.getOrdersByStatusRequest, statusId}),
+  };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
 const styles = StyleSheet.create({

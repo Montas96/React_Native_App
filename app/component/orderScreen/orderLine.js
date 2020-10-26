@@ -7,7 +7,7 @@ const OrderLine = ({order}) => {
   const {food} = order;
   const source = food?.media[0] ? {uri: food.media[0]} : Images.fastfood;
 
-  console.log(food);
+  // console.log(food);
   return (
     <View style={styles.container}>
       <Image source={source} style={styles.image} resizeMode={'contain'} />

@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     textAlign: 'left',
-    marginHorizontal: 10
-  }
+    marginHorizontal: 10,
+  },
 });

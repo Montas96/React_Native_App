@@ -16,7 +16,6 @@ export function* createAccount(api, { user }) {
 export function* getAccount(api) {
   const response = yield call(api.getAccount);
   console.log('6-get account request');
-
   if (response.ok) {
     console.log('6-get account success');
     yield put({ type: AccountActions.getAccountSuccess, account: response.data });

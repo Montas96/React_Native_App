@@ -1,4 +1,3 @@
-/* eslint-disable no-return-assign */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
@@ -13,8 +12,6 @@ class FoodScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-
-    // console.log(props)
   }
 
   _onPress = () => {
@@ -25,7 +22,6 @@ class FoodScreen extends React.Component {
     const orderLine = {
       quantity: 1,
       food: item,
-      foodId: item.id,
       foodType: item.foodTypesDTO[0] };
       this.props.addOrderLine(orderLine);
   }
@@ -36,14 +32,13 @@ class FoodScreen extends React.Component {
     const price = food.foodTypesDTO.length && food.foodTypesDTO[0]?.price ? food.foodTypesDTO[0]?.price : null;
     const borderColor = isFavorite ? 'red' : Colors.yellow;
     const inOrderLines = order ? order.orderLines ? order.orderLines.findIndex(item => {
-      return item.foodId === food.id;
-  }) === -1 : false : false;
+      return item.food.id === food.id;
+  }) !== -1 : false : false;
     return (
       <TouchableOpacity style={[styles.container,
       {
         borderWidth: 2,
         borderColor: borderColor,
-
       }]}
         onPress={this._onPress} >
         <View >
@@ -55,7 +50,7 @@ class FoodScreen extends React.Component {
             style={styles.icon}
             iconStyle={{ width: 30, height: 30 }}
             onPress={this._addOrderLine}
-            icon={inOrderLines ? Images.add_to_cart : Images.remove_from_cart}
+            icon={inOrderLines ? Images.remove_from_cart :  Images.add_to_cart}
             shadowActive={true} />
         </View>
         <View style={styles.body} >
