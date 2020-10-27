@@ -20,7 +20,7 @@ class OrderLineModal extends React.Component {
     componentDidMount() {
         let list = [];
         this.props.order.orderLines[this.props.index].food.foodTypesDTO.forEach(element => {
-            list.push({ element, value: element.typeId === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].typeId });
+            list.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].type.id });
         });
         this.setState({ foodTypesList: list });
     }
