@@ -61,6 +61,13 @@ function OrderReducer(state = initialState, action) {
                 order: order,
             };
             return nextState;
+        /** edit order */
+        case OrderAction.editOrder:
+            nextState = {
+                ...state,
+                order: action.order,
+            };
+            return nextState;
         /** get order by status */
         case OrderAction.getOrdersByStatusRequest:
             nextState = {
@@ -71,7 +78,7 @@ function OrderReducer(state = initialState, action) {
             };
             return nextState;
         case OrderAction.getOrdersByStatusSuccess:
-            if (state.status === 'CREATED') {
+            if (state.status === 'CREATED' && action.orders.length) {
                 nextState = {
                     ...state,
                     order: action.orders[0],
@@ -97,6 +104,8 @@ function OrderReducer(state = initialState, action) {
                 fetchOrderError: action.error,
             };
             return nextState;
+        case OrderAction.resetAll:
+            return initialState;
         default:
             return initialState;
     }

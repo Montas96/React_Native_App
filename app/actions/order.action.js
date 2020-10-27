@@ -5,10 +5,12 @@ export const OrderAction = {
   addOrderFailure: 'ADD_ORDER_FAILURE',
 
   addOrderLineRequest: 'ADD_ORDER_LINE_REQUEST',
-
+  editOrder: 'EDIT_ORDER',
   getOrdersByStatusRequest: 'GET_ORDERS_BY_STATUS_REQUEST',
   getOrdersByStatusSuccess: 'GET_ORDERS_BY_STATUS_SUCESS',
   getOrdersByStatusFailure: 'GET_ORDERS_BY_STATUS_FAILURE',
 
   resetOrder: 'RESET_ORDER',
+  resetAll: 'RESET_All',
+
 };

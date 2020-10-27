@@ -1,31 +1,36 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {Text, StyleSheet, FlatList, View} from 'react-native';
-import {connect} from 'react-redux';
-import {Styles} from '../../assets/styles';
+import { Text, StyleSheet, FlatList, View } from 'react-native';
+import { connect } from 'react-redux';
+import { Styles } from '../../assets/styles';
 import OrderLine from './orderLine';
 import IconButton from '../../shared/component/iconButton';
 import Images from '../../assets/images';
 import Metrics from '../../assets/Metrics';
 import { Colors } from '../../assets/colors';
 import { OrderAction } from '../../actions/order.action';
+import OrderLineModal from './orderLineModal';
 
 class OrderScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showModal: false,
+      orderLineIndex: null,
+    }
   }
   componentDidMount() {
     this.props.getOrder('CREATED');
   }
   componentDidUpdate() {
-    const {order, fetchOrder,fetchOrderError} = this.props;
+    const { order, fetchOrder, fetchOrderError } = this.props;
   }
 
   _passOrder = () => {
-    let order = {...this.props.order};
+    let order = { ...this.props.order };
     order.orderStatusId = 'VALIDATED';
-      this.props.addOrder(order);
+    this.props.addOrder(order);
   }
   _renderEmpty = () => {
     return (
@@ -35,40 +40,49 @@ class OrderScreen extends React.Component {
     );
   };
   _renderFooter = (orderLines) => {
-      let total = 0;
-      orderLines.forEach(item => {
-          total += item.quantity * item.foodType.price;
-          total += total *19/100;
-      });
-      if (!orderLines.length){
-        return null;
-      }
+    let total = 0;
+    orderLines.forEach(item => {
+      total += item.quantity * item.foodType.price;
+      total += total * 19 / 100;
+    });
+    if (!orderLines.length) {
+      return null;
+    }
     return (
       <View style={styles.footer}>
         <Text style={styles.title1}> {'TVA: 19%'} </Text>
         <Text style={styles.title1}> {'Total: ' + total} </Text>
         <IconButton
-            style={styles.icon}
-            iconStyle={{ width: 30, height: 30 }}
-            onPress={this._passOrder}
-            icon={Images.checklist}
-            shadowActive={true}
-            text={'Order now'} />
+          style={styles.icon}
+          iconStyle={{ width: 30, height: 30 }}
+          onPress={this._passOrder}
+          icon={Images.checklist}
+          shadowActive={true}
+          text={'Order now'} />
       </View>
     );
   };
 
+  _showModal = (index) => {
+    this.setState({ showModal: true, orderLineIndex: index });
+  }
+
   render() {
-    const {order} = this.props;
+    const { order } = this.props;
     const orderLines = order ? order.orderLines : [];
     return (
       <View style={styles.constainer}>
+        {this.state.showModal ? <OrderLineModal index={this.state.orderLineIndex}
+        isVisible={this.state.showModal}
+        hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
+        /> : null}
+
         <Text style={Styles.title}> Order </Text>
         <Text style={styles.title1}> Order Lines </Text>
         <FlatList
           data={orderLines}
           keyExtractor={(item, index) => index}
-          renderItem={({item}) => <OrderLine order={item} /> }
+          renderItem={({ item, index }) => <OrderLine orderLine={item} showModal={this._showModal} index={index} />}
           ListEmptyComponent={this._renderEmpty}
           ListFooterComponent={() => this._renderFooter(orderLines)}
         />
@@ -87,8 +101,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    addOrder: (order) => dispatch({type: OrderAction.addOrderRequest, order}),
-    getOrder: (statusId) => dispatch({type: OrderAction.getOrdersByStatusRequest, statusId}),
+    addOrder: (order) => dispatch({ type: OrderAction.addOrderRequest, order }),
+    getOrder: (statusId) => dispatch({ type: OrderAction.getOrdersByStatusRequest, statusId }),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
@@ -103,17 +117,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   footer: {
-      flex :1,
-      marginVertical: 10,
+    flex: 1,
+    marginVertical: 10,
   },
   icon: {
     flex: 1,
     // width: Metrics.width_15,
     height: Metrics.width_15,
     borderRadius: 5,
-    margin:15,
+    margin: 15,
     // borderWidth: 1,
-    alignSelf:'center',
+    alignSelf: 'center',
     justifyContent: 'center',
     width: Metrics.width_full - 30,
     backgroundColor: Colors.yellow,

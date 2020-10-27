@@ -1,25 +1,29 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import Images from '../../assets/images';
 
-const OrderLine = ({order}) => {
-  const {food} = order;
+const OrderLine = ({orderLine, showModal,index}) => {
+  const {food} = orderLine;
   const source = food?.media[0] ? {uri: food.media[0]} : Images.fastfood;
 
-  // console.log(food);
+  const _onPress = () => {
+    console.log(index)
+    showModal(index);
+  };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container}
+    onPress={_onPress}>
       <Image source={source} style={styles.image} resizeMode={'contain'} />
       <View style={styles.body}>
         <Text style={styles.name}>{food.name}</Text>
-        <Text style={styles.name}>{order.foodType.type.id}</Text>
+        <Text style={styles.name}>{orderLine.foodType.type.id}</Text>
       </View>
       <View style={styles.quantity}>
-        <Text style={styles.name}> {order.quantity} </Text>
-        <Text style={styles.name}> {order.foodType.price + ' DT'} </Text>
+        <Text style={styles.name}> {orderLine.quantity} </Text>
+        <Text style={styles.name}> {orderLine.foodType.price + ' DT'} </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default OrderLine;

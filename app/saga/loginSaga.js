@@ -3,6 +3,7 @@
 import { put, call, select } from 'redux-saga/effects';
 import LoginActions from '../actions/loginAction';
 import AccountActions from '../actions/accountActions';
+import { OrderAction } from '../actions/order.action';
 
 export function* login(api, { value }) {
 
@@ -33,4 +34,6 @@ export function* loginLoad(api) {
 export function* logout(api) {
     yield call(api.removeAuthToken); // remove token from header
     yield put({ type: AccountActions.accountReset }); // reset account
-}
+    yield put({ type: OrderAction.resetAll }); // reset order
+
+  }
