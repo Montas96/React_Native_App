@@ -8,7 +8,6 @@ const OrderLine = ({orderLine, showModal,index}) => {
   const source = food?.media[0] ? {uri: food.media[0]} : Images.fastfood;
 
   const _onPress = () => {
-    console.log(index)
     showModal(index);
   };
   return (

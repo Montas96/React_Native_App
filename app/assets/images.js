@@ -15,5 +15,9 @@ const Images = {
   add_to_cart: require('./images/add-to-cart.png'),
   remove_from_cart: require('./images/remove-from-cart.png'),
   checklist: require('./images/checklist.png'),
+  plus: require('./images/plus.png'),
+  minus: require('./images/minus.png'),
+  delete: require('./images/delete.png'),
+
 };
 export default Images;
