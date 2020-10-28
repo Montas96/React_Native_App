@@ -42,16 +42,33 @@ class OrderScreen extends React.Component {
   _renderFooter = (orderLines) => {
     let total = 0;
     orderLines.forEach(item => {
-      total += item.quantity * item.foodType.price;
-      total += total * 19 / 100;
+      let supplementsPrice = 0;
+      if (item.supplements.length) {
+        item.supplements.forEach(element => {
+          supplementsPrice += element.price;
+        });
+      }
+      total += item.quantity * (item.foodType.price + supplementsPrice);
     });
+    let totalHT = total;
+    total += total * 12 / 100;
     if (!orderLines.length) {
       return null;
     }
     return (
       <View style={styles.footer}>
-        <Text style={styles.title1}> {'TVA: 19%'} </Text>
-        <Text style={styles.title1}> {'Total: ' + total} </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.title1}> {'Total HT: '} </Text>
+          <Text style={styles.title1}> {totalHT + ' DT'} </Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.title1}> {'TVA: '} </Text>
+          <Text style={styles.title1}> {'12%'} </Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.title1}> {'Total: '} </Text>
+          <Text style={styles.title1}> {total + ' DT'} </Text>
+        </View>
         <IconButton
           style={styles.icon}
           iconStyle={{ width: 30, height: 30 }}
@@ -73,8 +90,8 @@ class OrderScreen extends React.Component {
     return (
       <View style={styles.constainer}>
         {this.state.showModal ? <OrderLineModal index={this.state.orderLineIndex}
-        isVisible={this.state.showModal}
-        hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
+          isVisible={this.state.showModal}
+          hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
         /> : null}
 
         <Text style={Styles.title}> Order </Text>
@@ -111,6 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title1: {
+    width: 100,
     fontSize: 20,
     fontWeight: '600',
     textAlign: 'left',

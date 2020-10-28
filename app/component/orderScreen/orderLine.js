@@ -4,9 +4,8 @@ import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import Images from '../../assets/images';
 
 const OrderLine = ({orderLine, showModal,index}) => {
-  const {food} = orderLine;
+  const {food, supplements} = orderLine;
   const source = food?.media[0] ? {uri: food.media[0]} : Images.fastfood;
-
   const _onPress = () => {
     showModal(index);
   };
@@ -17,10 +16,21 @@ const OrderLine = ({orderLine, showModal,index}) => {
       <View style={styles.body}>
         <Text style={styles.name}>{food.name}</Text>
         <Text style={styles.name}>{orderLine.foodType.type.id}</Text>
+        {
+          supplements.length ? supplements.map(element => (
+            <Text style={styles.name}>{element.name}</Text>
+          )) : null
+        }
+
       </View>
       <View style={styles.quantity}>
         <Text style={styles.name}> {orderLine.quantity} </Text>
         <Text style={styles.name}> {orderLine.foodType.price + ' DT'} </Text>
+        {
+          supplements.length ? supplements.map(element => (
+            <Text style={styles.name}>{element.price + ' DT'}</Text>
+          )) : null
+        }
       </View>
     </TouchableOpacity>
   );

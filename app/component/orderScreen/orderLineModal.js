@@ -18,52 +18,80 @@ class OrderLineModal extends React.Component {
             orderLines: [this.props.order.orderLines[props.index]],
             foodTypesList: [],
             quantity: this.props.order.orderLines[props.index].quantity,
-            newOrderLines: [],
+            supplementDTOS: [],
         };
     }
     componentDidMount() {
-        let list = [];
+        let listType = [];
+        let listSupplement = [];
         this.props.order.orderLines[this.props.index].food.foodTypesDTO.forEach(element => {
-            list.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].type.id });
+            listType.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].type.id });
         });
-        this.setState({ foodTypesList: [list] });
+        this.props.order.orderLines[this.props.index].food.supplements.forEach(element => {
+            if (this.props.order.orderLines[this.props.index].supplements.length) {
+                const index = this.props.order.orderLines[this.props.index].supplements.findIndex(item => {
+                    return item.id === element.id;
+                });
+                if (index === -1) {
+                    listSupplement.push({ element, value: false });
+                } else {
+                    listSupplement.push({ element, value: true });
+                }
+            } else {
+                listSupplement.push({ element, value: false });
+
+            }
+        });
+        this.setState({ foodTypesList: [listType], supplementDTOS: [listSupplement] });
     }
     _hideModal = () => {
         this.props.hideModal();
     }
     toggleCheckBox = (foodType, index) => {
         let foodTypesList = [...this.state.foodTypesList];
-        let list = [];
         foodTypesList[index].forEach(element => {
             if (element.element.type.id === foodType.type.id) {
-                list.push({ element: element.element, value: true });
+                element.value = true;
             } else {
-                list.push({ element: element.element, value: false });
+                element.value = false;
             }
         });
-        foodTypesList[index] = list;
         this.setState({ foodTypesList: foodTypesList });
+    }
+    toggleSupplementsCheckBox = (supplement, index, value) => {
+        let supplementDTOS = [...this.state.supplementDTOS];
+        supplementDTOS[index].forEach(element => {
+            if (element.element.id === supplement.id) {
+                element.value = value
+            }
+        });
+        this.setState({ supplementDTOS: supplementDTOS });
     }
     _edit = () => {
         let order = { ...this.props.order };
         let orderLines = [...order.orderLines];
-        orderLines.splice(this.props.index,1);
+        orderLines.splice(this.props.index, 1);
 
-        this.state.orderLines.forEach( (item, index) => {
+        this.state.orderLines.forEach((item, index) => {
             let selectedFoodType;
             this.state.foodTypesList[index].forEach(element => {
                 if (element.value) {
                     selectedFoodType = element.element;
                 }
             });
+            let supplementDTOS = [];
+            this.state.supplementDTOS[index].forEach(element => {
+                if (element.value) {
+                    supplementDTOS.push(element.element);
+                }
+            });
             orderLines.push({
-               ...item,
-               foodType: selectedFoodType,
-               quantity: 1
-            })
-            // orderLines[index] = item;
-            // orderLines[index].foodType = selectedFoodType;
-            // orderLines[index].quantity = 1;
+                ...item,
+                foodType: selectedFoodType,
+                quantity: 1,
+                supplements: supplementDTOS,
+            });
+
         });
 
         order.orderLines = orderLines;
@@ -75,19 +103,28 @@ class OrderLineModal extends React.Component {
         newOrderLines.push(this.state.orderLines[0]);
         let foodTypesList = [...this.state.foodTypesList];
         foodTypesList.push(this.state.foodTypesList[0]);
-        this.setState({ quantity: this.state.quantity + 1, orderLines: newOrderLines, foodTypesList });
+        let supplementDTOS = [...this.state.supplementDTOS];
+        supplementDTOS.push(this.state.supplementDTOS[0]);
+        this.setState({ quantity: this.state.quantity + 1, orderLines: newOrderLines, foodTypesList, supplementDTOS });
     }
     _minusQuantity = () => {
+        if (this.state.quantity === 1) {
+            return;
+        }
         let orderLines = [...this.state.orderLines];
         orderLines.pop();
-        this.state.quantity === 1 ? null : this.setState({ quantity: this.state.quantity - 1,orderLines });
+        let supplementDTOS = [...this.state.supplementDTOS];
+        supplementDTOS.push();
+        let foodTypesList = [...this.state.foodTypesList];
+        foodTypesList.pop();
+        this.setState({ quantity: this.state.quantity - 1, orderLines, supplementDTOS, foodTypesList });
     }
 
     RenderLine = ({ line, index }) => {
         const source = line.food?.media[0] ? { uri: line.food.media[0] } : Images.fastfood;
         const borderWidth = index > 0 ? 1 : 0;
         return (
-            <View style={[styles.container,{borderTopWidth: borderWidth}]}>
+            <View style={[styles.container, { borderTopWidth: borderWidth }]}>
                 <Image source={source} style={styles.image} resizeMode={'contain'} />
                 <View style={styles.body}>
 
@@ -103,6 +140,20 @@ class OrderLineModal extends React.Component {
                                 />
                                 <Text style={[styles.name, { width: 100 }]}>{item.element.price + ' DT'}</Text>
 
+                            </View>
+                        )) : null
+                    }
+                    <Text style={styles.name}>Supplements: </Text>
+                    {
+                        this.state.supplementDTOS.length ? this.state.supplementDTOS[index].map(item => (
+                            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                                <Text style={[styles.name, { width: 100, flex: 1 }]}>{item.element.name}</Text>
+                                <CheckBox
+                                    disabled={false}
+                                    value={item.value}
+                                    onValueChange={(newValue) => this.toggleSupplementsCheckBox(item.element, index, newValue)}
+                                />
+                                <Text style={[styles.name, { width: 100 }]}>{item.element.price + ' DT'}</Text>
                             </View>
                         )) : null
                     }

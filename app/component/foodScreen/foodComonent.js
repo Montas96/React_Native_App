@@ -22,7 +22,9 @@ class FoodScreen extends React.Component {
     const orderLine = {
       quantity: 1,
       food: item,
-      foodType: item.foodTypesDTO[0] };
+      foodType: item.foodTypesDTO[0],
+      supplements: [],
+     };
       this.props.addOrderLine(orderLine);
   }
 
