@@ -66,31 +66,41 @@ class OrderLineModal extends React.Component {
     }
     toggleCheckBox = (foodType, index) => {
         let foodTypesList = [...this.state.foodTypesList];
+        let list = [];
         foodTypesList[index].forEach(element => {
             if (element.element.type.id === foodType.type.id) {
-                element.value = true;
+                list.push({element: element.element, value: true});
             } else {
-                element.value = false;
+                list.push({element: element.element, value: false});
             }
         });
+        foodTypesList[index] = list;
         this.setState({ foodTypesList: foodTypesList });
     }
     toggleSupplementsCheckBox = (supplement, index, value) => {
         let supplementDTOS = [...this.state.supplementDTOS];
+        let list = [];
         supplementDTOS[index].forEach(element => {
             if (element.element.id === supplement.id) {
-                element.value = value;
+                list.push({element:element.element  , value});
+            } else {
+                list.push({element: element.element , value: element.value});
             }
         });
+        supplementDTOS[index] = list;
         this.setState({ supplementDTOS: supplementDTOS });
     }
     toggleIngredientCheckBox = (ingredient, index, value) => {
         let ingredientsDTO = [...this.state.ingredientsDTO];
+        let list = [];
         ingredientsDTO[index].forEach(element => {
             if (element.element.id === ingredient.id) {
-                element.value = value;
+                list.push({element:element.element  , value});
+            } else {
+                list.push({element: element.element , value: element.value});
             }
         });
+        ingredientsDTO[index] = list;
         this.setState({ ingredientsDTO });
     }
     _edit = () => {
