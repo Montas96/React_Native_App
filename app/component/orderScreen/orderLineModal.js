@@ -27,7 +27,11 @@ class OrderLineModal extends React.Component {
         let listSupplement = [];
         let listIngredient = [];
         this.props.order.orderLines[this.props.index].food.foodTypesDTO.forEach(element => {
-            listType.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].type.id });
+            if(this.props.order.orderLines[this.props.index].foodType){
+                listType.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].foodType.type.id });
+            }else {
+                listType.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].type.id });
+            }
         });
         this.props.order.orderLines[this.props.index].food.supplements.forEach(element => {
             if (this.props.order.orderLines[this.props.index].supplements.length) {
@@ -170,7 +174,6 @@ class OrderLineModal extends React.Component {
     RenderLine = ({ line, index }) => {
         const source = line.food?.media[0] ? { uri: line.food.media[0] } : Images.fastfood;
         const borderWidth = index > 0 ? 1 : 0;
-        console.log(index, this.state.ingredientsDTO[index])
         return (
             <View style={[styles.container, { borderTopWidth: borderWidth }]}>
                 <Image source={source} style={styles.image} resizeMode={'contain'} />
