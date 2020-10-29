@@ -19,11 +19,13 @@ class OrderLineModal extends React.Component {
             foodTypesList: [],
             quantity: this.props.order.orderLines[props.index].quantity,
             supplementDTOS: [],
+            ingredientsDTO:[],
         };
     }
     componentDidMount() {
         let listType = [];
         let listSupplement = [];
+        let listIngredient = [];
         this.props.order.orderLines[this.props.index].food.foodTypesDTO.forEach(element => {
             listType.push({ element, value: element.type.id === this.props.order.orderLines[this.props.index].food.foodTypesDTO[0].type.id });
         });
@@ -42,7 +44,22 @@ class OrderLineModal extends React.Component {
 
             }
         });
-        this.setState({ foodTypesList: [listType], supplementDTOS: [listSupplement] });
+        this.props.order.orderLines[this.props.index].food.ingredients.forEach(element => {
+            if (this.props.order.orderLines[this.props.index].ingredients.length) {
+                const index = this.props.order.orderLines[this.props.index].ingredients.findIndex(item => {
+                    return item.id === element.id;
+                });
+                if (index === -1) {
+                    listIngredient.push({ element, value: false });
+                } else {
+                    listIngredient.push({ element, value: true });
+                }
+            } else {
+                listIngredient.push({ element, value: false });
+
+            }
+        });
+        this.setState({ foodTypesList: [listType], supplementDTOS: [listSupplement], ingredientsDTO: [listIngredient] });
     }
     _hideModal = () => {
         this.props.hideModal();
@@ -62,10 +79,19 @@ class OrderLineModal extends React.Component {
         let supplementDTOS = [...this.state.supplementDTOS];
         supplementDTOS[index].forEach(element => {
             if (element.element.id === supplement.id) {
-                element.value = value
+                element.value = value;
             }
         });
         this.setState({ supplementDTOS: supplementDTOS });
+    }
+    toggleIngredientCheckBox = (ingredient, index, value) => {
+        let ingredientsDTO = [...this.state.ingredientsDTO];
+        ingredientsDTO[index].forEach(element => {
+            if (element.element.id === ingredient.id) {
+                element.value = value;
+            }
+        });
+        this.setState({ ingredientsDTO });
     }
     _edit = () => {
         let order = { ...this.props.order };
@@ -85,11 +111,18 @@ class OrderLineModal extends React.Component {
                     supplementDTOS.push(element.element);
                 }
             });
+            let ingredientsDTO = [];
+            this.state.ingredientsDTO[index].forEach(element => {
+                if (element.value) {
+                    ingredientsDTO.push(element.element);
+                }
+            });
             orderLines.push({
                 ...item,
                 foodType: selectedFoodType,
                 quantity: 1,
                 supplements: supplementDTOS,
+                ingredients: ingredientsDTO,
             });
 
         });
@@ -105,7 +138,9 @@ class OrderLineModal extends React.Component {
         foodTypesList.push(this.state.foodTypesList[0]);
         let supplementDTOS = [...this.state.supplementDTOS];
         supplementDTOS.push(this.state.supplementDTOS[0]);
-        this.setState({ quantity: this.state.quantity + 1, orderLines: newOrderLines, foodTypesList, supplementDTOS });
+        let ingredientsDTO = [...this.state.ingredientsDTO];
+        ingredientsDTO.push(this.state.ingredientsDTO[0]);
+        this.setState({ quantity: this.state.quantity + 1, orderLines: newOrderLines, foodTypesList, supplementDTOS, ingredientsDTO});
     }
     _minusQuantity = () => {
         if (this.state.quantity === 1) {
@@ -117,12 +152,15 @@ class OrderLineModal extends React.Component {
         supplementDTOS.push();
         let foodTypesList = [...this.state.foodTypesList];
         foodTypesList.pop();
-        this.setState({ quantity: this.state.quantity - 1, orderLines, supplementDTOS, foodTypesList });
+        let ingredientsDTO = [...this.state.ingredientsDTO];
+        ingredientsDTO.pop();
+        this.setState({ quantity: this.state.quantity - 1, orderLines, supplementDTOS, foodTypesList, ingredientsDTO });
     }
 
     RenderLine = ({ line, index }) => {
         const source = line.food?.media[0] ? { uri: line.food.media[0] } : Images.fastfood;
         const borderWidth = index > 0 ? 1 : 0;
+        console.log(index, this.state.ingredientsDTO[index])
         return (
             <View style={[styles.container, { borderTopWidth: borderWidth }]}>
                 <Image source={source} style={styles.image} resizeMode={'contain'} />
@@ -143,6 +181,19 @@ class OrderLineModal extends React.Component {
                             </View>
                         )) : null
                     }
+                    <Text style={styles.name}>Ingredients: </Text>
+                    {
+                        this.state.ingredientsDTO.length ? this.state.ingredientsDTO[index].map(item => (
+                            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                                <Text style={[styles.name, { width: 100, flex: 1 }]}>{item.element.name}</Text>
+                                <CheckBox
+                                    disabled={false}
+                                    value={item.value}
+                                    onValueChange={(newValue) => this.toggleIngredientCheckBox(item.element, index, newValue)}
+                                />
+                            </View>
+                        )) : null
+                    }
                     <Text style={styles.name}>Supplements: </Text>
                     {
                         this.state.supplementDTOS.length ? this.state.supplementDTOS[index].map(item => (
@@ -159,7 +210,7 @@ class OrderLineModal extends React.Component {
                     }
                 </View>
             </View>
-        )
+        );
     }
 
     render() {
