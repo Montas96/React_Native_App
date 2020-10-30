@@ -24,7 +24,8 @@ function OrderReducer(state = initialState, action) {
         case OrderAction.addOrderSuccess:
             nextState = {
                 ...state,
-                order: action.order,
+                order: null,
+                orders: [action.order],
                 addingOrder: false,
                 addOrderError: null,
             };

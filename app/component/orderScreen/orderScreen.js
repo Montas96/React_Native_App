@@ -18,7 +18,7 @@ class OrderScreen extends React.Component {
     this.state = {
       showModal: false,
       orderLineIndex: null,
-    }
+    };
   }
   componentDidMount() {
     this.props.getOrder('CREATED');
@@ -30,12 +30,21 @@ class OrderScreen extends React.Component {
   _passOrder = () => {
     let order = { ...this.props.order };
     order.orderStatusId = 'VALIDATED';
+    this.props.navigation.navigate('Address',{order: order});
+    // this.props.addOrder(order);
+  }
+  _save = () => {
+    let order = { ...this.props.order };
+    order.orderStatusId = 'CREATED';
     this.props.addOrder(order);
+  }
+  _reset = () => {
+    this.props.resetOrder();
   }
   _renderEmpty = () => {
     return (
-      <View>
-        <Text> no order found </Text>
+      <View style={{ flex: 1, margin: 20 }}>
+        <Text> No order found </Text>
       </View>
     );
   };
@@ -94,8 +103,24 @@ class OrderScreen extends React.Component {
           hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
         /> : null}
 
-        <Text style={Styles.title}> Order </Text>
-        <Text style={styles.title1}> Order Lines </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center' }}>
+        {order ? <IconButton
+            style={styles.iconSave}
+            iconStyle={{ width: 20, height: 20 }}
+            onPress={this._reset}
+            icon={Images.delete}
+            shadowActive={false}
+            text={null} /> : null}
+          <Text style={Styles.title}> Order </Text>
+          {order ? <IconButton
+            style={styles.iconSave}
+            iconStyle={{ width: 20, height: 20 }}
+            onPress={this._save}
+            icon={Images.save}
+            shadowActive={false}
+            text={null} /> : null}
+        </View>
+        <Text style={styles.title0}> Order Lines </Text>
         <FlatList
           data={orderLines}
           keyExtractor={(item, index) => index}
@@ -120,12 +145,19 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addOrder: (order) => dispatch({ type: OrderAction.addOrderRequest, order }),
     getOrder: (statusId) => dispatch({ type: OrderAction.getOrdersByStatusRequest, statusId }),
+    resetOrder: () => dispatch({ type: OrderAction.resetOrder }),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
 const styles = StyleSheet.create({
   constainer: {
     flex: 1,
+  },
+  title0: {
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'left',
+    marginLeft: 10,
   },
   title1: {
     width: 100,
@@ -149,5 +181,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: Metrics.width_full - 30,
     backgroundColor: Colors.yellow,
+  },
+  iconSave: {
+    flex: 1,
+    height: Metrics.width_10,
+    borderRadius: 5,
+    margin: 15,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: Metrics.width_full - 30,
+    backgroundColor: 'transparent',
   },
 });

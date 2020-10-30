@@ -33,6 +33,7 @@ import LoginActions from './app/actions/loginAction';
 import FoodDetailScreen from './app/component/foodDetailScreen/foodDetailScreen';
 import FavoriteFoodScreen from './app/component/favoriteFoodScreen/favoriteFoodScreen';
 import orderScreen from './app/component/orderScreen/orderScreen';
+import addressScreen from './app/component/orderScreen/addressScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -93,6 +94,8 @@ const HomeStack = () => {
       />
       <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
       <Stack.Screen name="Order" component={orderScreen} />
+      <Stack.Screen name="Address" component={addressScreen} />
+
     </Stack.Navigator>
   );
 };

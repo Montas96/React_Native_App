@@ -12,6 +12,10 @@ const Metrics = {
     width_20: Dimensions.get('screen').width * 0.2,
     width_22: Dimensions.get('screen').width * 0.22,
     width_30: Dimensions.get('screen').width * 0.3,
+    width_70: Dimensions.get('screen').width * 0.7,
+    width_60: Dimensions.get('screen').width * 0.6,
+
     height_full: Dimensions.get('screen').height,
+    
   };
   export default Metrics;

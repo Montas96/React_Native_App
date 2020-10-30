@@ -18,6 +18,8 @@ const Images = {
   plus: require('./images/plus.png'),
   minus: require('./images/minus.png'),
   delete: require('./images/delete.png'),
+  save: require('./images/save.png'),
+  map_position: require('./images/map-position.png'),
 
 };
 export default Images;
