@@ -25,12 +25,15 @@ class AddressScreen extends React.Component {
             longitude: null,
             latitude: null,
             phone: '',
+            alertType: null,
         };
     }
     componentDidMount() {
     }
-    componentDidUpdate() {
-
+    componentDidUpdate(prevProps) {
+        if (prevProps.addingOrder && !this.props.addingOrder){
+            this.setState({alertType: 'SUCCESS', alertVisiblity: true, alertMessage: 'Your order has been created. \n You will be notified ' });
+        }
     }
 
     _passOrder = () => {
@@ -53,30 +56,32 @@ class AddressScreen extends React.Component {
     }
 
     _setCoordonations = ({ coords }) => {
-        console.log(coords.accuracy)
         this.setState({ accuracy: coords.accuracy, latitude: coords.latitude, longitude: coords.longitude, atitude: coords.atitude })
     }
 
     _showModal = (code) => {
         if (code === 2) {
-            this.setState({ alertVisiblity: true, alertMessage: 'Geolocalisation is required please activated' });
+            this.setState({alertType: 'ERROR', alertVisiblity: true, alertMessage: 'Geolocalisation is required please activated' });
         }
     }
     _dissmiss = () => {
         console.log('_dissmiss');
         this.setState({ alertVisiblity: false });
+        if (this.state.alertType === 'SUCCESS'){
+            this.props.navigation.replace('Order');
+        }
     }
 
     render() {
         const { order } = this.props.route.params;
-        const { address, zipCode, latitude, longitude, phone } = this.state;
-        const disabled = (address && zipCode && phone) || (latitude && longitude);
-        console.log(disabled)
+        const { address, zipCode, latitude, longitude, phone, alertType } = this.state;
+        const disabled = (address && zipCode && phone) || (latitude && longitude && phone);
+
         return (
             <ScrollView style={styles.constainer}>
                 <Alertfunction
-                    Title={'Error'}
-                    Type={'ERROR'}
+                    Title={alertType}
+                    Type={alertType}
                     Body={this.state.alertMessage}
                     Visible={this.state.alertVisiblity}
                     OkButtonAction={this._dissmiss}

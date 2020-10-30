@@ -21,6 +21,7 @@ const create = () => {
     const addToFavorite = (food) => api.put(baseUrl + 'api/foods/favorites', food);
     const getAllFavoriteFoods = () => api.get(baseUrl + 'api/foods/favorites');
     const addToOrderList = (order) => api.post(baseUrl + 'api/orders',order);
+    const updateOrder = (order) => api.put(baseUrl + 'api/orders',order);
     const getOrderByStatus = (statusId) => api.get(baseUrl + 'api/orders/B2C?statusId=' + statusId);
 
     return {
@@ -36,6 +37,7 @@ const create = () => {
         getAllFavoriteFoods,
         addToOrderList,
         getOrderByStatus,
+        updateOrder,
     };
 };
 export default {
