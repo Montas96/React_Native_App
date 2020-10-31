@@ -3,6 +3,7 @@ import { OrderAction } from '../actions/order.action';
 
 const initialState = {
     order: null,
+    validatedOrder: null,
     orders: [],
     addingOrder: false,
     addOrderError: null,
@@ -79,15 +80,7 @@ function OrderReducer(state = initialState, action) {
             };
             return nextState;
         case OrderAction.getOrdersByStatusSuccess:
-            if (state.status === 'CREATED' && action.orders.length) {
-                nextState = {
-                    ...state,
-                    order: action.orders[0],
-                    status: null,
-                    fetchOrders: false,
-                    fetchOrderError: null,
-                };
-            } else {
+            if (state.status === 'CLOSED' && action.orders.length) {
                 nextState = {
                     ...state,
                     orders: action.orders,
@@ -95,6 +88,24 @@ function OrderReducer(state = initialState, action) {
                     fetchOrders: false,
                     fetchOrderError: null,
                 };
+            } else  {
+                if (action.orders[0].orderStatusId === 'CREATED') {
+                    nextState = {
+                        ...state,
+                        order: action.orders[0],
+                        status: null,
+                        fetchOrders: false,
+                        fetchOrderError: null,
+                    };
+                } else {
+                    nextState = {
+                        ...state,
+                        validatedOrder: action.orders[0],
+                        status: null,
+                        fetchOrders: false,
+                        fetchOrderError: null,
+                    };
+                }
             }
             return nextState;
         case OrderAction.getOrdersByStatusFailure:

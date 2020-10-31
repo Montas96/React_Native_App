@@ -20,6 +20,11 @@ const Images = {
   delete: require('./images/delete.png'),
   save: require('./images/save.png'),
   map_position: require('./images/map-position.png'),
+  check: require('./images/check.png'),
+  cooking: require('./images/cooking.png'),
+  delivery: require('./images/delivery.png'),
+  delivery_man:  require('./images/delivery-man.png'),
+
 
 };
 export default Images;

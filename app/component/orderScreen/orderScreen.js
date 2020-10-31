@@ -11,6 +11,7 @@ import Metrics from '../../assets/Metrics';
 import { Colors } from '../../assets/colors';
 import { OrderAction } from '../../actions/order.action';
 import OrderLineModal from './orderLineModal';
+import OrderStatus from './orderStatusScreen';
 
 class OrderScreen extends React.Component {
   constructor(props) {
@@ -19,9 +20,10 @@ class OrderScreen extends React.Component {
       showModal: false,
       orderLineIndex: null,
     };
+    props.getOrder('CREATED');
   }
   componentDidMount() {
-    this.props.getOrder('CREATED');
+    // this.props.getOrder('CREATED');
   }
   componentDidUpdate() {
     const { order, fetchOrder, fetchOrderError } = this.props;
@@ -31,7 +33,6 @@ class OrderScreen extends React.Component {
     let order = { ...this.props.order };
     order.orderStatusId = 'VALIDATED';
     this.props.navigation.navigate('Address',{order: order});
-    // this.props.addOrder(order);
   }
   _save = () => {
     let order = { ...this.props.order };
@@ -94,10 +95,11 @@ class OrderScreen extends React.Component {
   }
 
   render() {
-    const { order } = this.props;
+    const { order,validatedOrder } = this.props;
     const orderLines = order ? order.orderLines : [];
     return (
       <View style={styles.constainer}>
+        {validatedOrder ? <OrderStatus /> : null}
         {this.state.showModal ? <OrderLineModal index={this.state.orderLineIndex}
           isVisible={this.state.showModal}
           hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
@@ -139,6 +141,8 @@ const mapStateToProps = (state) => {
     addOrderError: state.order.addOrderError,
     fetchOrder: state.order.fetchOrders,
     fetchOrderError: state.order.fetchOrderError,
+    validatedOrder: state.order.validatedOrder,
+
   };
 };
 const mapDispatchToProps = (dispatch) => {
