@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, Button } from 'react-native';
 import { connect } from 'react-redux';
 import Images from '../../assets/images';
 import { styles } from './foodDetailStyle';
@@ -14,8 +14,7 @@ class FoodDetailScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        // change header title
-        props.navigation.setOptions({ title: props.route.params.food.name });
+        props.navigation.setOptions({title: props.route.params.food.name});
     }
 
     _onPress = () => {
@@ -24,11 +23,14 @@ class FoodDetailScreen extends React.Component {
     _addOrderLine = () => {
         const item = this.props.route.params.food;
         const orderLine = {
-          quantity: 1,
-          food: item,
-          foodType: item.foodTypesDTO[0] };
-          this.props.addOrderLine(orderLine);
-      }
+            quantity: 1,
+            food: item,
+            foodType: item.foodTypesDTO[0],
+            supplements: [],
+            ingredients: [],
+        };
+        this.props.addOrderLine(orderLine);
+    }
 
     render() {
         const { food } = this.props.route.params;
@@ -40,7 +42,7 @@ class FoodDetailScreen extends React.Component {
         }) !== -1;
         const inOrderLines = order ? order.orderLines ? order.orderLines.findIndex(item => {
             return item.food.id === food.id;
-        }) === -1 : false : false;
+        }) !== -1 : false : false;
         return (
             <ScrollView style={[styles.container]}  >
                 <View style={styles.header} >
@@ -62,7 +64,7 @@ class FoodDetailScreen extends React.Component {
                         style={styles.iconCard}
                         iconStyle={{ width: 50, height: 70 }}
                         onPress={this._addOrderLine}
-                        icon={inOrderLines ? Images.add_to_cart : Images.remove_from_cart}
+                        icon={inOrderLines ? Images.remove_from_cart :  Images.add_to_cart}
                         shadowActive={true} />
                 </View>
                 <View style={styles.body} >
@@ -108,7 +110,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addToFavorite: (food) => dispatch({ type: FoodAction.addToFavoriteRequest, food }),
-        addOrderLine: (orderLine) => dispatch({type: OrderAction.addOrderLineRequest, orderLine}),
+        addOrderLine: (orderLine) => dispatch({ type: OrderAction.addOrderLineRequest, orderLine }),
 
     };
 };

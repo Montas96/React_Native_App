@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 import apisauce from 'apisauce';
-const baseUrl = 'https://fdc538cb77b1.ngrok.io/';
+const baseUrl = 'https://ceb2aeb9a71f.ngrok.io/';
 const create = () => {
     const api =   apisauce.create({
         baseURL: undefined,

@@ -10,10 +10,10 @@
  */
 
 import React, {useState} from 'react';
-import {StatusBar, Button} from 'react-native';
+import {StatusBar, Button, Image, Text} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {Provider, useDispatch} from 'react-redux';
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import Store from './app/store/configureStore';
 import {PersistGate} from 'redux-persist/integration/react';
 import LauncherScreen from './app/component/launcherScreen';
@@ -34,6 +34,10 @@ import FoodDetailScreen from './app/component/foodDetailScreen/foodDetailScreen'
 import FavoriteFoodScreen from './app/component/favoriteFoodScreen/favoriteFoodScreen';
 import orderScreen from './app/component/orderScreen/orderScreen';
 import addressScreen from './app/component/orderScreen/addressScreen';
+import IconButton from './app/shared/component/iconButton';
+import Images from './app/assets/images';
+import {select} from 'redux-saga/effects';
+import {Colors} from './app/assets/colors';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -78,8 +82,9 @@ const DrawerStack = () => {
   );
 };
 
-const HomeStack = () => {
+const HomeStack = ({navigation}) => {
   const Stack = createStackNavigator();
+  const state = useSelector((state) => state);
   return (
     <Stack.Navigator initialRouteName="HomeStack">
       <Stack.Screen
@@ -90,12 +95,30 @@ const HomeStack = () => {
       <Stack.Screen
         name="FoodDetail"
         component={FoodDetailScreen}
-        options={{headerShown: true}}
+        options={{
+          headerShown: true,
+          headerRight: () => (
+            <IconButton
+              style={[
+                {
+                  width: 40,
+                  height: 40,
+                  backgroundColor: state.order.order?.orderLines.length
+                    ? Colors.yellow
+                    : 'transparent',
+                },
+              ]}
+              iconStyle={{width: 30, height: 30}}
+              onPress={() => navigation.navigate('Order')}
+              icon={Images.checklist}
+              shadowActive={false}
+            />
+          ),
+        }}
       />
       <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
       <Stack.Screen name="Order" component={orderScreen} />
       <Stack.Screen name="Address" component={addressScreen} />
-
     </Stack.Navigator>
   );
 };

@@ -6,6 +6,8 @@ import { View, Text, FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { OrderAction } from '../../actions/order.action';
 import { Styles } from '../../assets/styles';
 import { localDateToJsDate } from '../../shared/utils/date-transforms';
+import IconButton from '../../shared/component/iconButton';
+import Images from '../../assets/images';
 
 class OrderListScreen extends React.Component {
 
@@ -45,15 +47,35 @@ class OrderListScreen extends React.Component {
         this.setState({ page: 0 },
             () => this._fetchOrders());
     }
+    _cloneOrder = (item) => {
+        let order = item;
+        order.id = null;
+        order.code = null;
+        order.code = null;
+        this.props.cloneOrder(order);
+    }
+
+    _renderEmpty = () => {
+        return (
+            <View style={{flex: 1}} >
+              {this.props.fetchOrder ? null :  <Text  style={styles.title}> No order found </Text>}
+            </View>
+        );
+    }
 
     _renderItem = (item) => {
-        console.log(item.code, item.date, item.totalPrice);
         return (
-            <View style={{flex: 1, flexDirection: 'row', borderWidth: 1, borderRadius: 5}}>
-                <Text style={styles.title} >{item.code}</Text>
-                {/* <Text style={styles.title} >{localDateToJsDate(item.date)}</Text> */}
+            <View style={{ flex: 1, flexDirection: 'row', borderWidth: 1, borderRadius: 5, margin: 5 }}>
+                <Text style={styles.title} >{new Date(item.date).toLocaleDateString()}</Text>
                 <Text style={styles.title} >{item.totalPrice + ' DT'}</Text>
-
+                <IconButton
+                    style={styles.icon}
+                    iconStyle={{ width: 30, height: 30 }}
+                    onPress={() => this._cloneOrder(item)}
+                    icon={Images.copy}
+                    shadowActive={false}
+                    text={'Copy'}
+                    textStyle={{fontSize: 15}} />
             </View>
         );
     }
@@ -70,7 +92,8 @@ class OrderListScreen extends React.Component {
                     renderItem={({ item }) => this._renderItem(item)}
                     refreshing={fetchOrder}
                     refreshControl={<RefreshControl refreshing={fetchOrder} onRefresh={() => this._onRefresh()} />}
-                    style={{flex: 1, }}
+                    style={{ flex: 1, }}
+                    ListEmptyComponent={this._renderEmpty}
                 />
             </View>
         );
@@ -87,7 +110,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        addOrder: (order) => dispatch({ type: OrderAction.addOrderRequest, order }),
+        cloneOrder: (order) => dispatch({ type: OrderAction.editOrder, order }),
         getOrders: (statusId, options) => dispatch({ type: OrderAction.getOrdersByStatusRequest, statusId, options }),
         resetOrders: () => dispatch({ type: OrderAction.resetOrders }),
     };
@@ -96,7 +119,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(OrderListScreen);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -105,5 +128,8 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
         margin: 10,
-      },
+    },
+    icon: {
+
+    },
 })

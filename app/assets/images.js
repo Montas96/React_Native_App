@@ -24,7 +24,7 @@ const Images = {
   cooking: require('./images/cooking.png'),
   delivery: require('./images/delivery.png'),
   delivery_man:  require('./images/delivery-man.png'),
-
+  copy:  require('./images/copy.png'),
 
 };
 export default Images;
