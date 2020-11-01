@@ -12,7 +12,8 @@ import { Colors } from '../../assets/colors';
 import { OrderAction } from '../../actions/order.action';
 import OrderLineModal from './orderLineModal';
 import OrderStatus from './orderStatusScreen';
-
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import OrderListScreen from './ordersListComponent';
 class OrderScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -94,7 +95,7 @@ class OrderScreen extends React.Component {
     this.setState({ showModal: true, orderLineIndex: index });
   }
 
-  render() {
+  _order = () => {
     const { order, validatedOrder } = this.props;
     const orderLines = order ? order.orderLines : [];
     return (
@@ -134,6 +135,17 @@ class OrderScreen extends React.Component {
             />
           </>}
       </View>
+    );
+  }
+
+  render() {
+    const Tab = createMaterialTopTabNavigator();
+
+    return (
+      <Tab.Navigator initialRouteName={'Order'}>
+        <Tab.Screen name="Order" component={this._order} />
+        <Tab.Screen name="Closed" component={OrderListScreen} />
+      </Tab.Navigator>
     );
   }
 }

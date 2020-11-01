@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { OrderAction } from '../actions/order.action';
+import { parseHeaderForLinks } from '../shared/util/url-utils';
 
 const initialState = {
     order: null,
@@ -10,6 +11,7 @@ const initialState = {
     status: null,
     fetchOrders: false,
     fetchOrderError: null,
+    ordersLink: { total: 0 },
 };
 
 function OrderReducer(state = initialState, action) {
@@ -80,15 +82,27 @@ function OrderReducer(state = initialState, action) {
             };
             return nextState;
         case OrderAction.getOrdersByStatusSuccess:
-            if (state.status === 'CLOSED' && action.orders.length) {
+            if (!action.orders.length){
                 nextState = {
                     ...state,
-                    orders: action.orders,
                     status: null,
                     fetchOrders: false,
                     fetchOrderError: null,
                 };
-            } else  {
+                return nextState;
+            }
+            if (state.status === 'CLOSED') {
+                const header = action.header;
+                const link = parseHeaderForLinks(header.link);
+                nextState = {
+                    ...state,
+                    orders: [...state.orders,...action.orders],
+                    status: null,
+                    fetchOrders: false,
+                    fetchOrderError: null,
+                    ordersLink: link,
+                };
+            } else {
                 if (action.orders[0].orderStatusId === 'CREATED') {
                     nextState = {
                         ...state,
@@ -118,6 +132,16 @@ function OrderReducer(state = initialState, action) {
             return nextState;
         case OrderAction.resetAll:
             return initialState;
+        case OrderAction.resetOrders:
+            nextState = {
+                ...state,
+                status: null,
+                fetchOrders: false,
+                fetchOrderError: null,
+                ordersLink: { next: 0 },
+                orders: [],
+            };
+            return nextState;
         default:
             return initialState;
     }

@@ -17,10 +17,10 @@ export function* addOrder(api, {order}) {
     yield put({type: OrderAction.addOrderFailure, error: 'Can not add order'});
   }
 }
-export function* getOrder(api, {statusId}) {
-  const response = yield call(api.getOrderByStatus, statusId);
+export function* getOrder(api, {statusId, options}) {
+  const response = yield call(api.getOrderByStatus, statusId, options);
   if (response.ok) {
-    yield put({type: OrderAction.getOrdersByStatusSuccess, orders: response.data});
+    yield put({type: OrderAction.getOrdersByStatusSuccess, orders: response.data, header: response.headers});
   } else {
     yield put({type: OrderAction.getOrdersByStatusFailure, error: 'Can not get orders'});
   }

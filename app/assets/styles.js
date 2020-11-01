@@ -16,4 +16,10 @@ export const Styles = {
     textAlign: 'center',
     margin: 10,
   },
+  title1: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 10,
+  },
 };
