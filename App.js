@@ -36,7 +36,6 @@ import orderScreen from './app/component/orderScreen/orderScreen';
 import addressScreen from './app/component/orderScreen/addressScreen';
 import IconButton from './app/shared/component/iconButton';
 import Images from './app/assets/images';
-import {select} from 'redux-saga/effects';
 import {Colors} from './app/assets/colors';
 
 function CustomDrawerContent(props) {

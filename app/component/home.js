@@ -10,8 +10,7 @@ import CuisineAction from '../actions/cuisine.action';
 import CustomList from './customList.component';
 import FoodAction from '../actions/food.action';
 import FoodScreen from './foodScreen/foodComonent';
-import Spinner from '../shared/spinner';
-import { Colors } from '../assets/colors';
+import NotifService from '../shared/NotifService';
 
 
 class HomeScreen extends React.Component {
@@ -24,129 +23,146 @@ class HomeScreen extends React.Component {
       pageFood: 0,
       size: 5,
     };
-  }
-  componentDidMount() {
-    this.props.resetCategories();
-    this.props.resetCuisines();
-    this.props.resetFoods();
-    this._fetchCategories();
-    this._fetchCuisines();
-    this._fetchFoods();
-    BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
-  }
-  componentDidUpdate() {
-  }
-
-  _fetchCategories = () => {
-    this.props.getCategories({
-      page: this.state.pageCategory,
-      size: this.state.size,
-    });
-  }
-  _fetchCuisines = () => {
-    this.props.getCuisines({
-      page: this.state.pageCuisine,
-      size: this.state.size,
-    });
-  }
-  _fetchFoods = () => {
-    this.props.getFoods({
-      page: this.state.pageFood,
-      size: this.state.size,
-    });
-  }
-  _onBackPress = () => {
-    BackHandler.exitApp();
-  }
-  _logout = () => {
-    this.props.logout();
-    this.props.navigation.replace('Launcher');
-  }
-
-  _renderEmpty = () => {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',}} >
-        {!this.props.fetchingFoods ? <Text>No foods please refresh</Text> : null}
-      </View>
+    this.notif = new NotifService(
+      this.onRegister.bind(this),
+      this.onNotif.bind(this),
     );
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress');
+  onRegister(token) {
+    this.setState({registerToken: token.token, fcmRegistered: true});
   }
 
-  _getIsFavorite =(food) => {
-    return this.props.favorites.findIndex(item => {
-      return item.id === food.id;
-  }) !== -1;
+  onNotif(notif) {
+    console.log(notif.title, notif.message);
   }
 
-  _refresh =() => {
-    this.props.resetFoods();
-    this.setState({
-      pageFood: 0,
-    },this._fetchFoods());
+  handlePerm(perms) {
+    console.log('Permissions', JSON.stringify(perms));
   }
 
-  render() {
+    componentDidMount() {
+      this.props.resetCategories();
+      this.props.resetCuisines();
+      this.props.resetFoods();
+      this._fetchCategories();
+      this._fetchCuisines();
+      this._fetchFoods();
+      BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
+    }
+    componentDidUpdate() {
+    }
 
-    return (
-      <View style={styles.constainer}>
-        {/* <Text style={styles.title}> Food </Text> */}
-        <View style={styles.listContainer} >
-          <CustomList navigation={this.props.navigation} list={this.props.categories}
-            fetching={this.props.fetchingCategories}
-            listTitle={'Categories'} />
-          <CustomList navigation={this.props.navigation} list={this.props.cuisines}
-            fetching={this.props.fetchingCuisines}
-            listTitle={'Cuisines'} />
+    _fetchCategories = () => {
+      this.props.getCategories({
+        page: this.state.pageCategory,
+        size: this.state.size,
+      });
+    }
+    _fetchCuisines = () => {
+      this.props.getCuisines({
+        page: this.state.pageCuisine,
+        size: this.state.size,
+      });
+    }
+    _fetchFoods = () => {
+      this.props.getFoods({
+        page: this.state.pageFood,
+        size: this.state.size,
+      });
+    }
+    _onBackPress = () => {
+      BackHandler.exitApp();
+    }
+    _logout = () => {
+      this.props.logout();
+      this.props.navigation.replace('Launcher');
+    }
+
+    _renderEmpty = () => {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }} >
+          {!this.props.fetchingFoods ? <Text>No foods please refresh</Text> : null}
         </View>
-        <FlatList
-          key={item => item.id}
-          data={this.props.foods}
-          renderItem={({ item }) => <FoodScreen food={item} navigation={this.props.navigation} isFavorite={this._getIsFavorite(item)} />}
-          // add navigation props because foodScreen is not in the navigationStack
-          ListEmptyComponent={this._renderEmpty}
-          style={{ flex: 1 }}
-          refreshing={this.props.fetchingFoods}
-          extraData={this.props.foods}
-          onRefresh={this._refresh}
-        />
+      );
+    }
 
-      </View>
-    );
+    componentWillUnmount() {
+      BackHandler.removeEventListener('hardwareBackPress');
+    }
+
+    _getIsFavorite = (food) => {
+      return this.props.favorites.findIndex(item => {
+        return item.id === food.id;
+      }) !== -1;
+    }
+
+    _refresh = () => {
+      this.props.resetFoods();
+      this.setState({
+        pageFood: 0,
+      }, this._fetchFoods());
+    }
+
+    render() {
+
+      return (
+        <View style={styles.constainer}>
+          {/* <Text style={styles.title}> Food </Text> */}
+          <View style={styles.listContainer} >
+            <CustomList navigation={this.props.navigation} list={this.props.categories}
+              fetching={this.props.fetchingCategories}
+              listTitle={'Categories'} />
+            <CustomList navigation={this.props.navigation} list={this.props.cuisines}
+              fetching={this.props.fetchingCuisines}
+              listTitle={'Cuisines'} />
+          </View>
+          <FlatList
+            key={item => item.id}
+            data={this.props.foods}
+            renderItem={({ item }) => <FoodScreen food={item} navigation={this.props.navigation} isFavorite={this._getIsFavorite(item)} />}
+            // add navigation props because foodScreen is not in the navigationStack
+            ListEmptyComponent={this._renderEmpty}
+            style={{ flex: 1 }}
+            refreshing={this.props.fetchingFoods}
+            extraData={this.props.foods}
+            onRefresh={this._refresh}
+          />
+
+        </View>
+      );
+    }
   }
-}
 
-const mapStateToProps = (state) => {
-  return {
-    account: state.account.account,
-    login: state.login,
-    categories: state.category.categories,
-    fetchingCategories: state.category.fetchingAll,
-    cuisines: state.cuisine.cuisines,
-    fetchingCuisines: state.category.fetchingAll,
-    foods: state.food.foods,
-    fetchingFoods: state.food.fetchingAll,
-    favorites: state.food.favorites,
+  const mapStateToProps = (state) => {
+    return {
+      account: state.account.account,
+      login: state.login,
+      categories: state.category.categories,
+      fetchingCategories: state.category.fetchingAll,
+      cuisines: state.cuisine.cuisines,
+      fetchingCuisines: state.category.fetchingAll,
+      foods: state.food.foods,
+      fetchingFoods: state.food.fetchingAll,
+      favorites: state.food.favorites,
 
+    };
   };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch({ type: LoginActions.logoutRequest }),
-    getAccount: () => dispatch({ type: AccountActions.getAccountRequest }),
-    loading: () => dispatch({ type: LoginActions.loginLoad }),
-    getCategories: (options) => dispatch({ type: CategoryActions.getAllCategoriesRequest, options }),
-    getCuisines: (options) => dispatch({ type: CuisineAction.getAllCuisinesRequest, options }),
-    resetCategories: () => dispatch({ type: CategoryActions.categoryReset }),
-    resetCuisines: () => dispatch({ type: CuisineAction.cuisineReset }),
-    getFoods: (options) => dispatch({ type: FoodAction.getAllFoodRequest, options }),
-    resetFoods: () => dispatch({ type: FoodAction.FoodReset }),
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      logout: () => dispatch({ type: LoginActions.logoutRequest }),
+      getAccount: () => dispatch({ type: AccountActions.getAccountRequest }),
+      loading: () => dispatch({ type: LoginActions.loginLoad }),
+      getCategories: (options) => dispatch({ type: CategoryActions.getAllCategoriesRequest, options }),
+      getCuisines: (options) => dispatch({ type: CuisineAction.getAllCuisinesRequest, options }),
+      resetCategories: () => dispatch({ type: CategoryActions.categoryReset }),
+      resetCuisines: () => dispatch({ type: CuisineAction.cuisineReset }),
+      getFoods: (options) => dispatch({ type: FoodAction.getAllFoodRequest, options }),
+      resetFoods: () => dispatch({ type: FoodAction.FoodReset }),
+    };
   };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+  export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   constainer: {

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { OrderAction } from '../actions/order.action';
-import { parseHeaderForLinks } from '../shared/util/url-utils';
+import { parseHeaderForLinks } from './../shared/utils/url-utils';
 
 const initialState = {
     order: null,
