@@ -92,7 +92,7 @@ class HomeScreen extends React.Component {
 
     return (
       <View style={styles.constainer}>
-        <Text style={styles.title}> Food </Text>
+        {/* <Text style={styles.title}> Food </Text> */}
         <View style={styles.listContainer} >
           <CustomList navigation={this.props.navigation} list={this.props.categories}
             fetching={this.props.fetchingCategories}

@@ -90,7 +90,33 @@ const HomeStack = ({navigation}) => {
       <Stack.Screen
         name="HomeStack"
         component={HomeScreen}
-        options={{headerShown: false}}
+        options={{
+          title: 'Food',
+          headerTitleStyle: {
+            fontSize: 25,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginLeft: 40,
+          },
+          headerShown: true,
+          headerRight: () => (
+            <IconButton
+              style={[
+                {
+                  width: 40,
+                  height: 40,
+                  backgroundColor: state.order.order?.orderLines.length
+                    ? Colors.yellow
+                    : 'transparent',
+                },
+              ]}
+              iconStyle={{width: 30, height: 30}}
+              onPress={() => navigation.navigate('Order')}
+              icon={Images.checklist}
+              shadowActive={false}
+            />
+          ),
+        }}
       />
       <Stack.Screen
         name="FoodDetail"
