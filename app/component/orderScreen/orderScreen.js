@@ -32,7 +32,7 @@ class OrderScreen extends React.Component {
   _passOrder = () => {
     let order = { ...this.props.order };
     order.orderStatusId = 'VALIDATED';
-    this.props.navigation.navigate('Address',{order: order});
+    this.props.navigation.navigate('Address', { order: order });
   }
   _save = () => {
     let order = { ...this.props.order };
@@ -95,41 +95,44 @@ class OrderScreen extends React.Component {
   }
 
   render() {
-    const { order,validatedOrder } = this.props;
+    const { order, validatedOrder } = this.props;
     const orderLines = order ? order.orderLines : [];
     return (
       <View style={styles.constainer}>
-        {validatedOrder ? <OrderStatus /> : null}
-        {this.state.showModal ? <OrderLineModal index={this.state.orderLineIndex}
-          isVisible={this.state.showModal}
-          hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
-        /> : null}
+        {validatedOrder ?
+          <OrderStatus /> :
+          <>
+            {this.state.showModal ? <OrderLineModal index={this.state.orderLineIndex}
+              isVisible={this.state.showModal}
+              hideModal={() => this.setState({ showModal: false, orderLineIndex: null })}
+            /> : null}
 
-        <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent:'center' }}>
-        {order ? <IconButton
-            style={styles.iconSave}
-            iconStyle={{ width: 20, height: 20 }}
-            onPress={this._reset}
-            icon={Images.delete}
-            shadowActive={false}
-            text={null} /> : null}
-          <Text style={Styles.title}> Order </Text>
-          {order ? <IconButton
-            style={styles.iconSave}
-            iconStyle={{ width: 20, height: 20 }}
-            onPress={this._save}
-            icon={Images.save}
-            shadowActive={false}
-            text={null} /> : null}
-        </View>
-        <Text style={styles.title0}> Order Lines </Text>
-        <FlatList
-          data={orderLines}
-          keyExtractor={(item, index) => index}
-          renderItem={({ item, index }) => <OrderLine orderLine={item} showModal={this._showModal} index={index} />}
-          ListEmptyComponent={this._renderEmpty}
-          ListFooterComponent={() => this._renderFooter(orderLines)}
-        />
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              {order ? <IconButton
+                style={styles.iconSave}
+                iconStyle={{ width: 20, height: 20 }}
+                onPress={this._reset}
+                icon={Images.delete}
+                shadowActive={false}
+                text={null} /> : null}
+              <Text style={Styles.title}> Order </Text>
+              {order ? <IconButton
+                style={styles.iconSave}
+                iconStyle={{ width: 20, height: 20 }}
+                onPress={this._save}
+                icon={Images.save}
+                shadowActive={false}
+                text={null} /> : null}
+            </View>
+            <Text style={styles.title0}> Order Lines </Text>
+            <FlatList
+              data={orderLines}
+              keyExtractor={(item, index) => index}
+              renderItem={({ item, index }) => <OrderLine orderLine={item} showModal={this._showModal} index={index} />}
+              ListEmptyComponent={this._renderEmpty}
+              ListFooterComponent={() => this._renderFooter(orderLines)}
+            />
+          </>}
       </View>
     );
   }
