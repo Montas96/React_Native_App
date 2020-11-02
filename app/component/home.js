@@ -11,6 +11,7 @@ import CustomList from './customList.component';
 import FoodAction from '../actions/food.action';
 import FoodScreen from './foodScreen/foodComonent';
 import NotifService from '../shared/NotifService';
+import DeviceAction from '../actions/device.action';
 
 
 class HomeScreen extends React.Component {
@@ -30,7 +31,17 @@ class HomeScreen extends React.Component {
   }
 
   onRegister(token) {
-    this.setState({registerToken: token.token, fcmRegistered: true});
+    this.setState({registerToken: token, fcmRegistered: true});
+  }
+
+  _saveFcmToken = () => {
+    let device = {
+      fcmToken: this.state.registerToken.token,
+      platform: this.state.registerToken.os,
+      user: this.props.account.id,
+    };
+    console.log('fetching ', !this.props.fetching && this.props.device?.id === null && this.props.device?.fcmToken !== null &&  this.props.device?.user !== null)
+    !this.props.fetching && this.props.device?.id !== null && this.props.device?.fcmToken !== null &&  this.props.device?.user !== null ? null : this.props.saveDevice(device);
   }
 
   onNotif(notif) {
@@ -51,6 +62,8 @@ class HomeScreen extends React.Component {
       BackHandler.addEventListener('hardwareBackPress', this._onBackPress);
     }
     componentDidUpdate() {
+      this.state.registerToken != null && !this.props.fetching ? this._saveFcmToken() : null;
+
     }
 
     _fetchCategories = () => {
@@ -145,6 +158,8 @@ class HomeScreen extends React.Component {
       foods: state.food.foods,
       fetchingFoods: state.food.fetchingAll,
       favorites: state.food.favorites,
+      device: state.device.device,
+      fetching: state.device.fetching,
 
     };
   };
@@ -159,6 +174,7 @@ class HomeScreen extends React.Component {
       resetCuisines: () => dispatch({ type: CuisineAction.cuisineReset }),
       getFoods: (options) => dispatch({ type: FoodAction.getAllFoodRequest, options }),
       resetFoods: () => dispatch({ type: FoodAction.FoodReset }),
+      saveDevice:(device) => dispatch({type: DeviceAction.saveDeviceRequest, device}),
     };
   };
 

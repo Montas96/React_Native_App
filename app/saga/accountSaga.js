@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { put, call } from 'redux-saga/effects';
 import AccountActions from '../actions/accountActions';
+import DeviceAction from '../actions/device.action';
 
 
 export function* createAccount(api, { user }) {

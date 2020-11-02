@@ -14,6 +14,8 @@ import FoodAction from '../actions/food.action';
 import { getAllFood, addToFavorite, getAllFavoriteFood } from './food.saga';
 import { OrderAction } from '../actions/order.action';
 import { addOrder, getOrder } from './order.saga';
+import DeviceAction from '../actions/device.action';
+import { saveDevice } from './device.saga';
 
 const api = API.create();
 export default function* rootSaga() {
@@ -30,6 +32,7 @@ export default function* rootSaga() {
     takeLatest(FoodAction.getAllFavoriteFoodRequest, getAllFavoriteFood, api),
     takeLatest(OrderAction.addOrderRequest, addOrder, api),
     takeLatest(OrderAction.getOrdersByStatusRequest, getOrder, api),
+    takeLatest(DeviceAction.saveDeviceRequest, saveDevice, api),
 
   ]);
 }

@@ -13,6 +13,7 @@ import CategoryReducer from '../reducer/category.reducer';
 import CuisineReducer from '../reducer/cuisine.reducer';
 import FoodReducer from '../reducer/food.reducer';
 import OrderReducer from '../reducer/order.reducer';
+import DeviceReducer from '../reducer/device.reducer';
 // const storage = createAsyncStorage();
 
 
@@ -39,6 +40,7 @@ const reducer = combineReducers({
   cuisine: CuisineReducer,
   food: FoodReducer,
   order: OrderReducer,
+  device: DeviceReducer,
 });
 const configureStore = () => {
   console.log('1-configure store');
