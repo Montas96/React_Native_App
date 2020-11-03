@@ -155,7 +155,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signup: (user) => dispatch({ type: AccountActions.signupRequest, user: user }),
-        attemptLogin: (username, password) => dispatch({ type: LoginActions.loginRequest, value: { username, password } }),
+        attemptLogin: (username, password) => dispatch({ type: LoginActions.loginRequest, value: { username, password, rememberMe: true } }),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);

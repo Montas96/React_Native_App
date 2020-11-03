@@ -25,6 +25,8 @@ const create = () => {
     const getOrderByStatus = (statusId, options) => api.get(baseUrl + 'api/orders/B2C?statusId=' + statusId, options);
     const getClosedOrder = (options) => api.get(baseUrl + 'api/orders/B2C?statusId=CLOSED', options);
     const saveDevice = (device) => api.post(baseUrl + 'api/device', device);
+    const getUser = () => api.get(baseUrl + 'api/b-2-c-users/current');
+
 
     return {
         setAuthToken,
@@ -42,6 +44,7 @@ const create = () => {
         updateOrder,
         saveDevice,
         getClosedOrder,
+        getUser,
     };
 };
 export default {

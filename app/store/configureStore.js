@@ -14,6 +14,7 @@ import CuisineReducer from '../reducer/cuisine.reducer';
 import FoodReducer from '../reducer/food.reducer';
 import OrderReducer from '../reducer/order.reducer';
 import DeviceReducer from '../reducer/device.reducer';
+import UserReducer from '../reducer/user.reducer';
 // const storage = createAsyncStorage();
 
 
@@ -32,7 +33,7 @@ const rootPersistConfig = {
 // combine redicers
 const reducer = combineReducers({
   login: loginReducer,
-  user: userReducer,
+  // user: userReducer,
   account: accountReducer,
   appState: AppStateReducer,
   startup: StartupReducer,
@@ -41,6 +42,7 @@ const reducer = combineReducers({
   food: FoodReducer,
   order: OrderReducer,
   device: DeviceReducer,
+  user: UserReducer,
 });
 const configureStore = () => {
   console.log('1-configure store');

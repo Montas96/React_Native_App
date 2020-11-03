@@ -37,6 +37,11 @@ import addressScreen from './app/component/orderScreen/addressScreen';
 import IconButton from './app/shared/component/iconButton';
 import Images from './app/assets/images';
 import {Colors} from './app/assets/colors';
+import SettingsScreen from './app/component/settings/settingsScreen';
+import AboutUsScreen from './app/component/settings/aboutUsScreen';
+import PrivacyPoliciesScreen from './app/component/settings/privacyPolicies';
+import TermOfUseScreen from './app/component/settings/termOfUseScreen';
+import CookiesPolicyScreen from './app/component/settings/cookiesPolicyScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -58,6 +63,10 @@ function CustomDrawerContent(props) {
       <DrawerItem
         label="Order"
         onPress={() => props.navigation.navigate('Order')}
+      />
+      <DrawerItem
+        label="Settings"
+        onPress={() => props.navigation.navigate('Settings')}
       />
       <Button
         title={'Logout'}
@@ -144,6 +153,12 @@ const HomeStack = ({navigation}) => {
       <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
       <Stack.Screen name="Order" component={orderScreen} />
       <Stack.Screen name="Address" component={addressScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="AboutUs" component={AboutUsScreen} />
+      <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesScreen} />
+      <Stack.Screen name="TermsOfUse" component={TermOfUseScreen} />
+      <Stack.Screen name="CookiesPolicy" component={CookiesPolicyScreen} />
+
     </Stack.Navigator>
   );
 };
