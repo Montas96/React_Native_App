@@ -12,6 +12,7 @@ import FoodAction from '../actions/food.action';
 import FoodScreen from './foodScreen/foodComonent';
 import NotifService from '../shared/NotifService';
 import DeviceAction from '../actions/device.action';
+import { OrderAction } from '../actions/order.action';
 
 
 class HomeScreen extends React.Component {
@@ -40,16 +41,18 @@ class HomeScreen extends React.Component {
       platform: this.state.registerToken.os,
       user: this.props.account.id,
     };
-    console.log('fetching ', !this.props.fetching && this.props.device?.id === null && this.props.device?.fcmToken !== null &&  this.props.device?.user !== null)
     !this.props.fetching && this.props.device?.id !== null && this.props.device?.fcmToken !== null &&  this.props.device?.user !== null ? null : this.props.saveDevice(device);
   }
 
   onNotif(notif) {
     console.log(notif.title, notif.message);
+    if(notif.title){
+      this.props.getOrder(notif.title);
+    }
   }
 
   handlePerm(perms) {
-    console.log('Permissions', JSON.stringify(perms));
+    // console.log('Permissions', JSON.stringify(perms));
   }
 
     componentDidMount() {
@@ -175,6 +178,8 @@ class HomeScreen extends React.Component {
       getFoods: (options) => dispatch({ type: FoodAction.getAllFoodRequest, options }),
       resetFoods: () => dispatch({ type: FoodAction.FoodReset }),
       saveDevice:(device) => dispatch({type: DeviceAction.saveDeviceRequest, device}),
+      getOrder: (statusId) =>
+      dispatch({type: OrderAction.getOrdersByStatusRequest, statusId}),
     };
   };
 

@@ -4,6 +4,10 @@ export const OrderAction = {
   addOrderSuccess: 'ADD_ORDER_SUCESS',
   addOrderFailure: 'ADD_ORDER_FAILURE',
 
+  getClosedOrderRequest: 'GET_CLOSED_ORDER_REQUEST',
+  getClosedOrderSuccess: 'GET_CLOSED_ORDER_SUCESS',
+  getClosedOrderFailure: 'GET_CLOSED_ORDER_FAILURE',
+
   addOrderLineRequest: 'ADD_ORDER_LINE_REQUEST',
   editOrder: 'EDIT_ORDER',
   getOrdersByStatusRequest: 'GET_ORDERS_BY_STATUS_REQUEST',

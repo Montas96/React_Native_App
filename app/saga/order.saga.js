@@ -19,9 +19,18 @@ export function* addOrder(api, {order}) {
 }
 export function* getOrder(api, {statusId, options}) {
   const response = yield call(api.getOrderByStatus, statusId, options);
+  console.log('getOrder')
   if (response.ok) {
     yield put({type: OrderAction.getOrdersByStatusSuccess, orders: response.data, header: response.headers});
   } else {
     yield put({type: OrderAction.getOrdersByStatusFailure, error: 'Can not get orders'});
+  }
+}
+export function* getClosedOrder(api, {options}) {
+  const response = yield call(api.getClosedOrder, options);
+  if (response.ok) {
+    yield put({type: OrderAction.getClosedOrderSuccess, orders: response.data, header: response.headers});
+  } else {
+    yield put({type: OrderAction.getClosedOrderFailure, error: 'Can not get orders'});
   }
 }

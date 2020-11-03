@@ -12,6 +12,8 @@ const initialState = {
     fetchOrders: false,
     fetchOrderError: null,
     ordersLink: { total: 0 },
+    fetchClosedOrder: false,
+    closedOrderError: null,
 };
 
 function OrderReducer(state = initialState, action) {
@@ -82,7 +84,8 @@ function OrderReducer(state = initialState, action) {
             };
             return nextState;
         case OrderAction.getOrdersByStatusSuccess:
-            if (!action.orders.length){
+            console.log(state.status);
+            if (!action.orders.length) {
                 nextState = {
                     ...state,
                     status: null,
@@ -97,30 +100,32 @@ function OrderReducer(state = initialState, action) {
                 nextState = {
                     ...state,
                     orders: [...state.orders,...action.orders],
+                    order: null,
                     status: null,
+                    validatedOrder: null,
                     fetchOrders: false,
                     fetchOrderError: null,
                     ordersLink: link,
                 };
             } else {
-                if (action.orders[0].orderStatusId === 'CREATED') {
-                    nextState = {
-                        ...state,
-                        order: action.orders[0],
-                        status: null,
-                        fetchOrders: false,
-                        fetchOrderError: null,
-                    };
-                } else {
-                    nextState = {
-                        ...state,
-                        validatedOrder: action.orders[0],
-                        status: null,
-                        fetchOrders: false,
-                        fetchOrderError: null,
-                    };
-                }
+            if (action.orders[0].orderStatus?.id === 'CREATED') {
+                nextState = {
+                    ...state,
+                    order: action.orders[0],
+                    status: null,
+                    fetchOrders: false,
+                    fetchOrderError: null,
+                };
+            } else {
+                nextState = {
+                    ...state,
+                    validatedOrder: action.orders[0],
+                    status: null,
+                    fetchOrders: false,
+                    fetchOrderError: null,
+                };
             }
+        }
             return nextState;
         case OrderAction.getOrdersByStatusFailure:
             nextState = {
@@ -132,6 +137,35 @@ function OrderReducer(state = initialState, action) {
             return nextState;
         case OrderAction.resetAll:
             return initialState;
+        case OrderAction.getClosedOrderRequest:
+            nextState = {
+                ...state,
+                status: action.statusId,
+                fetchClosedOrder: true,
+                closedOrderError: null,
+            };
+            return nextState;
+        case OrderAction.getClosedOrderSuccess:
+            const header = action.header;
+            const link = parseHeaderForLinks(header.link);
+            nextState = {
+                ...state,
+                orders: [...state.orders, ...action.orders],
+                status: null,
+                fetchClosedOrder: false,
+                closedOrderError: null,
+                ordersLink: link,
+            };
+            return nextState;
+        case OrderAction.getClosedOrderFailure:
+            nextState = {
+                ...state,
+                status: null,
+                fetchClosedOrder: false,
+                closedOrderError: null,
+                ordersLink: link,
+            };
+            return nextState;
         case OrderAction.resetOrders:
             nextState = {
                 ...state,

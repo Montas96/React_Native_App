@@ -36,7 +36,7 @@ class OrderListScreen extends React.Component {
     }
 
     _fetchOrders = () => {
-        this.props.getOrders('CLOSED', {
+        this.props.getOrders({
             page: this.state.page,
             size: this.state.size,
         });
@@ -101,8 +101,8 @@ class OrderListScreen extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        fetchOrder: state.order.fetchOrders,
-        fetchOrderError: state.order.fetchOrderError,
+        fetchOrder: state.order.fetchClosedOrder,
+        fetchOrderError: state.order.closedOrderError,
         validatedOrder: state.order.validatedOrder,
         links: state.order.orderLink,
         orders: state.order.orders,
@@ -111,7 +111,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         cloneOrder: (order) => dispatch({ type: OrderAction.editOrder, order }),
-        getOrders: (statusId, options) => dispatch({ type: OrderAction.getOrdersByStatusRequest, statusId, options }),
+        getOrders: (options) => dispatch({ type: OrderAction.getClosedOrderRequest, options }),
         resetOrders: () => dispatch({ type: OrderAction.resetOrders }),
     };
 };
