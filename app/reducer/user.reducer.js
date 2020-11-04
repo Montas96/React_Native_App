@@ -7,6 +7,8 @@ const initialState = {
   error: null,
   fetching: false,
   user: null,
+  updating: false,
+  updateUserError: null,
 };
 
 function UserReducer(state = initialState, action) {
@@ -36,6 +38,31 @@ function UserReducer(state = initialState, action) {
         error: action.error,
       };
       return nextState || state;
+      /** update user */
+      case UserAction.updateUserRequest:
+        nextState = {
+          ...state,
+          updating: true,
+          updateUserError: null,
+        };
+        return nextState || state;
+      case UserAction.updateUserSuccess:
+        nextState = {
+          ...state,
+          updating: false,
+          updateUserError: null,
+          user: action.user,
+        };
+        return nextState || state;
+  
+      case UserAction.updateUserFailure:
+        nextState = {
+          ...state,
+          updating: false,
+          updateUserError: action.error,
+        };
+        return nextState || state;
+        /** reset */
     case UserAction.resetAll:
       return initialState;
     default:

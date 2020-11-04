@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 import apisauce from 'apisauce';
-const baseUrl = 'https://d36b56ff4ea5.ngrok.io/';
+const baseUrl = 'https://fd2d42690b60.ngrok.io/';
 const create = () => {
     const api =   apisauce.create({
         baseURL: undefined,
@@ -26,6 +26,7 @@ const create = () => {
     const getClosedOrder = (options) => api.get(baseUrl + 'api/orders/B2C?statusId=CLOSED', options);
     const saveDevice = (device) => api.post(baseUrl + 'api/device', device);
     const getUser = () => api.get(baseUrl + 'api/b-2-c-users/current');
+    const updateUser = (user) => api.put(baseUrl + 'api/b-2-c-users', user);
 
 
     return {
@@ -45,6 +46,7 @@ const create = () => {
         saveDevice,
         getClosedOrder,
         getUser,
+        updateUser,
     };
 };
 export default {
