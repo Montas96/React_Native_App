@@ -31,6 +31,12 @@ class SettingsScreen extends React.Component {
         };
         props.getUser();
     }
+
+    componentDidMount() {
+        if ( this.props.user !== null) {
+            this.setUserFromProps();
+        } 
+    }
     componentDidUpdate(prevProps) {
         if ((prevProps.fetch && !this.props.fetch && this.props.error === null) || (prevProps.updating && !this.props.updating && this.props.updateUserError === null) && this.props.user !== null) {
             this.setUserFromProps();
@@ -61,11 +67,11 @@ class SettingsScreen extends React.Component {
             zipCode: '',
             phone: '',
         });
-        this.setState({addresses})
+        this.setState({addresses});
     }
 
     _updateUser = () => {
-        const { firstName, lastName, login, email,addresses, addressTitle, address, zipCode, phone } = this.state;
+        const { firstName, lastName, login, email,addresses } = this.state;
 
         const user = {
             ...this.props.user,
@@ -75,13 +81,7 @@ class SettingsScreen extends React.Component {
                 lastName,
                 email,
             },
-            addresses
-            // : [{
-            //     addressTitle,
-            //     address,
-            //     zipCode,
-            //     phone,
-            // }],
+            addresses,
         };
         this.props.updateUser(user);
     }
@@ -204,6 +204,7 @@ class SettingsScreen extends React.Component {
                         data={addresses}
                         renderItem={(item) =>  this._renderItem(item)}
                         horizontal={true}
+                        ItemSeparatorComponent={() => <View style={{width: 5}} />}
                     />
                 </View>
                 <CustomButton
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     },
     address: {
         flex: 1,
-        margin: 10,
+        margin: 9,
     },
     footer: {
         flex: 1,
