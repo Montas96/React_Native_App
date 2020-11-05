@@ -43,6 +43,7 @@ import PrivacyPoliciesScreen from './app/component/settings/privacyPolicies';
 import TermOfUseScreen from './app/component/settings/termOfUseScreen';
 import CookiesPolicyScreen from './app/component/settings/cookiesPolicyScreen';
 import FindUsScreen from './app/component/contactUsScreen.js/findUsScreen';
+import ContactUsScreen from './app/component/contactUsScreen.js/contactUsScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -72,6 +73,10 @@ function CustomDrawerContent(props) {
       <DrawerItem
         label="Find us"
         onPress={() => props.navigation.navigate('FindUs')}
+      />
+      <DrawerItem
+        label="Contact us"
+        onPress={() => props.navigation.navigate('ContactUs')}
       />
       <Button
         title={'Logout'}
@@ -163,7 +168,20 @@ const HomeStack = ({navigation}) => {
       <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesScreen} />
       <Stack.Screen name="TermsOfUse" component={TermOfUseScreen} />
       <Stack.Screen name="CookiesPolicy" component={CookiesPolicyScreen} />
-      <Stack.Screen name="FindUs" component={FindUsScreen} />
+      <Stack.Screen
+        name="FindUs"
+        component={FindUsScreen}
+        options={{
+          title: 'Find Us',
+        }}
+      />
+      <Stack.Screen
+        name="ContactUs"
+        component={ContactUsScreen}
+        options={{
+          title: 'Contact Us',
+        }}
+      />
     </Stack.Navigator>
   );
 };

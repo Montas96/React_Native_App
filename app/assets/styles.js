@@ -1,3 +1,5 @@
+import { Colors } from "./colors";
+
 /* eslint-disable prettier/prettier */
 export const Styles = {
   shadow: {
@@ -15,6 +17,7 @@ export const Styles = {
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 10,
+    color: '#FFA000'
   },
   title1: {
     fontSize: 20,
