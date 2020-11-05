@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {View, StyleSheet, Text, Image, Linking, ScrollView} from 'react-native';
@@ -12,7 +13,13 @@ class ContactUsScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={Images.email} style={{width: 100, height: 100}} />
-          <Text style={Styles.title}>Contact us </Text>
+          <Text style={Styles.title} onPress={() => Linking.openURL('mailto:support@example.com') }>
+              Contact us{'\n'}
+              <Text style={[{fontSize: 15, color: Colors.white_gray}]} onPress={() => Linking.openURL('mailto:support@example.com') }>
+            support@example.com
+          </Text>
+          </Text>
+          
         </View>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Image source={Images.location} style={{width: 30, height: 30}} />
