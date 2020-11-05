@@ -19,7 +19,6 @@ export function* addOrder(api, {order}) {
 }
 export function* getOrder(api, {statusId, options}) {
   const response = yield call(api.getOrderByStatus, statusId, options);
-  console.log('getOrder')
   if (response.ok) {
     yield put({type: OrderAction.getOrdersByStatusSuccess, orders: response.data, header: response.headers});
   } else {

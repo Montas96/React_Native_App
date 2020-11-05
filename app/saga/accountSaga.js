@@ -10,19 +10,16 @@ export function* createAccount(api, { user }) {
     yield put({ type: AccountActions.signupSuccess });
   }
   else {
-    yield put({ type: AccountActions.signupFailure, error: response.data.title });
+    yield put({ type: AccountActions.signupFailure, error: response.data?.title || 'Error creating account' });
   }
 }
 
 export function* getAccount(api) {
   const response = yield call(api.getAccount);
-  console.log('6-get account request');
   if (response.ok) {
-    console.log('6-get account success');
     yield put({ type: AccountActions.getAccountSuccess, account: response.data });
   }
   else {
-    console.log('6- get account FAILURE');
     yield put({ type: AccountActions.getAccountFailure, error: 'Failed to get account' });
   }
 }

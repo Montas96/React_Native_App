@@ -40,7 +40,6 @@ class OrderStatus extends React.Component {
 
     render() {
         const { order } = this.props;
-        console.log( order?.orderStatusId)
         const validated = order?.orderStatusId === 'VALIDATED';
         const inProgress = order?.orderStatusId === 'IN_PROGRESS';
         const delivering = order?.orderStatusId === 'DELIVERING';

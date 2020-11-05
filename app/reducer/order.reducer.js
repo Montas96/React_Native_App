@@ -84,7 +84,6 @@ function OrderReducer(state = initialState, action) {
             };
             return nextState;
         case OrderAction.getOrdersByStatusSuccess:
-            console.log(state.status);
             if (!action.orders.length) {
                 nextState = {
                     ...state,

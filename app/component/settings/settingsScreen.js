@@ -46,7 +46,6 @@ class SettingsScreen extends React.Component {
     setUserFromProps = () => {
         const {addresses} = this.props.user;
         const { firstName, lastName, login, email} = this.props.user.userDTO;
-        console.log(addresses)
         this.setState({
             login: login,
             firstName,
@@ -108,7 +107,6 @@ class SettingsScreen extends React.Component {
     }
 
     _renderItem = ({item, index}) => {
-        console.log(item.zipCode)
         return (
             <View style={{ flex: 1, borderWidth: 1, borderRadius: 5 }}>
                         <View style={{ flexDirection: 'row', flex: 1 }}>

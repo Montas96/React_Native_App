@@ -9,13 +9,12 @@ export function* getUser(api) {
     yield put({ type: UserAction.getUserSuccess, user: response.data });
   }
   else {
-    yield put({ type: UserAction.getUserFailure, error: response.data.title });
+    yield put({ type: UserAction.getUserFailure, error: response.data?.title ||  response.problem });
   }
 }
 
 export function* updateUser(api,{user}) {
   const response = yield call(api.updateUser, user);
-  console.log(response)
   if (response.ok) {
     yield put({ type: UserAction.updateUserSuccess, user: response.data });
   }

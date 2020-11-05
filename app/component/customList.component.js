@@ -9,7 +9,6 @@ import Metrics from '../assets/Metrics';
 
 export default function CustomList({ list, navigation, fetching, listTitle }) {
     const _onPress = (item) => {
-        console.log(item);
     };
 
     const _renderItem = ({ item }) => {

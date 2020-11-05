@@ -23,9 +23,7 @@ export const selectAuthToken = (state) =>{
 export function* loginLoad(api) {
   const authToken = yield select(selectAuthToken);
   // only set the token if we have it
-  console.log('3- check if we have token ' + authToken ); // token null if we dont have it
   if (authToken) {
-    console.log('4-set token to header');
     yield call(api.setAuthToken, authToken); // if it exist set to api header
   }
   yield put({type: LoginActions.loginLoadSuccess}); // loading finish

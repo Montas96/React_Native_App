@@ -42,20 +42,21 @@ import AboutUsScreen from './app/component/settings/aboutUsScreen';
 import PrivacyPoliciesScreen from './app/component/settings/privacyPolicies';
 import TermOfUseScreen from './app/component/settings/termOfUseScreen';
 import CookiesPolicyScreen from './app/component/settings/cookiesPolicyScreen';
+import FindUsScreen from './app/component/contactUsScreen.js/findUsScreen';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem
+      {/* <DrawerItem
         label="Close drawer"
         onPress={() => props.navigation.closeDrawer()}
       />
       <DrawerItem
         label="Toggle drawer"
         onPress={() => props.navigation.toggleDrawer()}
-      />
+      /> */}
       <DrawerItem
         label="Favorite"
         onPress={() => props.navigation.navigate('Favorite')}
@@ -67,6 +68,10 @@ function CustomDrawerContent(props) {
       <DrawerItem
         label="Settings"
         onPress={() => props.navigation.navigate('Settings')}
+      />
+      <DrawerItem
+        label="Find us"
+        onPress={() => props.navigation.navigate('FindUs')}
       />
       <Button
         title={'Logout'}
@@ -158,7 +163,7 @@ const HomeStack = ({navigation}) => {
       <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesScreen} />
       <Stack.Screen name="TermsOfUse" component={TermOfUseScreen} />
       <Stack.Screen name="CookiesPolicy" component={CookiesPolicyScreen} />
-
+      <Stack.Screen name="FindUs" component={FindUsScreen} />
     </Stack.Navigator>
   );
 };

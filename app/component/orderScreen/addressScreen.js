@@ -65,7 +65,6 @@ class AddressScreen extends React.Component {
         }
     }
     _dissmiss = () => {
-        console.log('_dissmiss');
         this.setState({ alertVisiblity: false });
         if (this.state.alertType === 'SUCCESS'){
             this.props.navigation.replace('Order');

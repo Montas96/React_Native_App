@@ -52,7 +52,6 @@ function loginReducer(state = initialState, action) {
       };
       return nextState || state;
     case LoginActions.loginLoadSuccess:
-      console.log('5-loading token finish');
       nextState = {
         ...state,
         loading: false,

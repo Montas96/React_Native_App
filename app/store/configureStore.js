@@ -23,7 +23,6 @@ const rootPersistConfig = {
   storage: AsyncStorage,
   version: 1.0,
   migrate: (state) => {
-    console.log('Migration Running!');
     return Promise.resolve(state);
   },
   whitelist: [
@@ -45,7 +44,6 @@ const reducer = combineReducers({
   user: UserReducer,
 });
 const configureStore = () => {
-  console.log('1-configure store');
   const sagaMiddeleware = createSagaMiddeleware();// Create instance of saga middleware
   const persistedReducer = persistReducer(rootPersistConfig, reducer);
   const store = createStore(persistedReducer, applyMiddleware(sagaMiddeleware));// Apply the saga middleware to redux

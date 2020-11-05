@@ -15,7 +15,7 @@ class LauncherScreen extends React.Component {
         super(props);
     }
     componentDidMount(){
-        this.props.token !== null ? this.props.navigation.replace('Home') : null;
+        this.props.token !== null ?( console.log('navigate'), this.props.navigation.replace('Home')) : null;
 
     }
     _signIn = () => {
