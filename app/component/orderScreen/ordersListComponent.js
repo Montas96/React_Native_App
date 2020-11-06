@@ -83,7 +83,8 @@ class OrderListScreen extends React.Component {
     render() {
         const { orders, fetchOrder } = this.props;
         return (
-            <View style={styles.container}>
+            <View style={styles.container}
+            refreshControl={<RefreshControl refreshing={fetchOrder} onRefresh={() => this._onRefresh()} />}>
                 <Text style={[Styles.title1]}  >Orders list</Text>
                 <FlatList
                     data={orders}

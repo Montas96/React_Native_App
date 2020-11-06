@@ -18,6 +18,7 @@ import DeviceAction from '../actions/device.action';
 import { saveDevice } from './device.saga';
 import {UserAction} from '../actions/user.action';
 import { getUser, updateUser } from './user.saga';
+import { relogin } from './call-api.saga';
 
 const api = API.create();
 export default function* rootSaga() {
@@ -38,6 +39,7 @@ export default function* rootSaga() {
     takeLatest(OrderAction.getClosedOrderRequest, getClosedOrder, api),
     takeLatest(UserAction.getUserRequest, getUser, api),
     takeLatest(UserAction.updateUserRequest, updateUser, api),
+    takeLatest('RELOGIN', relogin),
 
   ]);
 }

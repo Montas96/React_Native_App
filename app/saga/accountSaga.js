@@ -2,6 +2,7 @@
 import { put, call } from 'redux-saga/effects';
 import AccountActions from '../actions/accountActions';
 import DeviceAction from '../actions/device.action';
+import LoginActions from '../actions/loginAction';
 
 
 export function* createAccount(api, { user }) {
@@ -20,6 +21,10 @@ export function* getAccount(api) {
     yield put({ type: AccountActions.getAccountSuccess, account: response.data });
   }
   else {
+    if (response.data?.detail === 'User could not be found'){
+      yield put({ type: LoginActions.logoutRequest });
+      yield put({ type: 'RELOGIN' });
+    }
     yield put({ type: AccountActions.getAccountFailure, error: 'Failed to get account' });
   }
 }

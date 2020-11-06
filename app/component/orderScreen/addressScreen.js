@@ -10,6 +10,7 @@ import IconButton from '../../shared/component/iconButton';
 import Images from '../../assets/images';
 import Geolocation from '@react-native-community/geolocation';
 import Alertfunction from '../../shared/component/customAlert';
+import RNPickerSelect from 'react-native-picker-select';
 
 class AddressScreen extends React.Component {
     constructor(props) {
@@ -26,13 +27,22 @@ class AddressScreen extends React.Component {
             latitude: null,
             phone: '',
             alertType: null,
+            userAddresses:[],
+            selectedAddress: {},
         };
     }
     componentDidMount() {
+        if (this.props.user?.addresses.length) {
+            let userAddresses = [];
+            this.props.user.addresses.forEach(element => {
+                userAddresses.push({label: element.addressTitle, value: element })
+            });
+            this.setState({userAddresses});
+        }
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.addingOrder && !this.props.addingOrder){
-            this.setState({alertType: 'SUCCESS', alertVisiblity: true, alertMessage: 'Your order has been created. \n You will be notified ' });
+        if (prevProps.addingOrder && !this.props.addingOrder) {
+            this.setState({ alertType: 'SUCCESS', alertVisiblity: true, alertMessage: 'Your order has been created. \n You will be notified ' });
         }
     }
 
@@ -61,14 +71,44 @@ class AddressScreen extends React.Component {
 
     _showModal = (code) => {
         if (code === 2) {
-            this.setState({alertType: 'ERROR', alertVisiblity: true, alertMessage: 'Geolocalisation is required please activated' });
+            this.setState({ alertType: 'ERROR', alertVisiblity: true, alertMessage: 'Geolocalisation is required please activated' });
         }
     }
     _dissmiss = () => {
         this.setState({ alertVisiblity: false });
-        if (this.state.alertType === 'SUCCESS'){
+        if (this.state.alertType === 'SUCCESS') {
             this.props.navigation.replace('Order');
         }
+    }
+    _selectAddress = (addressItem) => {
+        if (addressItem !== null && Object.keys(addressItem).length !== 0){
+            this.setState({
+                address: addressItem.address,
+                zipCode:  addressItem.zipCode.toString(),
+                phone: addressItem.phone,
+                selectedAddress: addressItem,
+            });
+        } else if (addressItem !== null && Object.keys(addressItem).length === 0){
+            this.setState({
+                address: '',
+                zipCode: '',
+                phone: '',
+                selectedAddress: {},
+            });
+        }
+    }
+
+    Dropdown = () => {
+        const placeHolder = {label: 'Select address', value: this.state.selectedAddress};
+        return (
+            <RNPickerSelect
+                onValueChange={(value) => this._selectAddress(value)}
+                items={this.state.userAddresses}
+                value={placeHolder }
+                placeholder={placeHolder}
+                // useNativeAndroidPickerStyle={true}
+            />
+        );
     }
 
     render() {
@@ -89,6 +129,7 @@ class AddressScreen extends React.Component {
                 />
                 <Text style={styles.title0}> Delevery Address </Text>
                 <View style={styles.body} >
+                    <this.Dropdown />
                     <TextInput
                         value={this.state.address}
                         placeholder={'Address'}
@@ -147,6 +188,7 @@ const mapStateToProps = (state) => {
         order: state.order.order,
         addingOrder: state.order.addingOrder,
         addOrderError: state.order.addOrderError,
+        user: state.user.user,
     };
 };
 const mapDispatchToProps = (dispatch) => {

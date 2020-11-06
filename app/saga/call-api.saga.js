@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {put, take} from 'redux-saga/effects';
+import React from 'react';
+import {put, take, select} from 'redux-saga/effects';
+import { useSelector } from 'react-redux';
 
-
+export const navigationRef = React.createRef();
 // this saga is used for showing the LoginScreen when a 401 error is received
 // if login is successful, it will reattempt the request
 // if login fails, it will return the error
@@ -24,6 +26,10 @@ export function* callApi(apiCall) {
   // this re-calls the api with the new authorization
   return yield apiCall;
 }
+export function* relogin() {
+  navigationRef.current?.navigate('Launcher');
+}
+
 
 function isUnauthorized(resp) {
   return resp.status === 401;
