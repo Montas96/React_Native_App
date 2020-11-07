@@ -13,6 +13,7 @@ import FoodScreen from './foodScreen/foodComonent';
 import NotifService from '../shared/NotifService';
 import DeviceAction from '../actions/device.action';
 import { OrderAction } from '../actions/order.action';
+import { CATEGORY, FOODS } from '../data/data';
 
 
 class HomeScreen extends React.Component {
@@ -124,25 +125,22 @@ class HomeScreen extends React.Component {
 
       return (
         <View style={styles.constainer}>
-          {/* <Text style={styles.title}> Food </Text> */}
           <View style={styles.listContainer} >
-            <CustomList navigation={this.props.navigation} list={this.props.categories}
-              fetching={this.props.fetchingCategories}
-              listTitle={'Categories'} />
-            <CustomList navigation={this.props.navigation} list={this.props.cuisines}
-              fetching={this.props.fetchingCuisines}
-              listTitle={'Cuisines'} />
+            <CustomList navigation={this.props.navigation} list={CATEGORY}
+              //fetching={this.props.fetchingCategories}
+              // listTitle={'Categories'} 
+              />
           </View>
           <FlatList
             key={item => item.id}
-            data={this.props.foods}
+            data={FOODS}
             renderItem={({ item }) => <FoodScreen food={item} navigation={this.props.navigation} isFavorite={this._getIsFavorite(item)} />}
             // add navigation props because foodScreen is not in the navigationStack
-            ListEmptyComponent={this._renderEmpty}
+            //ListEmptyComponent={this._renderEmpty}
             style={{ flex: 1 }}
-            refreshing={this.props.fetchingFoods}
-            extraData={this.props.foods}
-            onRefresh={this._refresh}
+            //refreshing={this.props.fetchingFoods}
+            //extraData={this.props.foods}
+            //onRefresh={this._refresh}
           />
 
         </View>

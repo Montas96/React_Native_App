@@ -19,13 +19,14 @@ class LoginScreen extends React.Component {
         };
     }
     componentDidUpdate() {
-        if (this.props.token) {
-            this.props.navigation.replace('Home');
-        }
+        // if (this.props.token) {
+        //     this.props.navigation.replace('Home');
+        // }
     }
 
     _login = () => {
-        this.props.attemptLogin(this.state.username, this.state.password); // authenticate user
+        // this.props.attemptLogin(this.state.username, this.state.password); // authenticate user
+        this.props.navigation.replace('Home');
     }
 
 
@@ -38,8 +39,8 @@ class LoginScreen extends React.Component {
                 style={styles.image}
                 resizeMode={'cover'}>
                 <View style={styles.constainer} >
-                    {this.props.fetching ? <Card />
-                        : <>
+                    {/* {this.props.fetching ? <Card />
+                        : <> */}
                             <View
                                 style={styles.inputConstainer}>
                                 <TextInput
@@ -63,8 +64,8 @@ class LoginScreen extends React.Component {
                                     onPress={this._login}
                                 />
                             </View>
-                        </>
-                    }
+                        {/* </>
+                    } */}
                 </View>
             </ImageBackground>
         </ScrollView>;

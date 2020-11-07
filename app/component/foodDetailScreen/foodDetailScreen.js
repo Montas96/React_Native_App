@@ -9,6 +9,7 @@ import CustomButton from '../../shared/component/customButton';
 import IconButton from '../../shared/component/iconButton';
 import FoodAction from '../../actions/food.action';
 import { OrderAction } from '../../actions/order.action';
+import { FAVORITES } from '../../data/data';
 
 class FoodDetailScreen extends React.Component {
     constructor(props) {
@@ -37,7 +38,7 @@ class FoodDetailScreen extends React.Component {
         const order = this.props.order;
         const source = food.media[0] ? { uri: food.media[0] } : Images.fastfood;
         const { foodTypesDTO, ingredients, supplements } = food;
-        const isFavorite = this.props.favorites.findIndex(item => {
+        const isFavorite = FAVORITES.findIndex(item => {
             return item.id === food.id;
         }) !== -1;
         const inOrderLines = order ? order.orderLines ? order.orderLines.findIndex(item => {

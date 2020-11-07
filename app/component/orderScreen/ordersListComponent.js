@@ -8,7 +8,7 @@ import { Styles } from '../../assets/styles';
 import { localDateToJsDate } from '../../shared/utils/date-transforms';
 import IconButton from '../../shared/component/iconButton';
 import Images from '../../assets/images';
-
+import {ORDERS} from '../../data/data.js';
 class OrderListScreen extends React.Component {
 
     constructor(props) {
@@ -21,7 +21,7 @@ class OrderListScreen extends React.Component {
 
     componentDidMount() {
         this.props.resetOrders();
-        this._fetchOrders();
+        // this._fetchOrders();
     }
     componentDidUpdate() {
 
@@ -87,7 +87,7 @@ class OrderListScreen extends React.Component {
             refreshControl={<RefreshControl refreshing={fetchOrder} onRefresh={() => this._onRefresh()} />}>
                 <Text style={[Styles.title1]}  >Orders list</Text>
                 <FlatList
-                    data={orders}
+                    data={ORDERS}
                     key={item => item.id}
                     extraData={orders}
                     renderItem={({ item }) => this._renderItem(item)}

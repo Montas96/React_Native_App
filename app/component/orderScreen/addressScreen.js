@@ -11,6 +11,7 @@ import Images from '../../assets/images';
 import Geolocation from '@react-native-community/geolocation';
 import Alertfunction from '../../shared/component/customAlert';
 import RNPickerSelect from 'react-native-picker-select';
+import { ADDRESSES } from '../../data/data';
 
 class AddressScreen extends React.Component {
     constructor(props) {
@@ -32,9 +33,9 @@ class AddressScreen extends React.Component {
         };
     }
     componentDidMount() {
-        if (this.props.user?.addresses.length) {
+        if (ADDRESSES.length) {
             let userAddresses = [];
-            this.props.user.addresses.forEach(element => {
+            ADDRESSES.forEach(element => {
                 userAddresses.push({label: element.addressTitle, value: element })
             });
             this.setState({userAddresses});
@@ -59,6 +60,7 @@ class AddressScreen extends React.Component {
             phone: this.state.phone,
         };
         this.props.addOrder(order);
+        this.props.navigation.goBack()
     }
 
     _getPosition = () => {
@@ -81,6 +83,7 @@ class AddressScreen extends React.Component {
         }
     }
     _selectAddress = (addressItem) => {
+        console.log(addressItem)
         if (addressItem !== null && Object.keys(addressItem).length !== 0){
             this.setState({
                 address: addressItem.address,
@@ -99,6 +102,7 @@ class AddressScreen extends React.Component {
     }
 
     Dropdown = () => {
+        console.log(ADDRESSES)
         const placeHolder = {label: 'Select address', value: this.state.selectedAddress};
         return (
             <RNPickerSelect

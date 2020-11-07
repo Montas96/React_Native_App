@@ -45,6 +45,7 @@ function FoodReducer(state = initialState, action) {
         case FoodAction.addToFavoriteRequest:
             nextState = {
                 ...state,
+                favorites: [...state.favorites,...[action.food]],
                 addingToFavorite: true,
                 addToFavoriteError: null,
             };

@@ -33,12 +33,11 @@ export default function CustomList({ list, navigation, fetching, listTitle }) {
 
     return (
         <View style={styles.container} >
-            <Text style={styles.listTitle} > {listTitle} </Text>
-            {fetching ? <Spinner style={styles.spinner} color={Colors.yellow} /> : null}
+            {/* <Text style={styles.listTitle} > {listTitle} </Text> */}
             <FlatList
                 data={list}
                 key={(item) => item.id}
-                ListEmptyComponent={_renderEmpty}
+                // ListEmptyComponent={_renderEmpty}
                 renderItem={(item) => _renderItem(item)}
                 horizontal={true}
             />

@@ -29,10 +29,10 @@ class SignUpScreen extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.fetching && !this.props.fetching) {
-            this.props.error ? this._showDialog('ERROR', this.props.error) : null;// display error Alert when an error occure
-            this.props.success ? this._navigateToSuccessScreen() : null;// navigate to success screen
-        }
+        // if (prevProps.fetching && !this.props.fetching) {
+        //     this.props.error ? this._showDialog('ERROR', this.props.error) : null;// display error Alert when an error occure
+        //     this.props.success ? this._navigateToSuccessScreen() : null;// navigate to success screen
+        // }
     }
 
     // on ok button press
@@ -76,11 +76,12 @@ class SignUpScreen extends React.Component {
                 phone: this.state.phone,
             },
         };
-        this.props.signup(user);
+        // this.props.signup(user);
+        this._navigateToSuccessScreen()
     }
     _navigateToSuccessScreen = () => {
         // authenticate user after success, we can do this in account sagas
-        this.props.attemptLogin(this.state.email, this.state.password);
+        //this.props.attemptLogin(this.state.email, this.state.password);
         this.props.navigation.replace('SignUpSuccess');
     }
 
@@ -104,8 +105,8 @@ class SignUpScreen extends React.Component {
                     source={Images.fastfood}
                     style={styles.image}
                     resizeMode={'cover'} />
-                {this.props.fetching ? <Card />
-                    : <>
+                {/* {this.props.fetching ? <Card />
+                    : <> */}
                         <View
                             style={styles.inputContainer}>
                             <InputTextWithIcon
@@ -139,8 +140,8 @@ class SignUpScreen extends React.Component {
                                 disabled={false}
                             />
                         </View>
-                    </>
-                }
+                    {/* </>
+                } */}
             </View>
         </ScrollView>;
     }
@@ -154,8 +155,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        signup: (user) => dispatch({ type: AccountActions.signupRequest, user: user }),
-        attemptLogin: (username, password) => dispatch({ type: LoginActions.loginRequest, value: { username, password, rememberMe: true } }),
+        //signup: (user) => dispatch({ type: AccountActions.signupRequest, user: user }),
+        //attemptLogin: (username, password) => dispatch({ type: LoginActions.loginRequest, value: { username, password, rememberMe: true } }),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);

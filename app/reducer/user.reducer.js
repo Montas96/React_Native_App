@@ -42,7 +42,8 @@ function UserReducer(state = initialState, action) {
       case UserAction.updateUserRequest:
         nextState = {
           ...state,
-          updating: true,
+          user: action.user,
+          updating: false,
           updateUserError: null,
         };
         return nextState || state;

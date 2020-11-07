@@ -10,6 +10,7 @@ import { UserAction } from '../../actions/user.action';
 import CustomButton from '../../shared/component/customButton';
 import IconButton from '../../shared/component/iconButton';
 import Images from '../../assets/images';
+import { ADDRESSES, USER } from '../../data/data';
 class SettingsScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -29,23 +30,23 @@ class SettingsScreen extends React.Component {
                 phone: '',
             }],
         };
-        props.getUser();
+        // props.getUser();
     }
 
     componentDidMount() {
-        if ( this.props.user !== null) {
+        //if ( this.props.user !== null) {
             this.setUserFromProps();
-        } 
+        //} 
     }
     componentDidUpdate(prevProps) {
-        if ((prevProps.fetch && !this.props.fetch && this.props.error === null) || (prevProps.updating && !this.props.updating && this.props.updateUserError === null) && this.props.user !== null) {
-            this.setUserFromProps();
-        }
+        //if ((prevProps.fetch && !this.props.fetch && this.props.error === null) || (prevProps.updating && !this.props.updating && this.props.updateUserError === null) && this.props.user !== null) {
+            //this.setUserFromProps();
+        //}
     }
 
     setUserFromProps = () => {
-        const {addresses} = this.props.user;
-        const { firstName, lastName, login, email} = this.props.user.userDTO;
+        const {addresses} = USER;
+        const { firstName, lastName, login, email} = USER.userDTO;
         this.setState({
             login: login,
             firstName,
@@ -56,7 +57,7 @@ class SettingsScreen extends React.Component {
     }
 
     _refresh = () => {
-        this.props.getUser();
+        // this.props.getUser();
     }
     addAddress = () => {
         let addresses = [...this.state.addresses];
@@ -73,7 +74,7 @@ class SettingsScreen extends React.Component {
         const { firstName, lastName, login, email,addresses } = this.state;
 
         const user = {
-            ...this.props.user,
+            ...USER,
             userDTO: {
                 login: login,
                 firstName,
@@ -107,6 +108,7 @@ class SettingsScreen extends React.Component {
     }
 
     _renderItem = ({item, index}) => {
+        console.log(item)
         return (
             <View style={{ flex: 1, borderWidth: 1, borderRadius: 5 }}>
                         <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -256,7 +258,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUser: () => dispatch({ type: UserAction.getUserRequest }),
+        //getUser: () => dispatch({ type: UserAction.getUserRequest }),
         updateUser: (user) => dispatch({ type: UserAction.updateUserRequest, user }),
     };
 };

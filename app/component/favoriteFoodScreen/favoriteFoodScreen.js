@@ -8,6 +8,7 @@ import Spinner from '../../shared/spinner';
 import { Colors } from '../../assets/colors';
 import FoodAction from '../../actions/food.action';
 import { styles } from './FavoriteFoodScreenStyle';
+import { FAVORITES } from '../../data/data';
 
 
 class FavoriteFoodScreen extends React.Component {
@@ -20,7 +21,7 @@ class FavoriteFoodScreen extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.getFavoriteFood();
+    // this.props.getFavoriteFood();
 }
   componentDidUpdate() {
   }
@@ -38,8 +39,8 @@ class FavoriteFoodScreen extends React.Component {
   }
 
   _refresh =() => {
-    this.props.resetFavorite();
-    this._fetchFavorite();
+    //this.props.resetFavorite();
+    // this._fetchFavorite();
   }
 
   componentWillUnmount() {
@@ -52,14 +53,14 @@ class FavoriteFoodScreen extends React.Component {
         {/* <Spinner style={{flex: 1}} color={'red'} /> */}
         <FlatList
         key={item => item.id}
-        data={this.props.favorites}
+        data={FAVORITES}
         renderItem={({item}) => <FoodScreen food={item} isFavorite={true} navigation={this.props.navigation} />}
          // add navigation props because foodScreen is not in the navigationStack
         ListEmptyComponent={this._renderEmpty}
         style={{flex: 1}}
-        refreshing={this.props.fetching}
-        extraData={this.props.favorites}
-        onRefresh={this._refresh}
+        //refreshing={this.props.fetching}
+        //extraData={this.props.favorites}
+        //onRefresh={this._refresh}
         />
 
       </View>

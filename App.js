@@ -46,6 +46,7 @@ import FindUsScreen from './app/component/contactUsScreen.js/findUsScreen';
 import ContactUsScreen from './app/component/contactUsScreen.js/contactUsScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ordersListComponent from './app/component/orderScreen/ordersListComponent';
+import { FAVORITES } from './app/data/data';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -216,7 +217,6 @@ const Orders = () => {
 const MyTabs = () => {
   const Tab = createBottomTabNavigator();
   const state = useSelector((state) => state);
-  console.log(state.food?.favorites?.length);
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -283,7 +283,7 @@ const MyTabs = () => {
                 style={{width: size, height: size, tintColor: color}}
                 resizeMode={'contain'}
               />
-              {state.food?.favorites?.length ? (
+              {FAVORITES.length ? (
                 <View
                   style={{
                     position: 'absolute',
@@ -300,7 +300,7 @@ const MyTabs = () => {
                       fontWeight: 'bold',
                       textAlign: 'center',
                     }}>
-                    {state.food?.favorites?.length}
+                    {FAVORITES?.length}
                   </Text>
                 </View>
               ) : null}
