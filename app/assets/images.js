@@ -29,5 +29,9 @@ const Images = {
   location: require('./images/location.png'),
   phone: require('./images/phone.png'),
   clock: require('./images/clock.png'),
+  food: require('./images/food.png'),
+  order: require('./images/order.png'),
+  settings: require('./images/settings.png'),
+  bell:  require('./images/bell.png'),
 };
 export default Images;

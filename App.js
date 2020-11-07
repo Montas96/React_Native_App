@@ -10,7 +10,7 @@
  */
 
 import React, {useState} from 'react';
-import {StatusBar, Button, Image, Text} from 'react-native';
+import {StatusBar, Button, Image, Text, View} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider, useDispatch, useSelector} from 'react-redux';
@@ -44,40 +44,14 @@ import TermOfUseScreen from './app/component/settings/termOfUseScreen';
 import CookiesPolicyScreen from './app/component/settings/cookiesPolicyScreen';
 import FindUsScreen from './app/component/contactUsScreen.js/findUsScreen';
 import ContactUsScreen from './app/component/contactUsScreen.js/contactUsScreen';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import ordersListComponent from './app/component/orderScreen/ordersListComponent';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      {/* <DrawerItem
-        label="Close drawer"
-        onPress={() => props.navigation.closeDrawer()}
-      />
-      <DrawerItem
-        label="Toggle drawer"
-        onPress={() => props.navigation.toggleDrawer()}
-      /> */}
-      <DrawerItem
-        label="Favorite"
-        onPress={() => props.navigation.navigate('Favorite')}
-      />
-      <DrawerItem
-        label="Order"
-        onPress={() => props.navigation.navigate('Order')}
-      />
-      <DrawerItem
-        label="Settings"
-        onPress={() => props.navigation.navigate('Settings')}
-      />
-      <DrawerItem
-        label="Find us"
-        onPress={() => props.navigation.navigate('FindUs')}
-      />
-      <DrawerItem
-        label="Contact us"
-        onPress={() => props.navigation.navigate('ContactUs')}
-      />
       <Button
         title={'Logout'}
         onPress={() => {
@@ -95,18 +69,20 @@ const DrawerStack = () => {
     <Drawer.Navigator
       initialRouteName="Home"
       drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="Home" component={HomeStack} />
+      <Drawer.Screen name="Home" component={MyTabs} />
+      <Drawer.Screen name="FindUs" component={FindUsScreen} />
+      <Drawer.Screen name="ContactUs" component={ContactUs} />
     </Drawer.Navigator>
   );
 };
 
-const HomeStack = ({navigation}) => {
+const Home = ({navigation}) => {
   const Stack = createStackNavigator();
   const state = useSelector((state) => state);
   return (
-    <Stack.Navigator initialRouteName="HomeStack">
+    <Stack.Navigator initialRouteName="HomeTab">
       <Stack.Screen
-        name="HomeStack"
+        name="HomeTab"
         component={HomeScreen}
         options={{
           title: 'Food',
@@ -160,21 +136,63 @@ const HomeStack = ({navigation}) => {
           ),
         }}
       />
+    </Stack.Navigator>
+  );
+};
+const Favorites = ({navigation}) => {
+  const Stack = createStackNavigator();
+  const state = useSelector((state) => state);
+  return (
+    <Stack.Navigator initialRouteName="Favorite">
       <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
-      <Stack.Screen name="Order" component={orderScreen} />
-      <Stack.Screen name="Address" component={addressScreen} />
+      <Stack.Screen
+        name="FoodDetail"
+        component={FoodDetailScreen}
+        options={{
+          headerShown: true,
+          headerRight: () => (
+            <IconButton
+              style={[
+                {
+                  width: 40,
+                  height: 40,
+                  backgroundColor: state.order.order?.orderLines.length
+                    ? Colors.yellow
+                    : 'transparent',
+                },
+              ]}
+              iconStyle={{width: 30, height: 30}}
+              onPress={() => navigation.navigate('Order')}
+              icon={Images.checklist}
+              shadowActive={false}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+const Settings = () => {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator initialRouteName="Settings">
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="AboutUs" component={AboutUsScreen} />
       <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesScreen} />
       <Stack.Screen name="TermsOfUse" component={TermOfUseScreen} />
       <Stack.Screen name="CookiesPolicy" component={CookiesPolicyScreen} />
-      <Stack.Screen
-        name="FindUs"
-        component={FindUsScreen}
-        options={{
-          title: 'Find Us',
-        }}
-      />
+    </Stack.Navigator>
+  );
+};
+const ContactUs = () => {
+  const Stack = createStackNavigator();
+  const state = useSelector((state) => state);
+  return (
+    <Stack.Navigator initialRouteName="ContactUs">
+      <Stack.Screen name="AboutUs" component={AboutUsScreen} />
+      <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesScreen} />
+      <Stack.Screen name="TermsOfUse" component={TermOfUseScreen} />
+      <Stack.Screen name="CookiesPolicy" component={CookiesPolicyScreen} />
       <Stack.Screen
         name="ContactUs"
         component={ContactUsScreen}
@@ -185,6 +203,213 @@ const HomeStack = ({navigation}) => {
     </Stack.Navigator>
   );
 };
+const Orders = () => {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator initialRouteName="Order">
+      <Stack.Screen name="Order" component={orderScreen} />
+      <Stack.Screen name="Address" component={addressScreen} />
+      <Stack.Screen name="Orders" component={ordersListComponent} />
+    </Stack.Navigator>
+  );
+};
+const MyTabs = () => {
+  const Tab = createBottomTabNavigator();
+  const state = useSelector((state) => state);
+  console.log(state.food?.favorites?.length);
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: '#e91e63',
+        showLabel: false,
+      }}>
+      <Tab.Screen
+        name="HomeTab"
+        component={Home}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Image
+              source={Images.food}
+              style={{width: size, height: size, tintColor: color}}
+              resizeMode={'contain'}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Order"
+        component={Orders}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <View>
+              <Image
+                source={Images.order}
+                style={{width: size, height: size, tintColor: color}}
+                resizeMode={'contain'}
+              />
+              {state.order.order?.orderLines?.length ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    backgroundColor: Colors.yellow,
+                    borderRadius: 50,
+                    width: 15,
+                    height: 15,
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}>
+                    {state.order.order?.orderLines?.length}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favorite"
+        component={Favorites}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <View>
+              <Image
+                source={Images.heart_blanc}
+                style={{width: size, height: size, tintColor: color}}
+                resizeMode={'contain'}
+              />
+              {state.food?.favorites?.length ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    backgroundColor: Colors.yellow,
+                    borderRadius: 50,
+                    width: 15,
+                    height: 15,
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}>
+                    {state.food?.favorites?.length}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Image
+              source={Images.settings}
+              style={{width: size, height: size, tintColor: color}}
+              resizeMode={'contain'}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+// const HomeStack = ({navigation}) => {
+//   const Stack = createStackNavigator();
+//   const state = useSelector((state) => state);
+//   return (
+//     <Stack.Navigator initialRouteName="HomeStack">
+//       <Stack.Screen
+//         name="HomeStack"
+//         component={HomeScreen}
+//         options={{
+//           title: 'Food',
+//           headerTitleStyle: {
+//             fontSize: 25,
+//             fontWeight: 'bold',
+//             textAlign: 'center',
+//             marginLeft: 40,
+//           },
+//           headerShown: true,
+//           headerRight: () => (
+//             <IconButton
+//               style={[
+//                 {
+//                   width: 40,
+//                   height: 40,
+//                   backgroundColor: state.order.order?.orderLines.length
+//                     ? Colors.yellow
+//                     : 'transparent',
+//                 },
+//               ]}
+//               iconStyle={{width: 30, height: 30}}
+//               onPress={() => navigation.navigate('Order')}
+//               icon={Images.checklist}
+//               shadowActive={false}
+//             />
+//           ),
+//         }}
+//       />
+//       <Stack.Screen
+//         name="FoodDetail"
+//         component={FoodDetailScreen}
+//         options={{
+//           headerShown: true,
+//           headerRight: () => (
+//             <IconButton
+//               style={[
+//                 {
+//                   width: 40,
+//                   height: 40,
+//                   backgroundColor: state.order.order?.orderLines.length
+//                     ? Colors.yellow
+//                     : 'transparent',
+//                 },
+//               ]}
+//               iconStyle={{width: 30, height: 30}}
+//               onPress={() => navigation.navigate('Order')}
+//               icon={Images.checklist}
+//               shadowActive={false}
+//             />
+//           ),
+//         }}
+//       />
+//       <Stack.Screen name="Favorite" component={FavoriteFoodScreen} />
+//       <Stack.Screen name="Order" component={orderScreen} />
+//       <Stack.Screen name="Address" component={addressScreen} />
+//       <Stack.Screen name="Settings" component={SettingsScreen} />
+//       <Stack.Screen name="AboutUs" component={AboutUsScreen} />
+//       <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesScreen} />
+//       <Stack.Screen name="TermsOfUse" component={TermOfUseScreen} />
+//       <Stack.Screen name="CookiesPolicy" component={CookiesPolicyScreen} />
+//       <Stack.Screen
+//         name="FindUs"
+//         component={FindUsScreen}
+//         options={{
+//           title: 'Find Us',
+//         }}
+//       />
+//       <Stack.Screen
+//         name="ContactUs"
+//         component={ContactUsScreen}
+//         options={{
+//           title: 'Contact Us',
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
 
 const LauncherStack = () => {
   const Stack = createStackNavigator();
