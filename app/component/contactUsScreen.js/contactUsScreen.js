@@ -62,7 +62,7 @@ class ContactUsScreen extends React.Component {
                 style={[styles.title, {textDecorationLine: 'underline'}]}
                 onPress={() => this.props.navigation.push('TermsOfUse')}>
                 {' Terms.'}
-              </Text>{' '}
+              </Text>
               Learn how we process your data in our
               <Text
                 style={[styles.title, {textDecorationLine: 'underline'}]}
