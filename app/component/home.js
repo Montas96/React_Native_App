@@ -46,15 +46,11 @@ class HomeScreen extends React.Component {
   }
 
   onNotif(notif) {
-    console.log(notif.title, notif.message);
     if(notif.title){
       this.props.getOrder(notif.title);
     }
   }
 
-  handlePerm(perms) {
-    // console.log('Permissions', JSON.stringify(perms));
-  }
 
     componentDidMount() {
       this.props.resetCategories();
@@ -128,7 +124,7 @@ class HomeScreen extends React.Component {
           <View style={styles.listContainer} >
             <CustomList navigation={this.props.navigation} list={CATEGORY}
               //fetching={this.props.fetchingCategories}
-              // listTitle={'Categories'} 
+              // listTitle={'Categories'}
               />
           </View>
           <FlatList

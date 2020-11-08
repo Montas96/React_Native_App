@@ -46,7 +46,7 @@ import FindUsScreen from './app/component/contactUsScreen.js/findUsScreen';
 import ContactUsScreen from './app/component/contactUsScreen.js/contactUsScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ordersListComponent from './app/component/orderScreen/ordersListComponent';
-import { FAVORITES } from './app/data/data';
+import {FAVORITES} from './app/data/data';
 
 function CustomDrawerContent(props) {
   const dispatch = useDispatch();
@@ -453,24 +453,14 @@ const App = () => {
   });
 
   return (
-    <>
-      <Provider store={Store.store}>
-        <PersistGate persistor={persistor} loading={<Card />}>
-          <NavigationContainer>
-            <StatusBar barStyle="dark-content" />
-            {isLoaded ? (
-              state.login.authToken ? (
-                DrawerStack()
-              ) : (
-                LauncherStack()
-              )
-            ) : (
-              <Card />
-            )}
-          </NavigationContainer>
-        </PersistGate>
-      </Provider>
-    </>
+    <Provider store={Store.store}>
+      <PersistGate persistor={persistor} loading={<Card />}>
+        <NavigationContainer>
+          <StatusBar barStyle="dark-content" />
+          <LauncherStack  />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 

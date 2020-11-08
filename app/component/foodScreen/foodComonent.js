@@ -61,8 +61,6 @@ class FoodScreen extends React.Component {
           <Text style={[styles.text]} > {food.description} </Text>
           <Text style={[styles.title]} > {price ? price + ' DT' : ''} </Text>
         </View>
-
-        <Text />
       </TouchableOpacity>
     );
   }

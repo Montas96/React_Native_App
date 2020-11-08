@@ -95,8 +95,6 @@ class FoodDetailScreen extends React.Component {
                         </View>
                     )}
                 </View>
-
-                <Text />
             </ScrollView>
         );
     }

@@ -32,40 +32,35 @@ class LoginScreen extends React.Component {
 
     render() {
         return <ScrollView style={{}}
-            contentContainerStyle={{ flexGrow: 1 }}
-        >
+            contentContainerStyle={{ flexGrow: 1 }}>
             <ImageBackground
                 source={Images.chef_backgroud}
                 style={styles.image}
                 resizeMode={'cover'}>
                 <View style={styles.constainer} >
-                    {/* {this.props.fetching ? <Card />
-                        : <> */}
-                            <View
-                                style={styles.inputConstainer}>
-                                <TextInput
-                                    placeholder={'User name'}
-                                    style={styles.inputStyle}
-                                    autoCapitalize={'none'}
-                                    onChangeText={(text) => this.setState({ username: text })}
-                                />
-                                <TextInput
-                                    placeholder={'Password'}
-                                    style={styles.inputStyle}
-                                    autoCapitalize={'none'}
-                                    secureTextEntry={false}
-                                    onChangeText={(text) => this.setState({ password: text })}
-                                />
-                            </View>
+                    <View
+                        style={styles.inputConstainer}>
+                        <TextInput
+                            placeholder={'User name'}
+                            style={styles.inputStyle}
+                            autoCapitalize={'none'}
+                            onChangeText={(text) => this.setState({ username: text })}
+                        />
+                        <TextInput
+                            placeholder={'Password'}
+                            style={styles.inputStyle}
+                            autoCapitalize={'none'}
+                            secureTextEntry={false}
+                            onChangeText={(text) => this.setState({ password: text })}
+                        />
+                    </View>
 
-                            <View style={styles.buttonContainer}>
-                                <CustomButton
-                                    title={'Login'}
-                                    onPress={this._login}
-                                />
-                            </View>
-                        {/* </>
-                    } */}
+                    <View style={styles.buttonContainer}>
+                        <CustomButton
+                            title={'Login'}
+                            onPress={this._login}
+                        />
+                    </View>
                 </View>
             </ImageBackground>
         </ScrollView>;
