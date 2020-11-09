@@ -144,7 +144,6 @@ class HomeScreen extends React.Component {
             extraData={this.props.foods}
             onRefresh={this._refresh}
           />
-
         </View>
       );
     }
