@@ -57,7 +57,7 @@ function FoodReducer(state = initialState, action) {
                 addingToFavorite: false,
                 addToFavoriteError: null,
             };
-            return nextState || state;
+            return nextState;
 
         case FoodAction.addToFavoriteFailure:
             nextState = {
@@ -73,7 +73,7 @@ function FoodReducer(state = initialState, action) {
                 fetchingAllFavorites: true,
                 allVavoriteFoodError: null,
             };
-            return nextState || state;
+            return nextState;
 
         case FoodAction.getAllFavoriteFoodSuccess:
             nextState = {
@@ -82,7 +82,7 @@ function FoodReducer(state = initialState, action) {
                 fetchingAllFavorites: false,
                 allVavoriteFoodError: null,
             };
-            return nextState || state;
+            return nextState;
 
         case FoodAction.getAllFavoriteFoodFailure:
             nextState = {
@@ -100,7 +100,13 @@ function FoodReducer(state = initialState, action) {
             };
             return nextState;
         case FoodAction.FoodReset:
-            return initialState;
+            nextState = {
+                ...state,
+                foods: [],
+                fetchingAll: false,
+                error: null,
+            };
+            return nextState;
         default:
             return state;
     }

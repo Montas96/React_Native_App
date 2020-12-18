@@ -14,6 +14,10 @@ export const OrderAction = {
   getOrdersByStatusSuccess: 'GET_ORDERS_BY_STATUS_SUCESS',
   getOrdersByStatusFailure: 'GET_ORDERS_BY_STATUS_FAILURE',
 
+  deleteOrderRequest: 'DELETE_ORDER_REQUEST',
+  deleteOrderSuccess: 'DELETE_ORDER_SUCESS',
+  deleteOrderFailure: 'DELETE_ORDER_FAILURE',
+
   resetOrders: 'RESET_ORDERS',
   resetOrder: 'RESET_ORDER',
   resetAll: 'RESET_All',

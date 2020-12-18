@@ -3,7 +3,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import OrderLineModal from './orderLineModal';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, ScrollView, RefreshControl} from 'react-native';
 import IconButton from '../../shared/component/iconButton';
 import OrderLine from './orderLine';
 import {OrderAction} from '../../actions/order.action';
@@ -21,6 +21,10 @@ class Order extends React.Component {
       orderLineIndex: null,
     };
     props.getOrder('CREATED');
+  }
+
+  _onRefresh = () => {
+    this.props.getOrder('CREATED');
   }
 
   componentDidMount() {
@@ -42,8 +46,11 @@ class Order extends React.Component {
     this.props.addOrder(order);
   };
 
-  _reset = () => {
+  _reset = (id) => {
     this.props.resetOrder();
+    if (id !== null ){
+      this.props.deleteOrder(id);
+    }
   };
 
   _renderEmpty = () => {
@@ -101,13 +108,16 @@ class Order extends React.Component {
   };
 
   render() {
-    const {order, validatedOrder} = this.props;
+    const {order, validatedOrder, fetchOrder} = this.props;
     const orderLines = order ? order.orderLines : [];
     return (
-      <View style={styles.constainer}>
+      <ScrollView style={styles.constainer}
+      refreshControl={<RefreshControl refreshing={fetchOrder} onRefresh={() => this._onRefresh()} />}
+      scrollEnabled={false}
+      >
         {validatedOrder ? (
           <OrderStatus />
-        ) : (
+        ) : (null)}
           <>
             {this.state.showModal ? (
               <OrderLineModal
@@ -129,7 +139,7 @@ class Order extends React.Component {
                 <IconButton
                   style={styles.iconSave}
                   iconStyle={{width: 20, height: 20}}
-                  onPress={this._reset}
+                  onPress={() => this._reset(order.id)}
                   icon={Images.delete}
                   shadowActive={false}
                   text={null}
@@ -162,8 +172,8 @@ class Order extends React.Component {
               ListFooterComponent={() => this._renderFooter(orderLines)}
             />
           </>
-        )}
-      </View>
+        
+      </ScrollView>
     );
   }
 }
@@ -183,6 +193,8 @@ const mapDispatchToProps = (dispatch) => {
     getOrder: (statusId) =>
       dispatch({type: OrderAction.getOrdersByStatusRequest, statusId}),
     resetOrder: () => dispatch({type: OrderAction.resetOrder}),
+    deleteOrder: (id) => dispatch({ type: OrderAction.deleteOrderRequest, id }),
+
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Order);

@@ -22,18 +22,28 @@ function OrderReducer(state = initialState, action) {
         case OrderAction.addOrderRequest:
             nextState = {
                 ...state,
+                status: action.order.orderStatusId,
                 addingOrder: true,
                 addOrderError: null,
             };
             return nextState;
         case OrderAction.addOrderSuccess:
-            nextState = {
-                ...state,
-                order: null,
-                orders: [action.order],
-                addingOrder: false,
-                addOrderError: null,
-            };
+            if ( state.status === 'CREATED'){
+                nextState = {
+                    ...state,
+                    order: action.order,
+                    addingOrder: false,
+                    addOrderError: null,
+                };
+            } else {
+                nextState = {
+                    ...state,
+                    order: null,
+                    orders: [action.order],
+                    addingOrder: false,
+                    addOrderError: null,
+                };
+            }
             return nextState;
         case OrderAction.addOrderFailure:
             nextState = {
@@ -93,6 +103,8 @@ function OrderReducer(state = initialState, action) {
                 };
                 return nextState;
             }
+            console.log(action.orders[0].orderStatusId)
+
             if (state.status === 'CLOSED') {
                 const header = action.header;
                 const link = parseHeaderForLinks(header.link);
@@ -107,7 +119,7 @@ function OrderReducer(state = initialState, action) {
                     ordersLink: link,
                 };
             } else {
-            if (action.orders[0].orderStatus?.id === 'CREATED') {
+            if (action.orders[0].orderStatusId === 'CREATED') {
                 nextState = {
                     ...state,
                     order: action.orders[0],
@@ -165,6 +177,16 @@ function OrderReducer(state = initialState, action) {
                 ordersLink: link,
             };
             return nextState;
+            /** delete  */
+
+            case OrderAction.deleteOrderRequest:
+            return state;
+        case OrderAction.getClosedOrderSuccess:
+            return state;
+        case OrderAction.getClosedOrderFailure:
+            return state;
+
+            //*** */
         case OrderAction.resetOrders:
             nextState = {
                 ...state,
@@ -176,7 +198,7 @@ function OrderReducer(state = initialState, action) {
             };
             return nextState;
         default:
-            return initialState;
+            return state;
     }
 }
 export default OrderReducer;

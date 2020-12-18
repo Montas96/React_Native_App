@@ -4,6 +4,8 @@ import { put, call, select } from 'redux-saga/effects';
 import LoginActions from '../actions/loginAction';
 import AccountActions from '../actions/accountActions';
 import { OrderAction } from '../actions/order.action';
+import FoodAction from '../actions/food.action';
+import { UserAction } from '../actions/user.action';
 
 export function* login(api, { value }) {
 
@@ -12,6 +14,8 @@ export function* login(api, { value }) {
     yield call(api.setAuthToken, response.data.id_token);// set token to header after login success for the next apis
     yield put({ type: LoginActions.loginSuccess, id_token: response.data.id_token });
     yield put({ type: AccountActions.getAccountRequest });// get user account information
+    yield put({type: FoodAction.getAllFavoriteFoodRequest});
+    yield put({type: UserAction.getUserRequest});
   } else {
     yield put({ type: LoginActions.loginFailure, error: 'error' });
   }

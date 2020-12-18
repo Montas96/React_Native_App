@@ -33,3 +33,11 @@ export function* getClosedOrder(api, {options}) {
     yield put({type: OrderAction.getClosedOrderFailure, error: 'Can not get orders'});
   }
 }
+export function* deleteOrder(api, {id}) {
+  const response = yield call(api.deleteOrder, id);
+  if (response.ok) {
+    yield put({type: OrderAction.deleteOrderSuccess, orders: response.data, header: response.headers});
+  } else {
+    yield put({type: OrderAction.deleteOrderFailure, error: 'Can not delete orders'});
+  }
+}
